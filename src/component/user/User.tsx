@@ -8,9 +8,9 @@ const User: React.FC = () => {
     };
 
     return (
-        <div style={{ position: 'absolute', top: 5, right: 5, zIndex: 1000}}>
+        <div style={{ position: 'absolute', top: 5, right: 5, zIndex: 1000 }}>
             <IconButton onClick={handleClick}>
-                <AccountCircleIcon style={{ fontSize: '64px', minWidth: '64px' }} />
+                <AccountCircleIcon style={{ fontSize: '64px', minWidth: '64px', color: 'white' }} />
             </IconButton>
         </div>
     );
