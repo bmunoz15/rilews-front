@@ -14,6 +14,10 @@ const Warning: React.FC = () => {
 
     const listRef = useRef<any>(null);
 
+    const handleAlertClick = (alertData: { type: string; region: string; comuna: string; color: string }) => {
+        alert(`Tipo: ${alertData.type}\nRegión: ${alertData.region}\nComuna: ${alertData.comuna}`);
+    };
+
     return (
         <Box
             display="flex"
@@ -56,8 +60,18 @@ const Warning: React.FC = () => {
                     ref={listRef}
                 >
                     {({ index, style }: { index: number; style: React.CSSProperties }) => (
-                        <Card key={index} style={{ ...style, width: '100%', marginBottom: '10px' }} elevation={0}>
-                            <CardContent>
+                        <Card
+                            key={index}
+                            style={{ ...style, width: '100%', marginBottom: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                            elevation={0}
+                            onClick={() => handleAlertClick(alertData[index])}
+                            sx={{
+                                '&:hover': {
+                                    backgroundColor: '#e0e0e0',
+                                },
+                            }}
+                        >
+                            <CardContent style={{ width: '100%' }}>
                                 <Box display="flex" alignItems="center" gap="8px">
                                     <WarningIcon style={{ color: alertData[index].color }} />
                                     <Typography variant="h6">{alertData[index].type} de remoción</Typography>
