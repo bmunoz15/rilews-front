@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Link } from '@mui/material';
-import SidebarLogo from '../lib/Logo';
+import SidebarLogo from '../logo/Logo';
 
 const Footer: React.FC = () => {
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import InformationPanel from '../warningview/InformationPanel ';
-import Map from '../../lib/map/Map';
+import InformationPanel from '../component/InformationPanel ';
+import Map from '../../shared/map/Map';
 
 
 const Home: React.FC = () => {
