@@ -3,20 +3,28 @@ import { Box, Typography, Card, CardContent } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
 
-const Warning: React.FC = () => {
-    const alertData = [
-        { type: 'Alerta', region: 'Region de los Rios', comuna: 'Panguipulli', color: 'red' },
-        { type: 'Aviso', region: 'Region de la Araucania', comuna: 'TEmuco', color: 'orange' },
-        { type: 'Alarma', region: 'Region de los Rios', comuna: 'Paillaco', color: 'yellow' },
-        { type: 'Aviso', region: 'Region de la Araucania', comuna: 's', color: 'orange' },
-        { type: 'Aviso', region: 'Region de la Araucania', comuna: 'Angol', color: 'orange' },
-        // Agrega más datos según sea necesario
+// Define the type for alert data
+interface AlertData {
+    type: string;
+    region: string;
+    commune: string;
+    color: string;
+}
+
+const AlertList: React.FC = () => {
+    const alertData: AlertData[] = [
+        { type: 'Alarma', region: 'Los Rios Region', commune: 'Panguipulli', color: 'red' },
+        { type: 'Alerta', region: 'Araucania Region', commune: 'Temuco', color: 'orange' },
+        { type: 'Aviso', region: 'Los Rios Region', commune: 'Paillaco', color: 'yellow' },
+        { type: 'Alerta', region: 'Araucania Region', commune: 'S', color: 'orange' },
+        { type: 'Alerta', region: 'Araucania Region', commune: 'Angol', color: 'orange' },
+        // Add more data as needed
     ];
 
     const listRef = useRef<any>(null);
 
-    const handleAlertClick = (alertData: { type: string; region: string; comuna: string; color: string }) => {
-        alert(`Tipo: ${alertData.type}\nRegión: ${alertData.region}\nComuna: ${alertData.comuna}`);
+    const handleAlertClick = (alertItem: AlertData) => {
+        alert(`Type: ${alertItem.type}\nRegion: ${alertItem.region}\nCommune: ${alertItem.commune}`);
     };
 
     return (
@@ -41,7 +49,7 @@ const Warning: React.FC = () => {
             >
                 <WarningIcon style={{ fontSize: 24 }} />
                 <Typography variant="subtitle1" color="textPrimary">
-                    Alertas
+                    Alerts
                 </Typography>
             </Box>
             <Box
@@ -56,7 +64,7 @@ const Warning: React.FC = () => {
                 <List
                     height={400}
                     itemCount={alertData.length}
-                    itemSize={90} // Incrementa el tamaño del item para incluir el margen
+                    itemSize={90} // Increase item size to include margin
                     width="100%"
                     ref={listRef}
                 >
@@ -66,19 +74,14 @@ const Warning: React.FC = () => {
                             style={{ ...style, width: '100%', marginBottom: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                             elevation={0}
                             onClick={() => handleAlertClick(alertData[index])}
-                            sx={{
-                                '&:hover': {
-                                    backgroundColor: '#e0e0e0',
-                                },
-                            }}
                         >
-                            <CardContent style={{ width: '100%' }}>
+                            <CardContent style={{ width: '100%', backgroundColor:'#f6f6f6' }}>
                                 <Box display="flex" alignItems="center" gap="8px">
                                     <WarningIcon style={{ color: alertData[index].color }} />
-                                    <Typography variant="h6">{alertData[index].type} de remoción</Typography>
+                                    <Typography variant="subtitle1">{alertData[index].type} de Remoción</Typography>
                                 </Box>
-                                <Typography variant="body2">Región: {alertData[index].region}</Typography>
-                                <Typography variant="body2">Comuna: {alertData[index].comuna}</Typography>
+                                <Typography variant="body2">Region: {alertData[index].region}</Typography>
+                                <Typography variant="body2">Commune: {alertData[index].commune}</Typography>
                             </CardContent>
                         </Card>
                     )}
@@ -88,4 +91,4 @@ const Warning: React.FC = () => {
     );
 };
 
-export default Warning;
+export default AlertList;

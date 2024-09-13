@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid, Paper } from '@mui/material';
+import { Typography, Paper, Box } from '@mui/material';
 
 const Forecast: React.FC = () => {
     const forecastData = [
@@ -9,22 +9,30 @@ const Forecast: React.FC = () => {
     ];
 
     return (
-        <Paper style={{ padding: 16, width: '100%', border: '8px', textAlign: 'center' }}>
+        <Paper
+            style={{
+                padding: 16,
+                width: '100%',
+                textAlign: 'center',
+                borderRadius: 8,
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
+            }}
+        >
             <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
                 Fecha Pronóstico
             </Typography>
-            <Grid container spacing={2} style={{ width: '100%' }}>
+            <Box display="flex" justifyContent="space-between" width="100%">
                 {forecastData.map((data) => (
-                    <Grid item xs={4} key={data.period}>
+                    <Box key={data.period} textAlign="center" flex={1}>
                         <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
                             {data.period}
                         </Typography>
-                        <Typography variant="body2" >
+                        <Typography variant="body2">
                             {data.date}
                         </Typography>
-                    </Grid>
+                    </Box>
                 ))}
-            </Grid>
+            </Box>
         </Paper>
     );
 };

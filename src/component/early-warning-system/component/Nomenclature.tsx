@@ -12,15 +12,15 @@ const StatusBox = styled(Box)(({ color }: { color: string }) => ({
     width: '100px',
     height: '20px',
     marginLeft: '8px',
-    marginBottom: '8px', // Add margin between items
+    marginBottom: '8px',
 }));
 
 const StatusText = styled(Typography)({
     color: '#000',
     marginRight: '6px',
-    marginBottom: '6px', // Add margin between items
+    marginBottom: '6px',
     display: 'flex',
-    alignContent: 'center',
+    alignItems: 'center',
 });
 
 const Nomenclature: React.FC = () => {
@@ -37,7 +37,7 @@ const Nomenclature: React.FC = () => {
             sx={{ backgroundColor: "#f6f6f6" }}
         >
             <Typography variant="h6" gutterBottom>
-                Polígono
+                Legenda Polígono
             </Typography>
             <Box display="flex" flexDirection="row" alignItems="center" width="100%">
                 <Box display="flex" flexDirection="column" alignItems="flex-end" width="50%" pr={1}>
