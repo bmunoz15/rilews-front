@@ -1,50 +1,187 @@
-# React + TypeScript + Vite
+# Rilews - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción del Proyecto
 
-Currently, two official plugins are available:
+**Rilews** es un sistema de alerta temprana para remociones en masa gatilladas por lluvia. La aplicación frontend permite visualizar las alertas de remoción en masa en tiempo real y estimaciones a 48 y 72 horas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Características
 
-## Expanding the ESLint configuration
+- **Visualización de Alertas de remociones en masa**: Visualización en tiempo real, estimación de 48 horas y estimación de 72 horas.
+- **Gestión de Usuarios**: Próximamente.
+- **Gestión de Alertas**: Próximamente.
+- **Monitoreo de estaciones meteorológicas**: Próximamente.
+- **Dependencias**: 
+  - React para el frontend.
+  - Material-UI para los componentes de la interfaz de usuario.
+  - Docker para la contenedorización. (Próximamente)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Uso del Proyecto
 
-- Configure the top-level `parserOptions` property like this:
+Para utilizar este proyecto, se debe clonar el repositorio y ejecutar los comandos necesarios para instalar las dependencias y correr la aplicación.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Requisitos Previos
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Node.js y npm instalados en el sistema.
+- Docker y Docker Compose instalados. (Próximamente)
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Instrucciones
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/bmunoz15/Rilews-frontend.git
+   ```
+
+2. Navega al directorio del proyecto:
+   ```bash
+   cd Rilews-frontend
+   ```
+
+3. Instala las dependencias del proyecto:
+   ```bash
+   npm install
+   ```
+
+4. Inicializa git flow (opcional):
+   ```bash
+   git flow init
+   ```
+
+5. Ejecuta la aplicación en modo desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+6. Accede a la aplicación desde tu navegador:
+   ```
+   http://localhost:3000
+   ```
+## Instrucciones para Nuevos Desarrolladores
+
+Para contribuir al proyecto, seguimos la metodología **Git Flow**. A continuación, se detallan los pasos básicos para crear y cerrar *features*.
+
+1. **Asegúrate de estar en la rama `develop`:**
+   - Ejecuta el siguiente comando para cambiar a la rama `develop`:
+     ```bash
+     git switch develop
+     ```
+
+2. **Crear una nueva *feature*:**
+   - Para comenzar a trabajar en una nueva funcionalidad, crea una rama de *feature*:
+     ```bash
+     git flow feature start nombre-de-la-feature
+     ```
+   - Esto creará una rama específica donde puedes desarrollar la nueva funcionalidad.
+
+3. **Finalizar una *feature*:**
+   - Cuando hayas terminado el desarrollo, finaliza la *feature* con el siguiente comando:
+     ```bash
+     git flow feature finish nombre-de-la-feature
+     ```
+   - Esto fusionará la rama de la *feature* en la rama `develop` y eliminará la rama local de la *feature*.
+
+
+
+## Enlaces a Recursos
+
+- [Documentación de React](https://reactjs.org/docs/getting-started.html)
+- [Material-UI](https://mui.com/)
+- [Docker](https://www.docker.com/)
+
+## Lista de Autores
+
+- **Bayron Muñoz** - Desarrollador Frontend y Arquitectura
+- **nombre - apellido** - Cargo
+- **nombre - apellido** - Cargo
+
+## Licencias
+
+Próximamente.
+
+## Contacto
+
+Para cualquier consulta o reporte de errores, puedes contactarnos en:
+
+- **Email**: b.munoz15@ufromail.cl
+- **Email**: user@correo.cl
+- **Sitio web**: próximamente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
