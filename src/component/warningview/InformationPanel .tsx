@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import Nomenclature from './Nomenclature'; // Asegúrate de que la ruta sea correcta
 import Warning from './Warning';
 import Forecast from './Forecast';
+import SearchBar from '../lib/SearchBar';
 
 const InformationPanel: React.FC = () => {
     return (
@@ -19,6 +20,7 @@ const InformationPanel: React.FC = () => {
                 backgroundColor: 'transparent',
             }}
         >
+            <SearchBar />
             <Forecast />
 
             <Warning />
