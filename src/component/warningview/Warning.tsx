@@ -9,6 +9,7 @@ const Warning: React.FC = () => {
         { type: 'Aviso', region: 'Region de la Araucania', comuna: 'TEmuco', color: 'orange' },
         { type: 'Alarma', region: 'Region de los Rios', comuna: 'Paillaco', color: 'yellow' },
         { type: 'Aviso', region: 'Region de la Araucania', comuna: 's', color: 'orange' },
+        { type: 'Aviso', region: 'Region de la Araucania', comuna: 'Angol', color: 'orange' },
         // Agrega más datos según sea necesario
     ];
 
@@ -25,7 +26,7 @@ const Warning: React.FC = () => {
             alignItems="center"
             justifyContent="center"
             width={300}
-            height={300}
+            height={400}
             sx={{ backgroundColor: "#f6f6f6" }}
             borderRadius="8px"
             padding="16px"
@@ -53,7 +54,7 @@ const Warning: React.FC = () => {
                 overflow="auto"
             >
                 <List
-                    height={200 as number}
+                    height={400}
                     itemCount={alertData.length}
                     itemSize={90} // Incrementa el tamaño del item para incluir el margen
                     width="100%"
