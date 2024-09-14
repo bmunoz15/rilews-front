@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
     return (
-        <Container style={{ textAlign: 'center', marginTop: '50px' }}>
+        <Container
+            sx={{
+                textAlign: 'center',
+                marginTop: '50px',
+                padding: '20px'
+            }}
+        >
             <Typography variant="h1" component="h2" gutterBottom>
                 404
             </Typography>
@@ -14,7 +20,12 @@ const NotFound: React.FC = () => {
             <Typography variant="body1" gutterBottom>
                 The page you are looking for does not exist.
             </Typography>
-            <Button variant="contained" color="primary" component={Link} to="/">
+            <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to="/"
+            >
                 Go to Home
             </Button>
         </Container>

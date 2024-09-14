@@ -53,7 +53,7 @@ Para utilizar este proyecto, se debe clonar el repositorio y ejecutar los comand
 
 6. Accede a la aplicación desde tu navegador:
    ```
-   http://localhost:3001
+   http://localhost:3000
    ```
 ## Instrucciones para Nuevos Desarrolladores
 

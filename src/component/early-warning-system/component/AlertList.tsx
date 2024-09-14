@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Box, Typography, Card, CardContent } from '@mui/material';
+import { Box, Typography, Card, CardContent, useTheme } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
 
@@ -12,6 +12,8 @@ interface AlertData {
 }
 
 const AlertList: React.FC = () => {
+    const theme = useTheme();
+    
     const alertData: AlertData[] = [
         { type: 'Alarma', region: 'Los Rios Region', commune: 'Panguipulli', color: 'red' },
         { type: 'Alerta', region: 'Araucania Region', commune: 'Temuco', color: 'orange' },
@@ -35,7 +37,7 @@ const AlertList: React.FC = () => {
             justifyContent="center"
             width={300}
             height={400}
-            sx={{ backgroundColor: "#f6f6f6" }}
+            sx={{ backgroundColor:theme.palette.background.default}}
             borderRadius="8px"
             padding="16px"
         >
@@ -75,7 +77,7 @@ const AlertList: React.FC = () => {
                             elevation={0}
                             onClick={() => handleAlertClick(alertData[index])}
                         >
-                            <CardContent style={{ width: '100%', backgroundColor:'#f6f6f6' }}>
+                            <CardContent style={{ width: '100%', backgroundColor: theme.palette.background.default }}>
                                 <Box display="flex" alignItems="center" gap="8px">
                                     <WarningIcon style={{ color: alertData[index].color }} />
                                     <Typography variant="subtitle1">{alertData[index].type} de Remoción</Typography>

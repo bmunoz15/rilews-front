@@ -1,10 +1,33 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { Box, InputBase, styled } from '@mui/material';
+
+const SearchContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: theme.palette.background.default,
+    borderRadius: '5px',
+    padding: '5px 10px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+}));
+
+const SearchIcon = styled(FaSearch)(({ theme }) => ({
+    marginRight: '10px',
+    color: theme.palette.text.secondary,
+    fontSize: '20px',
+}));
+
+const SearchInput = styled(InputBase)(({ }) => ({
+    flex: 1,
+    padding: '5px',
+    border: 'none',
+    outline: 'none',
+}));
 
 const SearchBar: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             alert(`Buscando: ${searchTerm}`);
         }
@@ -15,40 +38,16 @@ const SearchBar: React.FC = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <FaSearch style={styles.icon} />
-            <input
-                type="text"
+        <SearchContainer>
+            <SearchIcon />
+            <SearchInput
                 placeholder="Ingresa búsqueda"
-                style={styles.input}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 onChange={handleChange}
                 value={searchTerm}
             />
-        </div>
+        </SearchContainer>
     );
-};
-
-const styles = {
-    container: {
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: '5px',
-        padding: '5px 10px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    },
-    icon: {
-        marginRight: '10px',
-        color: '#888',
-        fontSize: '20px', // Aumenta el tamaño del ícono
-    },
-    input: {
-        outline: 'none',
-        flex: 1,
-        padding: '5px', // Añade un poco de padding para el input
-        border: 'none', // Quita el borde del cuadro de texto
-    },
 };
 
 export default SearchBar;

@@ -13,9 +13,8 @@ const InfoSidebar: React.FC = () => {
             gap={2}
             position="absolute"
             right="1%"
-            top="50%"
+            top="10%"
             sx={{ 
-                transform: 'translateY(-50%)', 
                 zIndex: 1000, 
                 backgroundColor: 'transparent',
             }}
