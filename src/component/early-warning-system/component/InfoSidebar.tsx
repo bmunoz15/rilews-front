@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import Nomenclature from './Nomenclature'; // Asegúrate de que la ruta sea correcta
-import Warning from './Warning';
+import Nomenclature from './Nomenclature';
+import AlertList from './AlertList';
 import Forecast from './Forecast';
-import SearchBar from '../../lib/SearchBar'
+import SearchBar from '../../shared/search-bar/SearchBar';
 
-const InformationPanel: React.FC = () => {
+const InfoSidebar: React.FC = () => {
     return (
         <Box
             display="flex"
@@ -13,24 +13,18 @@ const InformationPanel: React.FC = () => {
             gap={2}
             position="absolute"
             right="1%"
-            top="50%"
+            top="10%"
             sx={{ 
-                transform: 'translateY(-50%)', 
                 zIndex: 1000, 
                 backgroundColor: 'transparent',
             }}
         >
             <SearchBar />
             <Forecast />
-
-            <Warning />
-
+            <AlertList />
             <Nomenclature />
-
-            
-            {/* Aquí puedes agregar más componentes en el futuro */}
         </Box>
     );
 };
 
-export default InformationPanel;
+export default InfoSidebar;

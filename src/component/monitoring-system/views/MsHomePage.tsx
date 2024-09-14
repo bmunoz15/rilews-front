@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Map from '../../lib/map/Map';
+import Map from '../../shared/map/Map';
 
 
 const Home: React.FC = () => {
