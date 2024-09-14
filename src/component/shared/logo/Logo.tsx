@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 interface LogoProps {
     src: string;
@@ -7,20 +7,23 @@ interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = ({ src, alt }) => {
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <Box
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                p: 1,
             }}
         >
             <img
                 src={src}
                 alt={alt}
                 style={{
-                    maxWidth: '128px',
-                    minWidth: '64px',
+                    maxWidth: isSmallScreen ? '64px' : '128px',
                     width: 'auto',
                     height: 'auto',
                 }}
