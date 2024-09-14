@@ -1,28 +1,20 @@
-import * as React from 'react';
+import React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
+import { DrawerToggleHeader } from './DrawerToggleHeader';
+import { NavItem } from './NavItem';
+import { SubMenu } from './SubMenu';
+import { useNavigate } from 'react-router-dom';
 import MapIcon from '@mui/icons-material/Map';
 import WarningIcon from '@mui/icons-material/Warning';
+import MonitorIcon from '@mui/icons-material/Monitor';
 import GroupIcon from '@mui/icons-material/Group';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
-import MonitorIcon from '@mui/icons-material/Monitor';
-import Collapse from '@mui/material/Collapse';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 320;
 
@@ -47,38 +39,21 @@ const closedMixin = (theme: Theme): CSSObject => ({
     },
 });
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-}));
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme }) => ({
+    ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
-        variants: [
-            {
-                props: ({ open }) => open,
-                style: {
-                    ...openedMixin(theme),
-                    '& .MuiDrawer-paper': openedMixin(theme),
-                },
-            },
-            {
-                props: ({ open }) => !open,
-                style: {
-                    ...closedMixin(theme),
-                    '& .MuiDrawer-paper': closedMixin(theme),
-                },
-            },
-        ],
-    }),
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    })
 );
 
 export default function MiniDrawer() {
@@ -103,107 +78,46 @@ export default function MiniDrawer() {
         navigate(path);
     };
 
+    const menuItems = [
+        { text: 'Mapa', icon: <MapIcon />, path: '/', isSubmenu: false },
+        { text: 'Alertas', icon: <WarningIcon />, path: '/', isSubmenu: false },
+        { text: 'Monitoreo Estaciones', icon: <MonitorIcon />, path: '/monitoring-system', isSubmenu: false },
+        { text: 'Usuarios', icon: <GroupIcon />, path: '/', isSubmenu: false },
+        { text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true },
+        { text: 'Fluid', icon: <FolderIcon />, path: '/', isSubmenu: false },
+        { text: 'db', icon: <FolderIcon />, path: '/', isSubmenu: false },
+        { text: 'db1', icon: <FolderIcon />, path: '/', isSubmenu: false },
+    ];
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <CssBaseline />
-            <Drawer variant="permanent" open={open}>
+            <Drawer variant="permanent" open={open} sx={{ backgroundColor: theme.palette.background.default ,'& .MuiDrawer-paper': { backgroundColor: theme.palette.background.default }  }}>
                 {open && (
-                    <Box sx={{ display: 'flex', flexDirection: 'column', padding: 2, justifyContent: 'center', alignItems: 'center' }}>
+                    <Box sx={{ padding: 2, textAlign: 'center' }}>
                         <Typography variant="h6" fontWeight="bold">Rilews</Typography>
-                        <Typography variant="body1" component="div" sx={{ textAlign: 'center', my: 2, whiteSpace: 'normal' }}>
+                        <Typography variant="body1" sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
                             Sistema de Alerta Temprana para Remociones en Masa Gatilladas por Lluvia
                         </Typography>
                     </Box>
                 )}
-                <DrawerHeader>
-                    <IconButton onClick={open ? handleDrawerClose : handleDrawerOpen}>
-                        {open ? (theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />) : (theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />)}
-                    </IconButton>
-                </DrawerHeader>
+                <DrawerToggleHeader
+                    open={open}
+                    handleDrawerOpen={handleDrawerOpen}
+                    handleDrawerClose={handleDrawerClose}
+                    theme={theme}
+                />
                 <Divider />
                 <List>
-                    {[
-                        { text: 'Mapa', icon: <MapIcon />, path: '/' },
-                        { text: 'Alertas', icon: <WarningIcon />, path: '/' },
-                        { text: 'Monitoreo Estaciones', icon: <MonitorIcon />, path: '/monitoring-system' },
-                        { text: 'Usuarios', icon: <GroupIcon />, path: '/' },
-                        { text: 'Administrar Datos', icon: <SettingsIcon />, path: null },
-                        { text: 'Fluid', icon: <FolderIcon />, path: '/' },
-                        { text: 'db', icon: <FolderIcon />, path: '/' },
-                        { text: 'db1', icon: <FolderIcon />, path: '/' },
-                    ].map((item, index) => (
+                    {menuItems.map((item, index) => (
                         <React.Fragment key={item.text}>
-                            <ListItem disablePadding sx={{ display: 'block' }}>
-                                <ListItemButton
-                                    sx={[
-                                        {
-                                            minHeight: 48,
-                                            px: 2.5,
-                                        },
-                                        open
-                                            ? {
-                                                justifyContent: 'initial',
-                                            }
-                                            : {
-                                                justifyContent: 'center',
-                                            },
-                                    ]}
-                                    onClick={index === 4 ? handleSubOpen : () => handleNavigation(item.path!)}
-                                >
-                                    <ListItemIcon
-                                        sx={[
-                                            {
-                                                minWidth: 0,
-                                                justifyContent: 'center',
-                                            },
-                                            open
-                                                ? {
-                                                    mr: 3,
-                                                }
-                                                : {
-                                                    mr: 'auto',
-                                                },
-                                        ]}
-                                    >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={item.text}
-                                        sx={[
-                                            open
-                                                ? {
-                                                    opacity: 1,
-                                                }
-                                                : {
-                                                    opacity: 0,
-                                                },
-                                        ]}
-                                    />
-                                    {index === 4 && open && (
-                                        subOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />
-                                    )}
-                                </ListItemButton>
-                            </ListItem>
-                            {index === 4 && (
-                                <Collapse in={subOpen} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        {[
-                                            { text: 'Subitem 1', path: '/' },
-                                            { text: 'Subitem 2', path: '/' },
-                                            { text: 'Subitem 3', path: '/' },
-                                        ].map((subItem) => (
-                                            <ListItem key={subItem.text} sx={{ pl: 4 }}>
-                                                <ListItemButton onClick={() => handleNavigation(subItem.path)}>
-                                                    <ListItemIcon>
-                                                        <FolderIcon />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={subItem.text} />
-                                                </ListItemButton>
-                                            </ListItem>
-                                        ))}
-                                    </List>
-                                </Collapse>
-                            )}
+                            <NavItem
+                                open={open}
+                                item={item}
+                                handleNavigation={handleNavigation}
+                                handleSubOpen={handleSubOpen}
+                                subOpen={subOpen}
+                            />
+                            {index === 4 && <SubMenu subOpen={subOpen} handleNavigation={handleNavigation} />}
                         </React.Fragment>
                     ))}
                 </List>
