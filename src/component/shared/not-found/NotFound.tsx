@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Button } from '@mui/material';
+import { Container, Typography, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
@@ -7,8 +7,8 @@ const NotFound: React.FC = () => {
         <Container
             sx={{
                 textAlign: 'center',
-                marginTop: '50px',
-                padding: '20px'
+                marginTop: { xs: '20px', sm: '30px', md: '50px' },
+                padding: { xs: '10px', sm: '15px', md: '20px' }
             }}
         >
             <Typography variant="h1" component="h2" gutterBottom>
@@ -20,14 +20,16 @@ const NotFound: React.FC = () => {
             <Typography variant="body1" gutterBottom>
                 The page you are looking for does not exist.
             </Typography>
-            <Button
-                variant="contained"
-                color="primary"
-                component={Link}
-                to="/"
-            >
-                Go to Home
-            </Button>
+            <Box mt={2}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    to="/"
+                >
+                    Go to Home
+                </Button>
+            </Box>
         </Container>
     );
 };

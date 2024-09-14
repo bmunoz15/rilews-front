@@ -1,4 +1,4 @@
-import { styled, IconButton } from '@mui/material';
+import { styled, IconButton, useTheme } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
@@ -8,18 +8,23 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
+  [theme.breakpoints.down('sm')]: {
+    justifyContent: 'center',
+  },
+  [theme.breakpoints.up('md')]: {
+    justifyContent: 'flex-end',
+  },
 }));
-
-import { Theme } from '@mui/material/styles';
 
 interface DrawerToggleHeaderProps {
   open: boolean;
   handleDrawerOpen: () => void;
   handleDrawerClose: () => void;
-  theme: Theme;
 }
 
-export const DrawerToggleHeader: React.FC<DrawerToggleHeaderProps> = ({ open, handleDrawerOpen, handleDrawerClose, theme }) => {
+export const DrawerToggleHeader: React.FC<DrawerToggleHeaderProps> = ({ open, handleDrawerOpen, handleDrawerClose }) => {
+  const theme = useTheme();
+
   return (
     <DrawerHeader>
       <IconButton onClick={open ? handleDrawerClose : handleDrawerOpen}>

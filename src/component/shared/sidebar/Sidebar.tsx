@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -78,6 +78,10 @@ export default function MiniDrawer() {
         navigate(path);
     };
 
+    useEffect(() => {
+        if (!open) setSubOpen(false);
+    }, [open]);
+
     const menuItems = [
         { text: 'Mapa', icon: <MapIcon />, path: '/', isSubmenu: false },
         { text: 'Alertas', icon: <WarningIcon />, path: '/', isSubmenu: false },
@@ -104,7 +108,6 @@ export default function MiniDrawer() {
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
                     handleDrawerClose={handleDrawerClose}
-                    theme={theme}
                 />
                 <Divider />
                 <List>
