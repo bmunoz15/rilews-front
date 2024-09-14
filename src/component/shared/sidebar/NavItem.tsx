@@ -15,6 +15,7 @@ interface NavItemProps {
     handleNavigation: (path: string) => void;
     handleSubOpen: () => void;
     subOpen: boolean;
+    isSmallScreen: boolean;
 }
 
 export const NavItem: React.FC<NavItemProps> = ({ open, item, handleNavigation, handleSubOpen, subOpen }) => {
@@ -42,16 +43,18 @@ export const NavItem: React.FC<NavItemProps> = ({ open, item, handleNavigation, 
                 }}
                 onClick={item.isSubmenu ? handleSubOpen : () => handleNavigation(item.path!)}
             >
-                <ListItemIcon
-                    sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
-                    }}
-                >
-                    {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
+                {(!isSmallScreen || open) && (
+                    <ListItemIcon
+                        sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : 'auto',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        {item.icon}
+                    </ListItemIcon>
+                )}
+                {(!isSmallScreen || open) && <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />}
                 {item.isSubmenu && open && (subOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
             </ListItemButton>
         </ListItem>
