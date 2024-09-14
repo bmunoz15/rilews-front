@@ -1,7 +1,9 @@
 import React from 'react';
-import { Typography, Grid, Paper } from '@mui/material';
+import { Typography, Paper, Box, useTheme } from '@mui/material';
 
 const Forecast: React.FC = () => {
+    const theme = useTheme();
+    
     const forecastData = [
         { period: '24h', date: '2023-10-01' },
         { period: '48h', date: '2023-10-02' },
@@ -9,22 +11,29 @@ const Forecast: React.FC = () => {
     ];
 
     return (
-        <Paper style={{ padding: 16, width: '100%', border: '8px', textAlign: 'center' }}>
+        <Paper
+            style={{
+                padding: 8,
+                textAlign: 'center',
+                borderRadius: 8,
+                backgroundColor: theme.palette.background.default,
+            }}
+        >
             <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
                 Fecha Pronóstico
             </Typography>
-            <Grid container spacing={2} style={{ width: '100%' }}>
+            <Box display="flex" justifyContent="space-between" width={"100%"}>
                 {forecastData.map((data) => (
-                    <Grid item xs={4} key={data.period}>
+                    <Box key={data.period} textAlign="center" flex={1}>
                         <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
                             {data.period}
                         </Typography>
-                        <Typography variant="body2" >
+                        <Typography variant="body2">
                             {data.date}
                         </Typography>
-                    </Grid>
+                    </Box>
                 ))}
-            </Grid>
+            </Box>
         </Paper>
     );
 };

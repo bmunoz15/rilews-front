@@ -79,6 +79,40 @@ Para contribuir al proyecto, seguimos la metodología **Git Flow**. A continuaci
      ```
    - Esto fusionará la rama de la *feature* en la rama `develop` y eliminará la rama local de la *feature*.
 
+## Estructura del Proyecto
+
+```bash
+src/
+│
+├── assets/
+│   └── logos/ 
+│
+├── components/
+│   ├── feature/
+│   │   ├── views/
+│   │   │   ├── HomePage.tsx
+│   │   │   └── HomePage.css
+│   │   └── components/
+│   │       ├── Name.tsx
+│   │       └── Name.css 
+│
+├── shared/                
+│   └── component/
+│       ├── Name.tsx
+│       └── Name.css   
+```
+
+### Descripción de Estructura
+
+- **assets/**: Contiene los recursos multimedia, como imágenes y logos.
+  
+- **components/**: Agrupa los componentes de la aplicación según sus funcionalidades:
+  - **views/**: Páginas principales o vistas que actúan como contenedores de componentes.
+  - **components/**: Componentes individuales y reutilizables, específicos de la funcionalidad correspondiente.
+
+- **shared/**: Incluye componentes genéricos y reutilizables entre las diferentes partes de la aplicación (por ejemplo, mapas, barra lateral, menú de usuario, etc.). 
+
+
 
 
 ## Enlaces a Recursos
