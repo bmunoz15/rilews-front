@@ -10,20 +10,15 @@ interface AlertData {
     color: string;
 }
 
-const AlertList: React.FC = () => {
+interface AlertListProps {
+    alerts: any; // Adjust the type based on your alerts structure
+}
+
+const AlertList: React.FC<AlertListProps> = ({ alerts }) => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [expanded, setExpanded] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-
-    const alertData: AlertData[] = [
-        { type: 'Alarma', region: 'Los Rios Region', commune: 'Panguipulli', color: 'red' },
-        { type: 'Alerta', region: 'Araucania Region', commune: 'Temuco', color: 'orange' },
-        { type: 'Aviso', region: 'Los Rios Region', commune: 'Paillaco', color: 'yellow' },
-        { type: 'Alerta', region: 'Araucania Region', commune: 'S', color: 'orange' },
-        { type: 'Alerta', region: 'Araucania Region', commune: 'Angol', color: 'orange' },
-        // Add more data as needed
-    ];
 
     const listRef = useRef<any>(null);
 
@@ -31,14 +26,12 @@ const AlertList: React.FC = () => {
         alert(`Type: ${alertItem.type}\nRegion: ${alertItem.region}\nCommune: ${alertItem.commune}`);
     };
 
-    // Toggle expansion when clicking the alert icon
     const handleIconClick = () => {
         if (isSmallScreen) {
             setExpanded(!expanded);
         }
     };
 
-    // Close the expanded state when clicking outside the component
     const handleClickOutside = (event: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
             setExpanded(false);
@@ -54,18 +47,36 @@ const AlertList: React.FC = () => {
         };
     }, [isSmallScreen]);
 
+
+
+    const getColor = (etiquetadmc: string) => {
+        switch (etiquetadmc) {
+            case 'Sin Alerta actual DMC':
+                return 'yellow';
+            case 'alerta':
+                return 'orange';
+            case 'alarma':
+                return 'red';
+            default:
+                return 'blue';
+        }
+    };
+    const alertData: AlertData[] = alerts ? alerts.features.map((feature: any) => ({
+        type: feature.properties["Etiqueta DMC"],
+        region: feature.properties.Region_1,
+        commune: feature.properties.Comuna,
+        color: getColor(feature.properties["Etiqueta DMC"])
+    })) : [];
+
     return (
         <Box ref={containerRef}>
-            {/* Alert Icon button, shown only on small screens */}
             {isSmallScreen && !expanded && (
                 <Box display="flex" justifyContent="center" bgcolor="white" borderRadius={1}>
                     <IconButton onClick={handleIconClick}>
-                        <WarningIcon style={{ fontSize: 24}} />
+                        <WarningIcon style={{ fontSize: 24 }} />
                     </IconButton>
                 </Box>
             )}
-
-            {/* Alert list content that expands/collapses on small screens, always shown on large screens */}
             {(expanded || !isSmallScreen) && (
                 <Box
                     display="flex"
@@ -103,7 +114,7 @@ const AlertList: React.FC = () => {
                         <List
                             height={400}
                             itemCount={alertData.length}
-                            itemSize={90} // Increase item size to include margin
+                            itemSize={90}
                             width="100%"
                             ref={listRef}
                         >
@@ -117,10 +128,10 @@ const AlertList: React.FC = () => {
                                     <CardContent style={{ width: '100%', backgroundColor: theme.palette.background.default }}>
                                         <Box display="flex" alignItems="center" gap="8px">
                                             <WarningIcon style={{ color: alertData[index].color }} />
-                                            <Typography variant="subtitle1">{alertData[index].type} de Remoción</Typography>
+                                            <Typography variant="subtitle1">Alerta de Remoción</Typography> {/* Change the text based on your alert type */}
                                         </Box>
                                         <Typography variant="body2">Region: {alertData[index].region}</Typography>
-                                        <Typography variant="body2">Commune: {alertData[index].commune}</Typography>
+                                        <Typography variant="body2">Comuna: {alertData[index].commune}</Typography>
                                     </CardContent>
                                 </Card>
                             )}

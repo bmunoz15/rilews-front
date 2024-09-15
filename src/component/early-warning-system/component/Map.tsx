@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { LatLngExpression, LatLngTuple } from 'leaflet';
-import Location from './Location';
-import PolygonLayer from './PolygonLayer';
+import Location from './infowarning/Location';
+import PolygonLayer from './infowarning/PolygonLayer';
 
-const MapWithToggle: React.FC = () => {
-    const [geoJsonData, setGeoJsonData] = useState<any>(null);
+interface MapProps {
+    alerts: any;
+}
+
+const Map: React.FC<MapProps> = ({ alerts }) => {
     const centerPosition: LatLngExpression = [-38.6679, -72.2610];
-
-    useEffect(() => {
-        fetch('/src/assets/ReporteProb_20240904T0000000_20240905T000000_20240904T104547_cut.geojson')
-            .then(response => response.json())
-            .then(data => {
-                setGeoJsonData(data);
-            })
-            .catch(error => console.error('Error loading GeoJSON:', error));
-    }, []);
 
     const getColor = (etiquetadmc: string) => {
         switch (etiquetadmc) {
@@ -40,27 +34,29 @@ const MapWithToggle: React.FC = () => {
         };
     };
 
-    const locationsFromGeoJson = geoJsonData?.features.map((feature: any) => ({
+    const locationsFromGeoJson = alerts?.features.map((feature: any) => ({
         position: [feature.properties.lat_centroide, feature.properties.lon_centroide] as LatLngTuple,
         name: feature.properties.Comuna,
-        color: getColor(feature.properties["Etiqueta DMC"]) 
+        color: getColor(feature.properties["Etiqueta DMC"])
     })) || [];
 
     return (
         <MapContainer
-            center={centerPosition} // Usar el centroide del GeoJSON
+            center={centerPosition}
             zoom={7}
             style={{ height: '100vh', width: '100%' }}
+            zoomControl={false}
         >
             <TileLayer
                 url="https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png?api_key=bbaa0e7d-9c63-4ece-9a14-a60e6a430e23"
-                attribution='&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data) | &copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                attribution='&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data)'
             />
 
-            {geoJsonData && <PolygonLayer data={geoJsonData} getStyle={getStyle} />}
+            {/* Pass a unique key based on alerts */}
+            {alerts && <PolygonLayer key={JSON.stringify(alerts)} data={alerts} getStyle={getStyle} />}
             <Location locations={locationsFromGeoJson} />
         </MapContainer>
     );
 };
 
-export default MapWithToggle;
+export default Map;

@@ -5,7 +5,11 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { getForecastDates } from '../../../service/early-warning-system/EatlyWarningService';
 import ForecastModel from '../../../model/early-warning-system/ForecastModel';
 
-const Forecast: React.FC = () => {
+interface ForecastProps {
+    onPeriodSelect: (period: string, date: string) => void;
+}
+
+const Forecast: React.FC<ForecastProps> = ({ onPeriodSelect }) => {
     const [data, setData] = useState<ForecastModel[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -27,6 +31,10 @@ const Forecast: React.FC = () => {
         }
     };
 
+    const todayDate = () => {
+        return '20240904';
+    };
+
     useEffect(() => {
         if (isSmallScreen) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -39,8 +47,8 @@ const Forecast: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getForecastDates('20240904');
-                setData(result); 
+                const result = await getForecastDates(todayDate());
+                setData(result);
             } catch (err) {
                 setError('Failed to fetch data');
             } finally {
@@ -90,7 +98,16 @@ const Forecast: React.FC = () => {
                             </Typography>
                             <Box display="flex" justifyContent="space-between" width={"100%"} gap={1}>
                                 {data?.map((forecast, index) => (
-                                    <Box key={index} textAlign="center" flex={1} gap={1}>
+                                    <Box
+                                        key={index}
+                                        textAlign="center"
+                                        flex={1}
+                                        gap={1}
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => {
+                                            onPeriodSelect(forecast.period, forecast.date);
+                                        }} 
+                                    >
                                         <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
                                             {forecast.period}
                                         </Typography>
