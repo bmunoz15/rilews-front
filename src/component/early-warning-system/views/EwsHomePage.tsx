@@ -6,14 +6,15 @@ import { Box, useMediaQuery } from '@mui/material';
 import SearchBar from '../../shared/search-bar/SearchBar';
 import AlertList from '../component/sidebarinfo/AlertList';
 import Nomenclature from '../component/sidebarinfo/Nomenclature';
+import  GeoJsonModel from '../..//model/early-warning-system/GeoJsonModel';
 
 const Home: React.FC = () => {
-    const [alerts, setAlerts] = useState<any>(null);
+    const [alerts, setAlerts] = useState<GeoJsonModel | null>(null);
 
     const handlePeriodSelect = async (period: string) => {
         let today = new Date().toISOString().split('T')[0].replace(/-/g, '');
         today = '20240904'; 
-        let alertData;
+        let alertData: GeoJsonModel | null = null;
 
         switch (period) {
             case '24h':
@@ -26,8 +27,9 @@ const Home: React.FC = () => {
                 alertData = await getAlerts72h(today);
                 break;
             default:
-                alertData = [];
+                alertData = null;
         }
+        console.log(alertData?.features?.map(feature => feature.properties.Etiqueta_DMC));
 
         setAlerts(alertData);
     };

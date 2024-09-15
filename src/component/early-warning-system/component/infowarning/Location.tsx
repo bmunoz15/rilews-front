@@ -7,10 +7,21 @@ import { Warning } from '@mui/icons-material';
 import L from 'leaflet';
 
 interface LocationLayerProps {
-    locations: { position: LatLngTuple; name: string; color: string; }[];
+    information: {
+        position: LatLngTuple; 
+        name: string; 
+        color: string; 
+        Etiqueta_DMC: string;
+        region: string;
+        q1: number;
+        mediana: number;
+        q3: number;
+        pp: [string, string, number][];
+    }[];
+
 }
 
-const Location: React.FC<LocationLayerProps> = ({ locations }) => {
+const Location: React.FC<LocationLayerProps> = ({ information }) => {
     const map = useMap();
     const [iconSize, setIconSize] = useState<number>(64);
 
@@ -44,13 +55,13 @@ const Location: React.FC<LocationLayerProps> = ({ locations }) => {
 
     return (
         <>
-            {locations.map((location, index) => (
+            {information.map((location, index) => (
                 <Marker
                     key={index}
                     position={location.position}
                     icon={createWarningIcon(location.color)}
                 >
-                    <AlertPopupMenu />
+                    <AlertPopupMenu variables={{ q1: location.q1, mediana: location.mediana, q3: location.q3, pp: location.pp , Etiqueta_DMC:location.Etiqueta_DMC }} />
                 </Marker>
             ))}
         </>

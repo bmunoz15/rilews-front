@@ -3,16 +3,17 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import { LatLngExpression, LatLngTuple } from 'leaflet';
 import Location from './infowarning/Location';
 import PolygonLayer from './infowarning/PolygonLayer';
+import GeoJsonModel from '../../model/early-warning-system/GeoJsonModel';
 
 interface MapProps {
-    alerts: any;
+    alerts: GeoJsonModel | null;
 }
 
 const Map: React.FC<MapProps> = ({ alerts }) => {
     const centerPosition: LatLngExpression = [-38.6679, -72.2610];
 
-    const getColor = (etiquetadmc: string) => {
-        switch (etiquetadmc) {
+    const getColor = (etiquetaDMC: string) => {
+        switch (etiquetaDMC) {
             case 'Sin Alerta actual DMC':
                 return 'yellow';
             case 'alerta':
@@ -25,7 +26,7 @@ const Map: React.FC<MapProps> = ({ alerts }) => {
     };
 
     const getStyle = (feature: any) => {
-        const color = getColor(feature.properties["Etiqueta DMC"]);
+        const color = getColor(feature.properties.Etiqueta_DMC);
         return {
             color,
             weight: 2,
@@ -34,11 +35,19 @@ const Map: React.FC<MapProps> = ({ alerts }) => {
         };
     };
 
-    const locationsFromGeoJson = alerts?.features.map((feature: any) => ({
+    const infoFromGeoJson = alerts?.features.map((feature) => ({
         position: [feature.properties.lat_centroide, feature.properties.lon_centroide] as LatLngTuple,
         name: feature.properties.Comuna,
-        color: getColor(feature.properties["Etiqueta DMC"])
+        region: feature.properties.Region_1,
+        q1: feature.properties.Q1,
+        mediana: feature.properties.Mediana,
+        q3: feature.properties.Q3,
+        pp: feature.properties.PP, 
+        Etiqueta_DMC: feature.properties.Etiqueta_DMC,
+        color: getColor(feature.properties.Etiqueta_DMC)
     })) || [];
+
+    console.log(infoFromGeoJson);
 
     return (
         <MapContainer
@@ -51,10 +60,8 @@ const Map: React.FC<MapProps> = ({ alerts }) => {
                 url="https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png?api_key=bbaa0e7d-9c63-4ece-9a14-a60e6a430e23"
                 attribution='&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data)'
             />
-
-            {/* Pass a unique key based on alerts */}
             {alerts && <PolygonLayer key={JSON.stringify(alerts)} data={alerts} getStyle={getStyle} />}
-            <Location locations={locationsFromGeoJson} />
+            <Location information={infoFromGeoJson} />
         </MapContainer>
     );
 };

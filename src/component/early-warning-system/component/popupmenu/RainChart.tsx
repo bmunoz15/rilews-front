@@ -8,10 +8,10 @@ import { parse, format } from 'date-fns';
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
 interface RainChartProps {
-    lluvias: string;
+    precipitation: { date: string; time: string; value: number; }[];
 }
 
-const RainChart: React.FC<RainChartProps> = ({ lluvias }) => {
+const RainChart: React.FC<RainChartProps> = ({ precipitation }) => {
     const [chartDataBar, setChartDataBar] = useState<number[]>([]);
     const [chartDataLine, setChartDataLine] = useState<number[]>([]);
     const [chartLabels, setChartLabels] = useState<string[]>([]);
@@ -21,33 +21,26 @@ const RainChart: React.FC<RainChartProps> = ({ lluvias }) => {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
-        const regex = /\(([^)]+)\)/g;
-        const triplas: [string, string, number][] = [];
-        let match;
+        const triplas = precipitation;
 
-        while ((match = regex.exec(lluvias)) !== null) {
-            const valores = match[1].split(',').map((val) => val.trim().replace(/'/g, ''));
-            triplas.push([valores[0], valores[1], parseFloat(valores[2])]);
+        const diferencias: number[] = [];
+        for (let i = 1; i < triplas.length; i++) {
+            const diferencia = triplas[i].value - triplas[i - 1].value;
+            diferencias.push(diferencia);
         }
+        const tercerosValores = triplas.map(tripla => tripla.value);
 
-        const tercerosValores = triplas.map((tripla) => tripla[2]);
-        const fechasConHora = triplas.map((tripla) => {
-            const fecha = parse(`${tripla[0]} ${tripla[1]}`, 'yyyy-MM-dd HH:mm:ss', new Date());
+        const fechasConHora = triplas.map(tripla => {
+            const fecha = parse(`${tripla.date} ${tripla.time}`, 'yyyy-MM-dd HH:mm:ss', new Date());
             return format(fecha, 'yy/MM/dd HH:mm');
         });
         const MAX_DATOS = 72;
         const primeros72Datos = fechasConHora.slice(0, MAX_DATOS);
 
-        const diferencias: number[] = [];
-        for (let i = 1; i < triplas.length; i++) {
-            const diferencia = triplas[i][2] - triplas[i - 1][2];
-            diferencias.push(diferencia);
-        }
-
         setChartDataBar(diferencias);
         setChartDataLine(tercerosValores);
         setChartLabels(primeros72Datos);
-    }, [lluvias]);
+    }, [precipitation]);
 
     const data = {
         labels: chartLabels,

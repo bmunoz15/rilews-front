@@ -25,7 +25,17 @@ const StyledPopup = styled(Popup)`
     }
 `;
 
-const CustomPopup: React.FC = () => {
+interface AlertPopupMenuProps {
+    variables: {
+        Etiqueta_DMC: string;
+        q1: number;
+        mediana: number;
+        q3: number;
+        pp: [string, string, number][];
+    };
+}
+
+const CustomPopup: React.FC<AlertPopupMenuProps> = ({ variables }) => {
     const [selectedTab, setSelectedTab] = useState<number>(0);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -63,7 +73,7 @@ const CustomPopup: React.FC = () => {
                 </Tabs>
                 <Box
                     mt={2}
-                    sx={{   
+                    sx={{
                         overflowY: 'auto',
                         height: '100%',
                         width: '100%',
@@ -71,7 +81,7 @@ const CustomPopup: React.FC = () => {
                     }}
                 >
                     {selectedTab === 0 && <AlertTab />}
-                    {selectedTab === 1 && <PrecipitationsTab />}
+                    {selectedTab === 1 && <PrecipitationsTab pp={variables.pp} validationDmc={variables.Etiqueta_DMC} />}
                     {selectedTab === 2 && <ValidationsTab />}
                 </Box>
             </Paper>
