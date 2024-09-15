@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Marker, Popup, useMap } from 'react-leaflet';
+import { Marker, useMap } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
-import { Box, Typography } from '@mui/material';
-import { Warning } from '@mui/icons-material';
+import AlertPopupMenu from '../popupmenu/AlertPopupMenu';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { Warning } from '@mui/icons-material';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 interface LocationLayerProps {
     locations: { position: LatLngTuple; name: string; color: string; }[];
@@ -51,14 +50,7 @@ const Location: React.FC<LocationLayerProps> = ({ locations }) => {
                     position={location.position}
                     icon={createWarningIcon(location.color)}
                 >
-                    <Popup>
-                        <Box>
-                            <Typography variant="h6">{location.name}</Typography>
-                            <Typography variant="body2">
-                                Position: [{location.position[0]}, {location.position[1]}]
-                            </Typography>
-                        </Box>
-                    </Popup>
+                    <AlertPopupMenu />
                 </Marker>
             ))}
         </>
