@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography, Paper, Box, useTheme, useMediaQuery, IconButton } from '@mui/material';
+import { Typography, Paper, Box, useTheme, useMediaQuery, IconButton, CircularProgress } from '@mui/material';
 import CloudIcon from '@mui/icons-material/Cloud';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { getForecastDates } from '../../service/early-warning-system/EatlyWarningService';
 import ForecastModel from '../../model/early-warning-system/ForecastModel';
 
 const Forecast: React.FC = () => {
-    const [data, setData] = useState<ForecastModel[] | null>(null); // Ahora es un arreglo de ForecastModel
+    const [data, setData] = useState<ForecastModel[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -38,8 +39,8 @@ const Forecast: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getForecastDates('20240904'); // Llamada al servicio
-                setData(result); // Ahora es un arreglo de ForecastModel
+                const result = await getForecastDates('20240904');
+                setData(result); 
             } catch (err) {
                 setError('Failed to fetch data');
             } finally {
@@ -48,9 +49,6 @@ const Forecast: React.FC = () => {
         };
         fetchData();
     }, []);
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
 
     return (
         <Box ref={containerRef}>
@@ -71,21 +69,39 @@ const Forecast: React.FC = () => {
                         transition: 'all 0.3s ease',
                     }}
                 >
-                    <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
-                        Fecha Pronóstico
-                    </Typography>
-                    <Box display="flex" justifyContent="space-between" width={"100%"} gap={1}>
-                        {data?.map((forecast, index) => (
-                            <Box key={index} textAlign="center" flex={1} gap={1}>
-                                <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
-                                    {forecast.period} {/* Periodo (24h, 48h, etc.) */}
-                                </Typography>
-                                <Typography variant="body2">
-                                    {forecast.date} {/* Fecha */}
-                                </Typography>
+                    {loading ? (
+                        <Box display="flex" flexDirection="column" alignItems="center">
+                            <CircularProgress />
+                            <Typography variant="subtitle2" style={{ marginTop: 8 }}>
+                                Loading...
+                            </Typography>
+                        </Box>
+                    ) : error ? (
+                        <Box display="flex" flexDirection="column" alignItems="center">
+                            <ErrorOutlineIcon color="error" />
+                            <Typography variant="subtitle2" style={{ marginTop: 8, color: theme.palette.error.main }}>
+                                {error}
+                            </Typography>
+                        </Box>
+                    ) : (
+                        <>
+                            <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
+                                Fecha Pronóstico
+                            </Typography>
+                            <Box display="flex" justifyContent="space-between" width={"100%"} gap={1}>
+                                {data?.map((forecast, index) => (
+                                    <Box key={index} textAlign="center" flex={1} gap={1}>
+                                        <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                                            {forecast.period}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            {forecast.date}
+                                        </Typography>
+                                    </Box>
+                                ))}
                             </Box>
-                        ))}
-                    </Box>
+                        </>
+                    )}
                 </Paper>
             )}
         </Box>
