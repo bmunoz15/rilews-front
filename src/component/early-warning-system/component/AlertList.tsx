@@ -60,7 +60,7 @@ const AlertList: React.FC = () => {
             {isSmallScreen && !expanded && (
                 <Box display="flex" justifyContent="center" bgcolor="white" borderRadius={1}>
                     <IconButton onClick={handleIconClick}>
-                        <WarningIcon style={{ fontSize: 24 }} />
+                        <WarningIcon style={{ fontSize: 24}} />
                     </IconButton>
                 </Box>
             )}
@@ -86,9 +86,9 @@ const AlertList: React.FC = () => {
                         flexGrow={0}
                         gap="8px"
                     >
-                        <WarningIcon style={{ fontSize: 24 }} />
+                        <WarningIcon style={{ fontSize: 24, color: '#808080' }} />
                         <Typography variant="subtitle1" color="textPrimary">
-                            Alerts
+                            Alertas
                         </Typography>
                     </Box>
                     <Box

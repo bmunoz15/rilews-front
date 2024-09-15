@@ -12,7 +12,7 @@ const SearchContainer = styled(Box)(({ theme }) => ({
 }));
 
 const StyledSearchIcon = styled(SearchIcon)(({ }) => ({
-    color: 'black',
+    color: '#808080',
     cursor: 'pointer',
     padding: '8px',
 }));
