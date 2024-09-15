@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -15,8 +15,9 @@ import MonitorIcon from '@mui/icons-material/Monitor';
 import GroupIcon from '@mui/icons-material/Group';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-const drawerWidth = 320;
+const drawerWidth = 300;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -25,6 +26,8 @@ const openedMixin = (theme: Theme): CSSObject => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
+    borderBottomRightRadius: '8px',
+    borderTopRightRadius: '8px',
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -37,6 +40,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(8)} + 1px)`,
     },
+    borderBottomRightRadius: '8px',
+    borderTopRightRadius: '8px',
 });
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -58,6 +63,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
     const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(false);
     const [subOpen, setSubOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -78,6 +84,10 @@ export default function MiniDrawer() {
         navigate(path);
     };
 
+    useEffect(() => {
+        if (!open) setSubOpen(false);
+    }, [open]);
+
     const menuItems = [
         { text: 'Mapa', icon: <MapIcon />, path: '/', isSubmenu: false },
         { text: 'Alertas', icon: <WarningIcon />, path: '/', isSubmenu: false },
@@ -91,36 +101,50 @@ export default function MiniDrawer() {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Drawer variant="permanent" open={open} sx={{ backgroundColor: theme.palette.background.default ,'& .MuiDrawer-paper': { backgroundColor: theme.palette.background.default }  }}>
-                {open && (
-                    <Box sx={{ padding: 2, textAlign: 'center' }}>
-                        <Typography variant="h6" fontWeight="bold">Rilews</Typography>
-                        <Typography variant="body1" sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
-                            Sistema de Alerta Temprana para Remociones en Masa Gatilladas por Lluvia
-                        </Typography>
-                    </Box>
-                )}
+            <Drawer
+                variant="permanent"
+                open={open}
+                sx={{
+                    backgroundColor: theme.palette.background.default,
+                    '& .MuiDrawer-paper': { 
+                        backgroundColor: theme.palette.background.default,
+                        height: isSmallScreen && !open ? 'auto' : '100%',
+                    }
+                }}
+            >
                 <DrawerToggleHeader
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
                     handleDrawerClose={handleDrawerClose}
-                    theme={theme}
                 />
-                <Divider />
-                <List>
-                    {menuItems.map((item, index) => (
-                        <React.Fragment key={item.text}>
-                            <NavItem
-                                open={open}
-                                item={item}
-                                handleNavigation={handleNavigation}
-                                handleSubOpen={handleSubOpen}
-                                subOpen={subOpen}
-                            />
-                            {index === 4 && <SubMenu subOpen={subOpen} handleNavigation={handleNavigation} />}
-                        </React.Fragment>
-                    ))}
-                </List>
+                {open && (
+                    <>
+                        <Box sx={{ padding: 2, textAlign: 'center' }}>
+                            <Typography variant="h6" fontWeight="bold">Rilews</Typography>
+                            <Typography variant="body1" sx={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                                Sistema de Alerta Temprana para Remociones en Masa Gatilladas por Lluvia
+                            </Typography>
+                        </Box>
+                        <Divider />
+                    </>
+                )}
+                {!(isSmallScreen && !open) && (
+                    <List>
+                        {menuItems.map((item, index) => (
+                            <React.Fragment key={item.text}>
+                                <NavItem
+                                    open={open}
+                                    item={item}
+                                    handleNavigation={handleNavigation}
+                                    handleSubOpen={handleSubOpen}
+                                    subOpen={subOpen}
+                                    isSmallScreen={isSmallScreen}
+                                />
+                                {index === 4 && <SubMenu subOpen={subOpen} handleNavigation={handleNavigation} />}
+                            </React.Fragment>
+                        ))}
+                    </List>
+                )}
             </Drawer>
         </Box>
     );
