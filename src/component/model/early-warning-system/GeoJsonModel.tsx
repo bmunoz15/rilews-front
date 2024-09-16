@@ -14,7 +14,9 @@ interface GeoJsonModel extends GeoJsonObject {
             lon_centroide: number;
             lat_centroide: number;
             PP: Array<[string, string, number]>;
-            Etiqueta_DMC: string;
+            dmcStatus: string;
+            color: string;
+            area_km_2: number; 
         };
         geometry: {
             type: "Polygon";
