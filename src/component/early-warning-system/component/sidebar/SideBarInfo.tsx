@@ -1,0 +1,21 @@
+import React from 'react';
+import Forecast from './Forecast';
+import AlertList from './AlertList';
+import Nomenclature from './Nomenclature';
+import ForecastModel from '../../../model/early-warning-system/ForecastModel';
+
+interface SidebarProps {
+    onPeriodSelect: (period: ForecastModel) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onPeriodSelect }) => {
+    return (
+        <>
+            <Forecast onPeriodSelect={onPeriodSelect} />
+            <AlertList />
+            <Nomenclature />
+        </>
+    );
+};
+
+export default Sidebar;
