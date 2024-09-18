@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Paper, Box, useTheme, useMediaQuery, IconButton, CircularProgress } from '@mui/material';
 import CloudIcon from '@mui/icons-material/Cloud';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { getForecastDates } from '../../../service/early-warning-system/EarlyWarningService';
-import ForecastModel from '../../../model/early-warning-system/ForecastModel';
+import { getForecastDates } from '../../service/EarlyWarningService';
+import ForecastModel from '../../model/ForecastModel';
 
 interface ForecastProps {
     onPeriodSelect: (forecast: ForecastModel) => void;

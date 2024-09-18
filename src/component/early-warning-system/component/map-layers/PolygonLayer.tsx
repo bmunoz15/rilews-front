@@ -1,7 +1,7 @@
 import React from 'react';
 import { GeoJSON, GeoJSONProps } from 'react-leaflet';
-import { useAlerts } from '../../../context/GeoJsonProvider';
-import { Features } from '../../../types/GeoJsonTypes';
+import { useAlerts } from '../../context/GeoJsonProvider';
+import { Features } from '../../types/GeoJsonTypes';
 import L from 'leaflet';
 
 const PolygonLayer: React.FC = () => {

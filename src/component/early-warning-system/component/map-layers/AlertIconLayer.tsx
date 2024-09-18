@@ -4,7 +4,7 @@ import AlertPopupMenu from '../info-alert/AlertPopupMenu';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Warning } from '@mui/icons-material';
 import L from 'leaflet';
-import { useAlerts } from '../../../context/GeoJsonProvider';
+import { useAlerts } from '../../context/GeoJsonProvider';
 
 const AlertIconLayer: React.FC = () => {
     const map = useMap();

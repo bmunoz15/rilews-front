@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getAlerts } from '../../service/early-warning-system/EarlyWarningService';
+import { getAlerts } from '../service/EarlyWarningService';
 import { Box, useMediaQuery } from '@mui/material';
 import SearchBar from '../../shared/search-bar/SearchBar';
 import Sidebar from './sidebar/SideBarInfo';
 import SharedMap from '../../shared/map/SharedMap'; // Importa el componente compartido
 import AlertIconLayer from './map-layers/AlertIconLayer';
 import PolygonLayer from './map-layers/PolygonLayer';
-import { useAlerts } from '../../context/GeoJsonProvider';
-import ForecastModel from '../../model/early-warning-system/ForecastModel';
+import { useAlerts } from '../context/GeoJsonProvider';
+import ForecastModel from '../model/ForecastModel';
 import { LatLngExpression } from 'leaflet';
 
 const EwsContent: React.FC = () => {

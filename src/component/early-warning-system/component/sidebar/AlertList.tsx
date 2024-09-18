@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
-import { useAlerts } from '../../../context/GeoJsonProvider';
+import { useAlerts } from '../../context/GeoJsonProvider';
 
 interface AlertData {
     type: string;

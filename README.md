@@ -85,21 +85,17 @@ Para contribuir al proyecto, seguimos la metodología **Git Flow**. A continuaci
 src/
 │
 ├── assets/
-│   └── logos/ 
-│
 ├── components/
-│   ├── feature/
-│   │   ├── views/
-│   │   │   ├── HomePage.tsx
-│   │   │   └── HomePage.css
-│   │   └── components/
-│   │       ├── Name.tsx
-│   │       └── Name.css 
-│
-├── shared/                
-│   └── component/
-│       ├── Name.tsx
-│       └── Name.css   
+│   ├── features/
+│   │   ├── component/
+│   │   └── context/
+│   │   └── http-client/
+│   │   └── model/
+│   │   └── service/
+│   │   └── types/
+│   │   └── view/
+├── router/ 
+├── shared/ 
 ```
 
 ### Descripción de Estructura
@@ -107,13 +103,17 @@ src/
 - **assets/**: Contiene los recursos multimedia, como imágenes y logos.
   
 - **components/**: Agrupa los componentes de la aplicación según sus funcionalidades:
-  - **views/**: Páginas principales o vistas que actúan como contenedores de componentes.
-  - **components/**: Componentes individuales y reutilizables, específicos de la funcionalidad correspondiente.
+  - **component/**: Componentes individuales y reutilizables.
+  - **context/**: Contextos para gestionar el estado global.
+  - **http-client/**: Configuración para llamas a la API.
+  - **model/**: Modelos de datos.
+  - **service/**: Servicios específicos.
+  - **types/**: Tipos de datos utilizados.
+  - **views/**: Páginas principales y vistas para la interfaz de usuario.
 
-- **shared/**: Incluye componentes genéricos y reutilizables entre las diferentes partes de la aplicación (por ejemplo, mapas, barra lateral, menú de usuario, etc.). 
+- **router/**: Configuración de enrutamiento de la aplicación.
 
-
-
+- **shared/**: Componentes reutilizables y comúnes entre las diferentes partes de la aplicación (por ejemplo, mapas, barra lateral, menú de usuario, etc.).
 
 ## Enlaces a Recursos
 
