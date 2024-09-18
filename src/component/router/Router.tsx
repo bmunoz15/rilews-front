@@ -9,6 +9,7 @@ import Footer from "../shared/footer/Footer";
 import UserLogin from "../users/view/UserLogin";
 import CreateUser from "../users/view/UserRegistry";
 import UserList from "../users/view/UserList";
+import UserProfile from "../users/view/UserProfile";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
@@ -29,6 +30,7 @@ const Router: React.FC = () => {
                 <Route path="/" element={<Layout><HomeEws /></Layout>} />
                 <Route path="/monitoring-system" element={<Layout><HomeMs /></Layout>} />
                 <Route path="/sign-up" element={<Layout><CreateUser /></Layout>} />
+                <Route path="/profile" element={<Layout><UserProfile /></Layout>} />
                 <Route path="/users" element={<Layout><UserList /></Layout>} />
                 <Route path="/sign-in" element={<UserLogin />} />
 
