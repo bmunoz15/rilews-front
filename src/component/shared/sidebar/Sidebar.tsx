@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -9,7 +9,6 @@ import { DrawerToggleHeader } from './DrawerToggleHeader';
 import { NavItem } from './NavItem';
 import { SubMenu } from './SubMenu';
 import { useNavigate } from 'react-router-dom';
-import MapIcon from '@mui/icons-material/Map';
 import WarningIcon from '@mui/icons-material/Warning';
 import MonitorIcon from '@mui/icons-material/Monitor';
 import GroupIcon from '@mui/icons-material/Group';
@@ -17,7 +16,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-const drawerWidth = 300;
+const drawerWidth = 320;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
@@ -67,6 +66,7 @@ export default function MiniDrawer() {
     const [open, setOpen] = React.useState(false);
     const [subOpen, setSubOpen] = React.useState(false);
     const navigate = useNavigate();
+    const drawerRef = useRef<HTMLDivElement>(null);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -88,9 +88,21 @@ export default function MiniDrawer() {
         if (!open) setSubOpen(false);
     }, [open]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (drawerRef.current && !drawerRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [drawerRef]);
+
     const menuItems = [
-        { text: 'Mapa', icon: <MapIcon />, path: '/', isSubmenu: false },
-        { text: 'Alertas', icon: <WarningIcon />, path: '/', isSubmenu: false },
+        { text: 'Monitoreo de Alertas Tempranas', icon: <WarningIcon />, path: '/', isSubmenu: false },
         { text: 'Monitoreo Estaciones', icon: <MonitorIcon />, path: '/monitoring-system', isSubmenu: false },
         { text: 'Usuarios', icon: <GroupIcon />, path: '/', isSubmenu: false },
         { text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true },
@@ -100,7 +112,7 @@ export default function MiniDrawer() {
     ];
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }} ref={drawerRef}>
             <Drawer
                 variant="permanent"
                 open={open}

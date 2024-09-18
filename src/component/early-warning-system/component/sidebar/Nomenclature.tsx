@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Box, Typography, useTheme, IconButton, useMediaQuery, styled } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 
-const StatusBox = styled(Box)<{ color: string; isSmallScreen: boolean }>(({ color, isSmallScreen }) => ({
+const StatusBox = styled(Box, {
+    shouldForwardProp: (prop) => prop !== 'color' && prop !== 'isSmallScreen',
+})<{ color: string; isSmallScreen: boolean }>(({ color, isSmallScreen }) => ({
     backgroundColor: color,
     opacity: 0.55,
     borderRadius: '4px',
@@ -27,7 +29,11 @@ const Nomenclature: React.FC = () => {
     const [expanded, setExpanded] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const handleIconClick = () => isSmallScreen && setExpanded(!expanded);
+    const handleIconClick = () => {
+        if (isSmallScreen) {
+            setExpanded(!expanded);
+        }
+    };
 
     const handleClickOutside = (event: MouseEvent) => {
         if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
