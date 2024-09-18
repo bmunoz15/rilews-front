@@ -94,8 +94,8 @@ src/
 │   │   └── service/
 │   │   └── types/
 │   │   └── view/
-├── router/ 
-├── shared/ 
+│   ├── router/
+│   ├── shared/
 ```
 
 ### Descripción de Estructura
