@@ -9,6 +9,7 @@ import PolygonLayer from './map-layers/PolygonLayer';
 import { useAlerts } from '../context/GeoJsonProvider';
 import ForecastModel from '../model/ForecastModel';
 import { LatLngExpression } from 'leaflet';
+import { MapProvider } from '../context/MapProvider';
 
 const EwsContent: React.FC = () => {
     const { setAlerts } = useAlerts();
@@ -31,31 +32,33 @@ const EwsContent: React.FC = () => {
 
     return (
         <>
-            <Box
-                display="flex"
-                flexDirection="column"
-                gap={2}
-                position="absolute"
-                right="1%"
-                top="10%"
-                sx={{
-                    alignItems: isLargeScreen ? 'flex' : 'flex-end',
-                    backgroundColor: 'transparent',
-                    zIndex: 1200,
-                }}
-            >
-                <SearchBar />
-                <Sidebar onPeriodSelect={setSelectedPeriod} />
-            </Box>
-            <SharedMap
-                centerPosition={centerPosition}
-                zoom={7}
-                tileUrl={tileUrl}
-                tileAttribution={tileAttribution}
-            >
-                <PolygonLayer />
-                <AlertIconLayer />
-            </SharedMap>
+            <MapProvider>
+                <Box
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}
+                    position="absolute"
+                    right="1%"
+                    top="10%"
+                    sx={{
+                        alignItems: isLargeScreen ? 'flex' : 'flex-end',
+                        backgroundColor: 'transparent',
+                        zIndex: 1200,
+                    }}
+                >
+                    <SearchBar />
+                    <Sidebar onPeriodSelect={setSelectedPeriod} />
+                </Box>
+                <SharedMap
+                    centerPosition={centerPosition}
+                    zoom={7}
+                    tileUrl={tileUrl}
+                    tileAttribution={tileAttribution}
+                >
+                    <PolygonLayer />
+                    <AlertIconLayer />
+                </SharedMap>
+            </MapProvider>
         </>
     );
 };

@@ -1,6 +1,7 @@
-import React from 'react';
-import { MapContainer, TileLayer } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { LatLngExpression } from 'leaflet';
+import { useMapContext } from '../../early-warning-system/context/MapProvider';
 
 interface SharedMapProps {
     centerPosition: LatLngExpression;
@@ -9,6 +10,17 @@ interface SharedMapProps {
     tileAttribution: string;
     children: React.ReactNode;
 }
+
+const MapContainerComponent: React.FC<SharedMapProps> = ({ }) => {
+    const { setMap } = useMapContext();
+    const map = useMap();
+
+    useEffect(() => {
+        setMap(map);
+    }, [map, setMap]);
+
+    return null;
+};
 
 const SharedMap: React.FC<SharedMapProps> = ({
     centerPosition,
@@ -28,6 +40,7 @@ const SharedMap: React.FC<SharedMapProps> = ({
                 url={tileUrl}
                 attribution={tileAttribution}
             />
+            <MapContainerComponent centerPosition={centerPosition} zoom={zoom} tileUrl={tileUrl} tileAttribution={tileAttribution} children={undefined} />
             {children}
         </MapContainer>
     );

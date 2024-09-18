@@ -3,12 +3,15 @@ import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
 import { useAlerts } from '../../context/GeoJsonProvider';
+import { useMapContext } from '../../context/MapProvider';
+import { LatLngBounds, LatLngExpression } from 'leaflet';
 
 interface AlertData {
     type: string;
     region: string;
     commune: string;
     color: string;
+    bounds: LatLngBounds;
 }
 
 const AlertList: React.FC = () => {
@@ -18,38 +21,42 @@ const AlertList: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<any>(null);
 
-    const { alerts } = useAlerts();
-
-    //Ajustar los case segun dmc
-    const getAlertColor = (status: string): string => {
-        switch (status) {
-            case 'Sin Alerta actual DMC':
-                return 'yellow';
-            case 'alerta':
-                return 'orange';
-            case 'alarma':
-                return 'red';
-            default:
-                return 'blue';
-        }
-    };
+    const { alerts, getColorByStatus } = useAlerts();
+    const { map } = useMapContext(); // Accede a la instancia del mapa
 
     const alertData: AlertData[] = useMemo(
         () =>
             alerts
-                ? alerts.features.map((feature: any) => ({
-                    type: feature.properties.dmcStatus,
-                    region: feature.properties.Region_1,
-                    commune: feature.properties.Comuna,
-                    color: getAlertColor(feature.properties.dmcStatus),
-                }))
+                ? alerts.features.map((feature: any) => {
+                    // Invertir las coordenadas si es necesario
+                    const coordinates = feature.geometry.coordinates[0].map(
+                        (coord: [number, number]) => [coord[1], coord[0]] as LatLngExpression // Invertir lon/lat a lat/lon
+                    );
+                    return {
+                        type: feature.properties.dmcStatus,
+                        region: feature.properties.Region_1,
+                        commune: feature.properties.Comuna,
+                        color: getColorByStatus(feature.properties.dmcStatus),
+                        bounds: new LatLngBounds(coordinates), // Crear los bounds invertidos
+                    };
+                })
                 : [],
         [alerts]
     );
 
-    const handleAlertClick = useCallback((alertItem: AlertData) => {
-        alert(`Type: ${alertItem.type}\nRegion: ${alertItem.region}\nCommune: ${alertItem.commune}`);
-    }, []);
+    const handleAlertClick = useCallback(
+        (alertItem: AlertData) => {
+            if (map) {
+                map.fitBounds(alertItem.bounds, {
+                    padding: [50, 50], 
+                    maxZoom: 13,        
+                    animate: true,    
+                });
+                map.invalidateSize(); // Forza a Leaflet a recalcular el tamaño y redibujar
+            }
+        },
+        [map]
+    );
 
     const handleIconClick = useCallback(() => {
         if (isSmallScreen) {
@@ -84,7 +91,7 @@ const AlertList: React.FC = () => {
         >
             <CardContent style={{ width: '100%', backgroundColor: theme.palette.background.default }}>
                 <Box display="flex" alignItems="center" gap="8px">
-                    <WarningIcon style={{ color: alertData[index].color }} />
+                    <WarningIcon style={{ color: alertData[index].color, filter: 'drop-shadow(1px 1px 1px black)' }} />
                     <Typography variant="subtitle1">Alerta de Remoción</Typography>
                 </Box>
                 <Typography variant="body2">Región: {alertData[index].region}</Typography>
