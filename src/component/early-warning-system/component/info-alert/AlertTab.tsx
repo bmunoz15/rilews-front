@@ -7,9 +7,11 @@ interface AlertTabProps {
     q1: number;
     median: number;
     q3: number;
+    color: string;
 }
 
-const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3 }) => {
+const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3, color }) => {
+
 
 
     // Simulación de datos del suelo
@@ -26,7 +28,7 @@ const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3 }) => {
     return (
         <Box>
             <Box display="flex" alignItems="center" justifyContent="center" gap={1} mb={2}>
-                <WarningIcon color="error" />
+                <WarningIcon style={{ color, filter: 'drop-shadow(1px 1px 1px black)' }} />
                 <Typography variant="h5" align="center">
                     Predicción de alerta de remoción en masa - {date.date}
                 </Typography>

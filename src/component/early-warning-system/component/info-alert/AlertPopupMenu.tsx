@@ -4,6 +4,7 @@ import AlertTab from './AlertTab';
 import ValidationsTab from './ValidationTab';
 import { Popup } from 'react-leaflet';
 import PrecipitationsTab from './PrecipitationsTab';
+import { useAlerts } from '../../context/GeoJsonProvider';
 
 
 const StyledPopupPaper = styled(Paper)(({ theme }) => ({
@@ -28,10 +29,11 @@ interface AlertPopupMenuProps {
     pp: [string, string, number][];
 }
 
-const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana, q3, pp }) => {
+const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana, q3, pp}) => {
     const [selectedTab, setSelectedTab] = useState<number>(0);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const {getColorByStatus} = useAlerts();
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setSelectedTab(newValue);
@@ -66,7 +68,7 @@ const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana,
                         padding: '8px',
                     }}
                 >
-                    {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} />}
+                    {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} color={getColorByStatus(dmcStatus)} />}
                     {selectedTab === 1 && <PrecipitationsTab pp={pp} dmcStatus={dmcStatus} />}
                     {selectedTab === 2 && <ValidationsTab />}
                 </Box>
