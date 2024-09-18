@@ -8,7 +8,7 @@ interface SidebarProps {
     onPeriodSelect: (period: ForecastModel) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onPeriodSelect }) => {
+const SideBarInfo: React.FC<SidebarProps> = ({ onPeriodSelect }) => {
     return (
         <>
             <Forecast onPeriodSelect={onPeriodSelect} />
@@ -18,4 +18,4 @@ const Sidebar: React.FC<SidebarProps> = ({ onPeriodSelect }) => {
     );
 };
 
-export default Sidebar;
+export default SideBarInfo;

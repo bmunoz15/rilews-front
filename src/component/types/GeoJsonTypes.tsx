@@ -16,7 +16,7 @@ export interface Features {
     };
     geometry: {
         type: "Polygon";
-        coordinates: number[][][];
+        coordinates: number[][][]; 
     };
 }
 
@@ -27,4 +27,5 @@ export interface GeoJsonModel {
 export interface AlertsContextType {
     alerts: GeoJsonModel | null;
     setAlerts: (alerts: GeoJsonModel | null) => void;
+    getColorByStatus: (dmcStatus: string) => string;
 }
