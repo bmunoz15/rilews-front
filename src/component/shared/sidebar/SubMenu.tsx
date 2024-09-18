@@ -6,9 +6,10 @@ import { useTheme } from '@mui/material/styles';
 interface SubmenuProps {
   subOpen: boolean;
   handleNavigation: (path: string) => void;
+  subItems?: { text: string; path: string; }[];
 }
 
-export const SubMenu: React.FC<SubmenuProps> = ({ subOpen, handleNavigation }) => {
+export const SubMenu: React.FC<SubmenuProps> = ({ subOpen, handleNavigation, subItems = [] }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -18,17 +19,13 @@ export const SubMenu: React.FC<SubmenuProps> = ({ subOpen, handleNavigation }) =
     if (isSmallScreen) return 2;
     if (isMediumScreen) return 3;
     if (isLargeScreen) return 4;
-    return 4; // Default padding
+    return 4; 
   };
 
   return (
     <Collapse in={subOpen} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        {[
-          { text: 'Subitem 1', path: '/' },
-          { text: 'Subitem 2', path: '/' },
-          { text: 'Subitem 3', path: '/' },
-        ].map((subItem) => (
+        {subItems.map((subItem) => (
           <ListItem key={subItem.text} sx={{ pl: getPadding() }}>
             <ListItemButton onClick={() => handleNavigation(subItem.path)}>
               <ListItemIcon>
