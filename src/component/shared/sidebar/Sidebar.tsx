@@ -65,6 +65,8 @@ export default function MiniDrawer() {
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(false);
     const [subOpen, setSubOpen] = React.useState(false);
+    const [userSubOpen, setUserSubOpen] = React.useState(false);
+    const [dataAdminSubOpen, setDataAdminSubOpen] = React.useState(false);
     const navigate = useNavigate();
     const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -80,12 +82,24 @@ export default function MiniDrawer() {
         setSubOpen(!subOpen);
     };
 
+    const handleUserSubOpen = () => {
+        setUserSubOpen(!userSubOpen);
+    };
+
+    const handleDataAdminSubOpen = () => {
+        setDataAdminSubOpen(!dataAdminSubOpen);
+    };
+
     const handleNavigation = (path: string) => {
         navigate(path);
     };
 
     useEffect(() => {
-        if (!open) setSubOpen(false);
+        if (!open) {
+            setSubOpen(false);
+            setUserSubOpen(false);
+            setDataAdminSubOpen(false);
+        }
     }, [open]);
 
     useEffect(() => {
@@ -104,8 +118,18 @@ export default function MiniDrawer() {
     const menuItems = [
         { text: 'Monitoreo de Alertas Tempranas', icon: <WarningIcon />, path: '/', isSubmenu: false },
         { text: 'Monitoreo Estaciones', icon: <MonitorIcon />, path: '/monitoring-system', isSubmenu: false },
-        { text: 'Usuarios', icon: <GroupIcon />, path: '/', isSubmenu: false },
-        { text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true },
+        {
+            text: 'Gestión de Usuarios', icon: <GroupIcon />, isSubmenu: true, subItems: [
+                { text: 'Crear Usuario', path: '/sign-up' },
+                { text: 'Usuarios', path: '/users' }
+            ]
+        },
+        {
+            text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true, subItems: [
+                { text: 'Subir Datos', path: '/' },
+                { text: 'Ver Datos', path: '/' }
+            ]
+        },
         { text: 'Fluid', icon: <FolderIcon />, path: '/', isSubmenu: false },
         { text: 'db', icon: <FolderIcon />, path: '/', isSubmenu: false },
         { text: 'db1', icon: <FolderIcon />, path: '/', isSubmenu: false },
@@ -118,7 +142,7 @@ export default function MiniDrawer() {
                 open={open}
                 sx={{
                     backgroundColor: theme.palette.background.default,
-                    '& .MuiDrawer-paper': { 
+                    '& .MuiDrawer-paper': {
                         backgroundColor: theme.palette.background.default,
                         height: isSmallScreen && !open ? 'auto' : '100%',
                     }
@@ -142,17 +166,34 @@ export default function MiniDrawer() {
                 )}
                 {!(isSmallScreen && !open) && (
                     <List>
-                        {menuItems.map((item, index) => (
+                        {menuItems.map((item) => (
                             <React.Fragment key={item.text}>
                                 <NavItem
                                     open={open}
                                     item={item}
                                     handleNavigation={handleNavigation}
-                                    handleSubOpen={handleSubOpen}
-                                    subOpen={subOpen}
+                                    handleSubOpen={
+                                        item.text === 'Gestión de Usuarios'
+                                            ? handleUserSubOpen
+                                            : item.text === 'Administrar Datos'
+                                                ? handleDataAdminSubOpen
+                                                : handleSubOpen
+                                    }
+                                    subOpen={
+                                        item.text === 'Gestión de Usuarios'
+                                            ? userSubOpen
+                                            : item.text === 'Administrar Datos'
+                                                ? dataAdminSubOpen
+                                                : subOpen
+                                    }
                                     isSmallScreen={isSmallScreen}
                                 />
-                                {index === 4 && <SubMenu subOpen={subOpen} handleNavigation={handleNavigation} />}
+                                {item.text === 'Gestión de Usuarios' && userSubOpen && (
+                                    <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} />
+                                )}
+                                {item.text === 'Administrar Datos' && dataAdminSubOpen && (
+                                    <SubMenu subOpen={dataAdminSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} />
+                                )}
                             </React.Fragment>
                         ))}
                     </List>

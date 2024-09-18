@@ -6,9 +6,28 @@ const theme = createTheme({
     background: {
       default: '#f6f6f6',
     },
-    text:{
+    text: {
       primary: '#000',
       secondary: '#fff',
+    },
+  },
+  components: {
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiInputBase-input::placeholder': {
+            color: 'gray',
+            opacity: 1,
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: 'gray',
+        },
+      },
     },
   },
 });
