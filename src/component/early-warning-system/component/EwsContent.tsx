@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import Forecast from '../component/sidebarinfo/Forecast';
 import { getAlerts } from '../../service/early-warning-system/EarlyWarningService';
 import { Box, useMediaQuery } from '@mui/material';
 import SearchBar from '../../shared/search-bar/SearchBar';
-import AlertList from '../component/sidebarinfo/AlertList';
-import Nomenclature from '../component/sidebarinfo/Nomenclature';
-import GeoJsonModel from '../../model/early-warning-system/GeoJsonModel';
-import { useAlerts } from './popupmenu/AlertsContext';
-import Map from './Map';
+import Sidebar from './sidebar/SideBarInfo';
+import SharedMap from '../../shared/map/SharedMap'; // Importa el componente compartido
+import AlertIconLayer from './map-layers/AlertIconLayer';
+import PolygonLayer from './map-layers/PolygonLayer';
+import { useAlerts } from '../../context/GeoJsonProvider';
 import ForecastModel from '../../model/early-warning-system/ForecastModel';
+import { LatLngExpression } from 'leaflet';
 
 const EwsContent: React.FC = () => {
     const { setAlerts } = useAlerts();
-    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({ date: '20240904', url: 'today', period: '24h' }); // Estado para el periodo seleccionado
+    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({ date: '20240904', url: 'today', period: '24h' });
     const isLargeScreen = useMediaQuery('(min-width:600px)');
 
     const handlePeriodSelect = async (props: ForecastModel) => {
-        let today = new Date().toISOString().split('T')[0].replace(/-/g, '');
-        today = '20240904'; // Modifica la fecha según tu lógica
-        let alertData: GeoJsonModel | null = null;
-        alertData = await getAlerts(today, props.url);
+        let today = '20240904';
+        const alertData = await getAlerts(today, props.url);
         setAlerts(alertData);
     };
 
     useEffect(() => {
         handlePeriodSelect(selectedPeriod);
-    }, [selectedPeriod]); // Dependencia del periodo seleccionado
+    }, [selectedPeriod]);
+
+    const centerPosition: LatLngExpression = [-38.6679, -72.2610];
+    const tileUrl = "https://tiles.stadiamaps.com/tiles/alidade_satellite/{z}/{x}/{y}{r}.png?api_key=bbaa0e7d-9c63-4ece-9a14-a60e6a430e23";
+    const tileAttribution = '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data)';
 
     return (
         <>
@@ -43,11 +45,17 @@ const EwsContent: React.FC = () => {
                 }}
             >
                 <SearchBar />
-                <Forecast onPeriodSelect={setSelectedPeriod} />
-                <AlertList />
-                <Nomenclature />
+                <Sidebar onPeriodSelect={setSelectedPeriod} />
             </Box>
-            <Map selectedPeriod={selectedPeriod} />
+            <SharedMap
+                centerPosition={centerPosition}
+                zoom={7}
+                tileUrl={tileUrl}
+                tileAttribution={tileAttribution}
+            >
+                <PolygonLayer />
+                <AlertIconLayer />
+            </SharedMap>
         </>
     );
 };
