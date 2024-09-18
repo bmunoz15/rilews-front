@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
+import { Box } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface BoxPlotProps {
     q3: number;
@@ -9,22 +11,27 @@ interface BoxPlotProps {
 
 const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
     const svgRef = useRef<SVGSVGElement | null>(null);
+    
+    const isSmallScreen = useMediaQuery('(max-width:600px)');
 
     useEffect(() => {
-        const width = 400;
-        const height = 200;
-        const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-        const boxWidth = 50;
-        const center = (width - margin.left - margin.right) / 2;
+        if (!svgRef.current) return;
+
+        const width = isSmallScreen ? 300 : 400;
+        const height = isSmallScreen ? 150 : 200;
+        const margin = { top: 20, right: 30, bottom: 30, left: 60 };
+        const boxWidth = isSmallScreen ? 30 : 50;
+        const center = (width - margin.left - margin.right) / 2 + margin.left;
 
         const svgElement = d3.select(svgRef.current)
             .attr('width', width)
             .attr('height', height);
 
+        svgElement.selectAll('*').remove();
+
         const g = svgElement.append('g')
             .attr('transform', `translate(${margin.left},${margin.top})`);
 
-        // Calcular los bigotes basado en 1.5 veces el rango intercuartil
         const iqr = q3 - q1;
         const lowerWhisker = Math.max(0, q1 - 1.5 * iqr);
         const upperWhisker = q3 + 1.5 * iqr;
@@ -34,9 +41,9 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
             .range([height - margin.top - margin.bottom, 0]);
 
         g.append('g')
-            .call(d3.axisLeft(y));
+            .call(d3.axisLeft(y))
+            .attr('class', 'y-axis');
 
-        // Línea vertical
         g.append("line")
             .attr("x1", center)
             .attr("x2", center)
@@ -44,7 +51,6 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
             .attr("y2", y(upperWhisker))
             .attr("stroke", "black");
 
-        // Caja del boxplot
         g.append("rect")
             .attr("x", center - boxWidth / 2)
             .attr("y", y(q3))
@@ -53,7 +59,6 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
             .attr("stroke", "black")
             .style("fill", "#69b3a2");
 
-        // Línea para la mediana
         g.append("line")
             .attr("x1", center - boxWidth / 2)
             .attr("x2", center + boxWidth / 2)
@@ -61,7 +66,6 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
             .attr("y2", y(mediana))
             .attr("stroke", "black");
 
-        // Línea para el mínimo
         g.append("line")
             .attr("x1", center - boxWidth / 4)
             .attr("x2", center + boxWidth / 4)
@@ -69,7 +73,6 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
             .attr("y2", y(lowerWhisker))
             .attr("stroke", "black");
 
-        // Línea para el máximo
         g.append("line")
             .attr("x1", center - boxWidth / 4)
             .attr("x2", center + boxWidth / 4)
@@ -77,13 +80,12 @@ const BoxPlot: React.FC<BoxPlotProps> = ({ q3, q1, mediana }) => {
             .attr("y2", y(upperWhisker))
             .attr("stroke", "black");
 
-        return () => {
-            svgElement.selectAll('*').remove();
-        };
-    }, [q3, q1, mediana]);
+    }, [q3, q1, mediana, isSmallScreen]);
 
     return (
-        <svg ref={svgRef} style={{ border: '1px solid black' }}></svg>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <svg ref={svgRef} style={{ border: '1px solid black', width: '100%', height: 'auto' }}></svg>
+        </Box>
     );
 };
 

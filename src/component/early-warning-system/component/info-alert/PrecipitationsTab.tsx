@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import RainChart from './RainChart';
+import RainChart from '../../../shared/charts/RainChart';
 
 interface PrecipitationsTabProps {
     dmcStatus: string;
