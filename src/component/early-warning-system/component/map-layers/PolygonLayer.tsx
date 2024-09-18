@@ -19,7 +19,7 @@ const PolygonLayer: React.FC = () => {
   };
 
   const handleFeatureClick = (feature: Features) => {
-    console.log('Feature clicked:', feature);
+    alert(`Feature clicked: ${feature.properties.dmcStatus}`);
   };
 
   const onEachFeature: GeoJSONProps['onEachFeature'] = (feature, layer) => {

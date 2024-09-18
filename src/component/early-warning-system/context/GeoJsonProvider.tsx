@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { GeoJsonModel, AlertsContextType } from '../types/GeoJsonTypes';
+import { ALERT_COLORS } from '../config/constant';
 
 const AlertsContext = createContext<AlertsContextType | undefined>(undefined);
 
@@ -7,18 +8,8 @@ export const GeoJsonProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [alerts, setAlerts] = useState<GeoJsonModel | null>(null);
 
   const getColorByStatus = (dmcStatus: string): string => {
-    switch (dmcStatus) {
-      case 'Sin Alerta actual DMC':
-        return 'yellow';
-      case 'alerta':
-        return 'orange';
-      case 'alarma':
-        return 'red';
-      default:
-        return 'blue';
-    }
+    return ALERT_COLORS[dmcStatus] || ALERT_COLORS['default'];
   };
-
   return (
     <AlertsContext.Provider value={{ alerts, setAlerts, getColorByStatus }}>
       {children}
