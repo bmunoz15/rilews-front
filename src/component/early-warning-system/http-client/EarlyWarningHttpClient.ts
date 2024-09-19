@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const EarlyWarningHttpClient = axios.create({
-    baseURL: 'http://localhost:8081/earlywarning',
+    baseURL: 'http://192.168.249.30:8080/earlywarning',
     headers: {
         'Content-Type': 'application/json',
     },
