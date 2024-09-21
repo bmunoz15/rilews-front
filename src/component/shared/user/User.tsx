@@ -26,7 +26,7 @@ const User: React.FC = () => {
     };
 
     const handleLogoutClick = () => {
-        alert('Deslogearse clickeado');
+        alert('clickeado');
         handleClose();
     };
 
@@ -86,7 +86,7 @@ const User: React.FC = () => {
                             },
                         }}
                     >
-                        <ListItemText primary="Deslogearse" />
+                        <ListItemText primary="Cerrar Sesión" />
                     </ListItem>
                 </List>
             </Popover>

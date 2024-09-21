@@ -70,7 +70,7 @@ const Nomenclature: React.FC = () => {
                     sx={{ backgroundColor: theme.palette.background.default }}
                 >
                     <Typography variant="subtitle1" gutterBottom>
-                        Legenda Polígono
+                        Leyenda Polígono
                     </Typography>
                     <Box display="flex" flexDirection="row" alignItems="center">
                         <Box display="flex" flexDirection="column" alignItems="flex-end" width="50%" pr={1}>
