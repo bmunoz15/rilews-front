@@ -1,5 +1,7 @@
 export default class ForecastData {
-    date!: string;
-    url!: string;
-    period!: string;
+    constructor(
+        public date: string,
+        public url: string,
+        public period: string
+    ) { }
 }
