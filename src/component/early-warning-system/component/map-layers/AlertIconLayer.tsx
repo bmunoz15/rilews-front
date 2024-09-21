@@ -53,6 +53,8 @@ const AlertIconLayer: React.FC = () => {
                         q3={feature.properties.Q3}
                         pp={feature.properties.PP}
                         dmcStatus={feature.properties.dmcStatus}
+                        forecastDate={feature.properties.forecastDate}
+                        forecastTargetDate={feature.properties.forecastTargetDate}
                     />
                 </Marker>
             ))}
