@@ -3,14 +3,14 @@ import { Typography, Paper, Box, useTheme, useMediaQuery, IconButton, CircularPr
 import CloudIcon from '@mui/icons-material/Cloud';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { getForecastDates } from '../../service/EarlyWarningService';
-import ForecastModel from '../../model/ForecastModel';
+import { ForecastModel } from '../../model/ForecastModel';
 
 interface ForecastProps {
     onPeriodSelect: (forecast: ForecastModel) => void;
 }
 
 const Forecast: React.FC<ForecastProps> = ({ onPeriodSelect }) => {
-    const [data, setData] = useState<ForecastModel[] | null>(null);
+    const [forecastModel, setData] = useState<ForecastModel[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -59,6 +59,14 @@ const Forecast: React.FC<ForecastProps> = ({ onPeriodSelect }) => {
     }, []);
 
 
+    function formatForecastDate(forecastDate: string): React.ReactNode {
+        const forecastDateStr = forecastDate.toString();
+        const year = forecastDateStr.slice(0, 4);
+        const month = forecastDateStr.slice(4, 6);
+        const day = forecastDateStr.slice(6, 8);
+        return `${year}-${month}-${day}`;
+    }
+
     return (
         <Box ref={containerRef}>
             {isSmallScreen && !expanded && (
@@ -98,7 +106,7 @@ const Forecast: React.FC<ForecastProps> = ({ onPeriodSelect }) => {
                                 Fecha Pronóstico
                             </Typography>
                             <Box display="flex" justifyContent="space-between" width={"100%"} gap={1}>
-                                {data?.map((forecast, index) => (
+                                {forecastModel?.map((forecast, index) => (
                                     <Box
                                         key={index}
                                         textAlign="center"
@@ -122,7 +130,7 @@ const Forecast: React.FC<ForecastProps> = ({ onPeriodSelect }) => {
                                             {forecast.period}
                                         </Typography>
                                         <Typography variant="body2">
-                                            {forecast.date}
+                                            {formatForecastDate(forecast.forecastDate)}
                                         </Typography>
                                     </Box>
                                 ))}

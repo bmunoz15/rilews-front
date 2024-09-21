@@ -20,7 +20,6 @@
     "chart.js": "^4.4.4",
     "chartjs-plugin-zoom": "^2.0.1",
     "d3": "^7.9.0",
-    "date-fns": "^3.6.0",
     "juery": "^1.0.0",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",

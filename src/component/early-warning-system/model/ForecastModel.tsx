@@ -1,7 +1,5 @@
-export default class ForecastData {
-    constructor(
-        public date: string,
-        public url: string,
-        public period: string
-    ) { }
+export interface ForecastModel {
+    forecastDate: string;
+    period: string;
+    url: string;
 }

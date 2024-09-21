@@ -1,5 +1,5 @@
 import EarlyWarningHttpClient from '../http-client/EarlyWarningHttpClient';
-import ForecastModel from '../model/ForecastModel';
+import { ForecastModel } from '../model/ForecastModel';
 import { GeoJsonType, FeaturesType } from '../types/GeoJsonType';
 
 const PERIODS = {
@@ -8,8 +8,8 @@ const PERIODS = {
     DAY_AFTER: '72h',
 };
 
-const fetchForecast = async (period: string, forecastDate: string): Promise<ForecastModel> => {
-    const response = await EarlyWarningHttpClient.get<ForecastModel>(`/${period}/${forecastDate}`);
+const fetchForecast = async (period: string, forecastDate: string): Promise<string> => {
+    const response = await EarlyWarningHttpClient.get<string>(`/${period}/${forecastDate}`);
     return response.data;
 };
 
@@ -20,11 +20,10 @@ export const getForecastDates = async (forecastDate: string): Promise<ForecastMo
             fetchForecast("tomorrow", forecastDate),
             fetchForecast("dayaftertomorrow", forecastDate),
         ]);
-
         return [
-            { date: todayData.date, period: PERIODS.TODAY, url: 'today' },
-            { date: tomorrowData.date, period: PERIODS.TOMORROW, url: '48h' },
-            { date: dayAfterTomorrowData.date, period: PERIODS.DAY_AFTER, url: '72h' },
+            { forecastDate: todayData, period: PERIODS.TODAY, url: 'today' },
+            { forecastDate: tomorrowData, period: PERIODS.TOMORROW, url: '48h' },
+            { forecastDate: dayAfterTomorrowData, period: PERIODS.DAY_AFTER, url: '72h' },
         ];
 
     } catch (error) {
@@ -49,7 +48,6 @@ export const getAlerts = async (forecastDate: string, url: string): Promise<GeoJ
                 }
             }))
         };
-        console.log(`Fetched ${url}'s alerts with warningDate ${forecastDate}:`, transformedData);
         return transformedData;
 
     } catch (error) {
