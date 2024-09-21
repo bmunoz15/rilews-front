@@ -27,13 +27,15 @@ interface AlertPopupMenuProps {
     mediana: number;
     q3: number;
     pp: [string, string, number][];
+    forecastDate: string;
+    forecastTargetDate: string;
 }
 
-const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana, q3, pp}) => {
+const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana, q3, pp, forecastDate, forecastTargetDate }) => {
     const [selectedTab, setSelectedTab] = useState<number>(0);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const {getColorByStatus} = useAlerts();
+    const { getColorByStatus } = useAlerts();
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setSelectedTab(newValue);
@@ -68,9 +70,9 @@ const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana,
                         padding: '8px',
                     }}
                 >
-                    {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} color={getColorByStatus(dmcStatus)} />}
+                    {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} color={getColorByStatus(dmcStatus)} forecastTargetDate={forecastTargetDate} />}
                     {selectedTab === 1 && <PrecipitationsTab pp={pp} dmcStatus={dmcStatus} />}
-                    {selectedTab === 2 && <ValidationsTab />}
+                    {selectedTab === 2 && <ValidationsTab dmcStatus={dmcStatus} forecastDate={forecastDate} forecastTargetDate={forecastTargetDate} />}
                 </Box>
             </StyledPopupPaper>
         </Popup>
