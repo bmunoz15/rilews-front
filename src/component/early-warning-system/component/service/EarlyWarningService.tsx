@@ -1,6 +1,6 @@
-import EarlyWarningHttpClient from '../http-client/EarlyWarningHttpClient';
-import { ForecastModel } from '../model/ForecastModel';
-import { GeoJsonType, FeaturesType } from '../types/GeoJsonType';
+import EarlyWarningHttpClient from '../../http-client/EarlyWarningHttpClient';
+import { ForecastModel } from '../../model/ForecastModel';
+import { GeoJsonType, FeaturesType } from '../../types/GeoJsonType';
 
 const PERIODS = {
     TODAY: '24h',
