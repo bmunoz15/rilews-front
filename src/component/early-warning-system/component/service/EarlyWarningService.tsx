@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { EarlyWarningHttpClient, EarlyWarningPrecatchingHttpClient } from '../../http-client/EarlyWarningHttpClient';
+=======
+import EarlyWarningHttpClient from '../../http-client/EarlyWarningHttpClient';
+>>>>>>> 0c60623 (feat(ewscontent): añade funciones para desabilitar el mapa en zonas que hay componentes ( box de sidebar ))
 import { ForecastModel } from '../../model/ForecastModel';
 import { GeoJsonType, FeaturesType } from '../../types/GeoJsonType';
 
