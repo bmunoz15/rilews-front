@@ -7,13 +7,13 @@ import SharedMap from '../../shared/map/SharedMap'; // Importa el componente com
 import AlertIconLayer from './map-layers/AlertIconLayer';
 import PolygonLayer from './map-layers/PolygonLayer';
 import { useAlerts } from '../context/GeoJsonProvider';
-import ForecastModel from '../model/ForecastModel';
+import {ForecastModel} from '../model/ForecastModel';
 import { LatLngExpression } from 'leaflet';
 import { MapProvider } from '../context/MapProvider';
 
 const EwsContent: React.FC = () => {
     const { setAlerts } = useAlerts();
-    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({ date: '20240904', url: 'today', period: '24h' });
+    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({ forecastDate: '20240904', url: 'today', period: '24h' });
     const isLargeScreen = useMediaQuery('(min-width:600px)');
 
     const handlePeriodSelect = async (props: ForecastModel) => {
