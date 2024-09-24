@@ -8,9 +8,10 @@ interface AlertTabProps {
     median: number;
     q3: number;
     color: string;
+    forecastTargetDate: string;
 }
 
-const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3, color }) => {
+const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3, color, forecastTargetDate }) => {
 
 
 
@@ -20,17 +21,12 @@ const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3, color }) => {
         { name: 'Zona B', type: 'Arcilloso', cohesion: 'Media' },
     ];
 
-    //Simulacion de datos de fecha
-    const date = {
-        date: '2024-09-04'
-    }
-
     return (
         <Box>
             <Box display="flex" alignItems="center" justifyContent="center" gap={1} mb={2}>
                 <WarningIcon style={{ color, filter: 'drop-shadow(1px 1px 1px black)' }} />
                 <Typography variant="h5" align="center">
-                    Predicción de alerta de remoción en masa - {date.date}
+                    Predicción de alerta de remoción en masa - {forecastTargetDate}
                 </Typography>
             </Box>
             <Box textAlign="center" mb={2}>

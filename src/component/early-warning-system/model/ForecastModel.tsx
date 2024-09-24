@@ -1,5 +1,5 @@
-export default class ForecastData {
-    date!: string;
-    url!: string;
-    period!: string;
+export interface ForecastModel {
+    forecastDate: string;
+    period: string;
+    url: string;
 }
