@@ -70,6 +70,9 @@ export default function MiniDrawer() {
     const navigate = useNavigate();
     const drawerRef = useRef<HTMLDivElement>(null);
 
+    const handleComponentClick = () => {
+        setOpen(true);
+    };
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -106,6 +109,9 @@ export default function MiniDrawer() {
         const handleClickOutside = (event: MouseEvent) => {
             if (drawerRef.current && !drawerRef.current.contains(event.target as Node)) {
                 setOpen(false);
+                setSubOpen(false);
+                setUserSubOpen(false);
+                setDataAdminSubOpen(false);
             }
         };
 
@@ -189,10 +195,10 @@ export default function MiniDrawer() {
                                     isSmallScreen={isSmallScreen}
                                 />
                                 {item.text === 'Gestión de Usuarios' && userSubOpen && (
-                                    <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} />
+                                    <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick}/>
                                 )}
                                 {item.text === 'Administrar Datos' && dataAdminSubOpen && (
-                                    <SubMenu subOpen={dataAdminSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} />
+                                    <SubMenu subOpen={dataAdminSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
                                 )}
                             </React.Fragment>
                         ))}

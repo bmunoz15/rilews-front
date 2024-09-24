@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import { useTheme } from '@mui/material/styles';
@@ -7,9 +7,10 @@ interface SubmenuProps {
   subOpen: boolean;
   handleNavigation: (path: string) => void;
   subItems?: { text: string; path: string; }[];
+  onChange: () => void;
 }
 
-export const SubMenu: React.FC<SubmenuProps> = ({ subOpen, handleNavigation, subItems = [] }) => {
+export const SubMenu: React.FC<SubmenuProps> = ({ subOpen, handleNavigation, subItems = [], onChange }) => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -19,8 +20,14 @@ export const SubMenu: React.FC<SubmenuProps> = ({ subOpen, handleNavigation, sub
     if (isSmallScreen) return 2;
     if (isMediumScreen) return 3;
     if (isLargeScreen) return 4;
-    return 4; 
+    return 4;
   };
+
+  useEffect(() => {
+    if (subOpen) {
+      onChange();
+    }
+  }, [subOpen, onChange]);
 
   return (
     <Collapse in={subOpen} timeout="auto" unmountOnExit>
