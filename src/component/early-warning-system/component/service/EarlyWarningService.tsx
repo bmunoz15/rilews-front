@@ -1,4 +1,4 @@
-import EarlyWarningHttpClient from '../../http-client/EarlyWarningHttpClient';
+import { EarlyWarningHttpClient, EarlyWarningPrecatchingHttpClient } from '../../http-client/EarlyWarningHttpClient';
 import { ForecastModel } from '../../model/ForecastModel';
 import { GeoJsonType, FeaturesType } from '../../types/GeoJsonType';
 
@@ -35,7 +35,7 @@ export const getForecastDates = async (forecastDate: string): Promise<ForecastMo
 
 export const getAlerts = async (forecastDate: string, url: string): Promise<GeoJsonType> => {
     try {
-        const response = await EarlyWarningHttpClient.get<GeoJsonType>(`/${url}/${forecastDate}`);
+        const response = await EarlyWarningPrecatchingHttpClient.get<GeoJsonType>(`/${url}/${forecastDate}`);
         const data = response.data;
 
         const transformedData: GeoJsonType = {
@@ -48,6 +48,7 @@ export const getAlerts = async (forecastDate: string, url: string): Promise<GeoJ
                 }
             }))
         };
+        console.log('transformedData', transformedData.features.map((feature: FeaturesType) => feature.properties.dmcStatus));
         return transformedData;
 
     } catch (error) {
