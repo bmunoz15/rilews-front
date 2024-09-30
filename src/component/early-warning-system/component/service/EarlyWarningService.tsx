@@ -48,7 +48,6 @@ export const getAlerts = async (forecastDate: string, url: string): Promise<GeoJ
                 }
             }))
         };
-        console.log('transformedData', transformedData.features.map((feature: FeaturesType) => feature.properties.dmcStatus));
         return transformedData;
 
     } catch (error) {
