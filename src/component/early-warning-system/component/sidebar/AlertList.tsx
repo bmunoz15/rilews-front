@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery } from '@mui/material';
+import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery, Divider } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
 import { useAlerts } from '../../context/GeoJsonProvider';
@@ -103,7 +103,9 @@ const AlertList: React.FC = () => {
                 <Typography variant="body2">
                     <strong>Fecha Pronóstico:</strong> {alertData[index].forecastTargetDate}
                 </Typography>
+                <Divider sx={{ backgroundColor: "#f8f8f8f8" }} />
             </CardContent>
+           
         </Card>
     );
 
