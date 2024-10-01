@@ -2,9 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "../shared/sidebar/Sidebar";
 import User from "../shared/user/User";
-import HomeMs from "../monitoring-system/view/MsHomePage";
 import NotFound from "../shared/not-found/NotFound";
-import Footer from "../shared/footer/Footer";
 import UserLogin from "../users/view/UserLogin";
 import CreateUser from "../users/view/UserRegistry";
 import UserList from "../users/view/UserList";
@@ -28,7 +26,6 @@ const Router: React.FC = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout> <HomePage /></Layout>} />
-                <Route path="/monitoring-system" element={<Layout><HomeMs /></Layout>} />
                 <Route path="/sign-up" element={<Layout><CreateUser /></Layout>} />
                 <Route path="/profile" element={<Layout><UserProfile /></Layout>} />
                 <Route path="/users" element={<Layout><UserList /></Layout>} />
@@ -36,7 +33,6 @@ const Router: React.FC = () => {
 
                 <Route path="*" element={<NotFound />} />
             </Routes>
-            <Footer />
         </BrowserRouter>
     );
 };

@@ -37,7 +37,7 @@ export default function UsersTable() {
             justifyContent="center"
             alignItems="center"
             minHeight="100vh"
-            paddingBottom="50px" // Ajusta según la altura de tu footer
+            paddingBottom="50px"
         >
             <Paper style={{ width: '80%', maxWidth: '1200px' }}>
                 <TableContainer>

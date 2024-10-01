@@ -9,12 +9,12 @@ import { DrawerToggleHeader } from './DrawerToggleHeader';
 import { NavItem } from './NavItem';
 import { SubMenu } from './SubMenu';
 import { useNavigate } from 'react-router-dom';
-import WarningIcon from '@mui/icons-material/Warning';
 import MonitorIcon from '@mui/icons-material/Monitor';
 import GroupIcon from '@mui/icons-material/Group';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import LogoContainer from './LogoContainer';
 
 const drawerWidth = 320;
 
@@ -122,8 +122,7 @@ export default function MiniDrawer() {
     }, [drawerRef]);
 
     const menuItems = [
-        { text: 'Monitoreo de Alertas Tempranas', icon: <WarningIcon />, path: '/', isSubmenu: false },
-        { text: 'Monitoreo Estaciones', icon: <MonitorIcon />, path: '/monitoring-system', isSubmenu: false },
+        { text: 'Monitoreo de Alertas Tempranas', icon: <MonitorIcon />, path: '/', isSubmenu: false },
         {
             text: 'Gestión de Usuarios', icon: <GroupIcon />, isSubmenu: true, subItems: [
                 { text: 'Crear Usuario', path: '/sign-up' },
@@ -132,13 +131,11 @@ export default function MiniDrawer() {
         },
         {
             text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true, subItems: [
-                { text: 'Subir Datos', path: '/' },
+                { text: 'Generar Reporte', path: '/' },
                 { text: 'Ver Datos', path: '/' }
             ]
         },
         { text: 'Fluid', icon: <FolderIcon />, path: '/', isSubmenu: false },
-        { text: 'db', icon: <FolderIcon />, path: '/', isSubmenu: false },
-        { text: 'db1', icon: <FolderIcon />, path: '/', isSubmenu: false },
     ];
 
     return (
@@ -195,7 +192,7 @@ export default function MiniDrawer() {
                                     isSmallScreen={isSmallScreen}
                                 />
                                 {item.text === 'Gestión de Usuarios' && userSubOpen && (
-                                    <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick}/>
+                                    <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
                                 )}
                                 {item.text === 'Administrar Datos' && dataAdminSubOpen && (
                                     <SubMenu subOpen={dataAdminSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
@@ -204,7 +201,16 @@ export default function MiniDrawer() {
                         ))}
                     </List>
                 )}
+                <Box sx={{ flexGrow: 1 }} />
+                {open && (
+                    <LogoContainer />
+                )}
             </Drawer>
+
+
+
+
         </Box>
+
     );
 }
