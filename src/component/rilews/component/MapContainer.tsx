@@ -1,10 +1,10 @@
 import React from 'react';
 import SharedMap from '../../shared/map/SharedMap';
 import EwsContent from '../../early-warning-system/component/EwsContent';
-import StationContent from '../../monitoring-system/view/StationContent';
 import { GeoJsonProvider } from '../../early-warning-system/context/GeoJsonProvider';
 import { MapProvider } from '../../early-warning-system/context/MapProvider';
 import { LatLngExpression } from 'leaflet';
+import CircleCustomLayer from '../../monitoring-system/component/map-layers/CircleCustomLayer';
 
 interface MapContainerComponentProps {
     centerPosition: LatLngExpression;
@@ -31,7 +31,7 @@ const MapContainer: React.FC<MapContainerComponentProps> = ({
                 tileAttribution={tileAttribution}
             >
                 {showEwsContent && <GeoJsonProvider><EwsContent /></GeoJsonProvider>}
-                {showStationContent && <StationContent />}
+                {showStationContent && <CircleCustomLayer />}
             </SharedMap>
         </MapProvider>
     );
