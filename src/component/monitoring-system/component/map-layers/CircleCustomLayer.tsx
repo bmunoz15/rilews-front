@@ -79,7 +79,7 @@ const CircleCustomLayer: React.FC = () => {
                     key={index}
                     center={marker.latLng}
                     radius={marker.style.radius}
-                    fillOpacity={1}
+                    fillOpacity={0.6}
                     pathOptions={{ color: marker.style.color }}
                     eventHandlers={{
                         click: () => handleCircleClick(marker.code),
