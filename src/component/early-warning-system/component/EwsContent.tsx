@@ -11,11 +11,16 @@ import { useMapContext } from '../context/MapProvider';
 const EwsContent: React.FC = () => {
     const { setAlerts } = useAlerts();
     const { map } = useMapContext();  // Traer el contexto del mapa
-    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({ forecastDate: '20240904', url: 'today', period: '24h' });
+    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({
+        forecastDate: new Date().toISOString().split('T')[0].replace(/-/g, ''),
+        url: 'today',
+        period: '24h'
+    });
     const isLargeScreen = useMediaQuery('(min-width:600px)');
 
     const handlePeriodSelect = async (props: ForecastModel) => {
-        let today = '20240904';
+        const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
+        console.log(today);
         const alertData = await getAlerts(today, props.url);
         setAlerts(alertData);
     };

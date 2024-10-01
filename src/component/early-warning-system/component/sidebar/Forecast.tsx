@@ -32,7 +32,7 @@ const Forecast: React.FC<ForecastProps> = ({ onPeriodSelect }) => {
     };
 
     const todayDate = () => {
-        return '20240904';
+        return new Date().toISOString().split('T')[0].replace(/-/g, '');
     };
 
     useEffect(() => {

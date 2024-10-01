@@ -35,7 +35,7 @@ export const getForecastDates = async (forecastDate: string): Promise<ForecastMo
 
 export const getAlerts = async (forecastDate: string, url: string): Promise<GeoJsonType> => {
     try {
-        const response = await EarlyWarningPrecatchingHttpClient.get<GeoJsonType>(`/${url}/${forecastDate}`);
+        const response = await EarlyWarningHttpClient.get<GeoJsonType>(`/${url}/${forecastDate}`);
         const data = response.data;
 
         const transformedData: GeoJsonType = {
