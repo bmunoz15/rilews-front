@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery } from '@mui/material';
+import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery, Divider } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
 import { useAlerts } from '../../context/GeoJsonProvider';
 import { useMapContext } from '../../context/MapProvider';
-import { LatLngBounds, LatLngExpression } from 'leaflet';
+import { LatLngBounds, LatLngTuple } from 'leaflet';
 
 interface AlertData {
     type: string;
@@ -29,15 +29,13 @@ const AlertList: React.FC = () => {
         () =>
             alerts
                 ? alerts.features.map((feature: any) => {
-                    const coordinates = feature.geometry.coordinates[0].map(
-                        (coord: [number, number]) => [coord[1], coord[0]] as LatLngExpression
-                    );
+                    const coordinates = new LatLngBounds([[feature.properties.lat_centroide, feature.properties.lon_centroide]] as LatLngTuple[]);
                     return {
                         type: feature.properties.dmcStatus,
                         region: feature.properties.Region_1,
                         commune: feature.properties.Comuna,
                         color: getColorByStatus(feature.properties.dmcStatus),
-                        bounds: new LatLngBounds(coordinates),
+                        bounds: coordinates,
                         forecastDate: feature.properties.forecastDate,
                         forecastTargetDate: feature.properties.forecastTargetDate,
                     };
@@ -105,7 +103,9 @@ const AlertList: React.FC = () => {
                 <Typography variant="body2">
                     <strong>Fecha Pronóstico:</strong> {alertData[index].forecastTargetDate}
                 </Typography>
+                <Divider sx={{ backgroundColor: "#f8f8f8f8" }} />
             </CardContent>
+           
         </Card>
     );
 
