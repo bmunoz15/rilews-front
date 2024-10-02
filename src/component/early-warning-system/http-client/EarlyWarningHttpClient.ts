@@ -1,14 +1,15 @@
 import axios from 'axios';
+const hostname = 'http://localhost:8089';
 
 const EarlyWarningHttpClient = axios.create({
-    baseURL: 'http://localhost:8080/api/earlywarning',
+    baseURL: `${hostname}/api/earlywarning`,
     headers: {
         'Content-Type': 'application/json',
     },
 });
 
 const EarlyWarningPrecatchingHttpClient = axios.create({
-    baseURL: 'http://localhost:8080/api/precaching/',
+    baseURL: `${hostname}/api/precaching`,
     headers: {
         'Content-Type': 'application/json',
     },
