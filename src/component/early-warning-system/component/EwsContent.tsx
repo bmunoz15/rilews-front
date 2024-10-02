@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { getAlerts } from './service/EarlyWarningService';
+import { getAlerts } from '../service/EarlyWarningService';
 import { Box, useMediaQuery } from '@mui/material';
 import SearchBar from '../../shared/search-bar/SearchBar';
 import Sidebar from './sidebar/SideBarInfo';
@@ -20,7 +20,6 @@ const EwsContent: React.FC = () => {
 
     const handlePeriodSelect = async (props: ForecastModel) => {
         const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
-        console.log(today);
         const alertData = await getAlerts(today, props.url);
         setAlerts(alertData);
     };
