@@ -11,7 +11,7 @@ const StatusBox = styled(Box, {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: isSmallScreen ? '60px' : '100px',
+    width: isSmallScreen ? '20px' : '35px',
     height: isSmallScreen ? '15px' : '20px',
     margin: '8px',
 }));
@@ -64,21 +64,22 @@ const Nomenclature: React.FC = () => {
                     alignItems="center"
                     justifyContent="center"
                     borderRadius="8px"
-                    width="100%"
+                    width={isSmallScreen ? 'auto' : '50%'} // Ajusta el ancho a 'auto' para small screen
+                    maxWidth="100%" // Limita el ancho máximo al 100%
                     mx="auto"
-                    textAlign="center"
-                    sx={{ backgroundColor: theme.palette.background.default }}
+                    p={1}
+                    sx={{ backgroundColor: theme.palette.background.default, ml: 'auto' }} // Centra a la derecha
                 >
                     <Typography variant="subtitle1" gutterBottom>
-                        Leyenda Polígono
+                        Leyenda Alertas
                     </Typography>
                     <Box display="flex" flexDirection="row" alignItems="center">
-                        <Box display="flex" flexDirection="column" alignItems="flex-end" width="50%" pr={1}>
+                        <Box display="flex" flexDirection="column" alignItems="flex-end" >
                             {['Predicción', 'Aviso', 'Alerta', 'Alarma'].map((text) => (
                                 <StatusText key={text}>{text}</StatusText>
                             ))}
                         </Box>
-                        <Box display="flex" flexDirection="column" alignItems="flex-start" width="50%" pl={1}>
+                        <Box display="flex" flexDirection="column" alignItems="flex-start">
                             {['blue', 'yellow', 'orange', 'red'].map((color) => (
                                 <StatusBox key={color} color={color} isSmallScreen={isSmallScreen} />
                             ))}
