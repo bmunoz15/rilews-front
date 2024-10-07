@@ -1,45 +1,71 @@
-import React from 'react';
-import { Box, FormControlLabel, Checkbox, useTheme, useMediaQuery } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, FormControlLabel, Checkbox, useTheme, Button } from '@mui/material';
 
 interface CheckboxLayerProps {
     checkboxes: { checked: boolean; label: string; onChange: () => void }[];
 }
 
 const CheckboxLayer: React.FC<CheckboxLayerProps> = ({ checkboxes }) => {
+    const [isVisible, setIsVisible] = useState(false);
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const toggleVisibility = () => {
+        setIsVisible(!isVisible);
+    };
 
     return (
         <Box
             sx={{
                 position: 'absolute',
-                left: isSmallScreen ? 'auto' : 320,
-                right: isSmallScreen ? 5 : 'auto',
+                right: 700,
                 bottom: 20,
-                zIndex: 1200,
-                backgroundColor: 'white',
-                padding: isSmallScreen ? theme.spacing(1) : theme.spacing(2),
-                boxShadow: theme.shadows[3],
-                transform: isSmallScreen ? 'scale(0.9)' : 'none',
-                display: 'inline-block',
-                width: 'auto',
-                maxWidth: '100%',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
+                zIndex: 1500,
+                textAlign: 'center',
             }}
         >
-            {checkboxes.map((checkbox, index) => (
-                <FormControlLabel
-                    key={index}
-                    control={<Checkbox checked={checkbox.checked} onChange={checkbox.onChange} />}
-                    label={checkbox.label}
+            {isVisible && (
+                <Box
                     sx={{
-                        display: 'flex',
-                        alignItems: 'center',
+                        position: 'absolute',
+                        bottom: '100%',
+                        mb: theme.spacing(1),
+                        padding: theme.spacing(2),
+                        backgroundColor: 'white',
+                        boxShadow: theme.shadows[3],
+                        borderRadius: '8px',
+                        overflow: 'hidden',
                         whiteSpace: 'nowrap',
                     }}
-                />
-            ))}
+                >
+                    {checkboxes.map((checkbox, index) => (
+                        <FormControlLabel
+                            key={index}
+                            control={<Checkbox checked={checkbox.checked} onChange={checkbox.onChange} />}
+                            label={checkbox.label}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                whiteSpace: 'nowrap',
+                            }}
+                        />
+                    ))}
+                </Box>
+            )}
+
+            <Button
+                variant="contained"
+                onClick={toggleVisibility}
+                sx={{
+                    backgroundColor: '#f6f6f6',
+                    color: 'black',
+                    '&:hover': {
+                        backgroundColor: '#e0e0e0',
+                    },
+                    zIndex: 1100,
+                }}
+            >
+                Capas
+            </Button>
         </Box>
     );
 };
