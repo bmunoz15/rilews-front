@@ -29,7 +29,6 @@ const ValidationsTab: React.FC<ValidationsTabProps> = ({ dmcStatus, forecastDate
             </Typography>
             <Box
                 sx={{
-                    backgroundColor: '#fff',
                     padding: '16px',
                     borderRadius: '8px',
                     maxWidth: '500px',
