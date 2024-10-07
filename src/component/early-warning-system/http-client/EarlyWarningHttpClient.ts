@@ -1,5 +1,5 @@
 import axios from 'axios';
-const hostname = 'http://172.22.132.123:8089';
+const hostname = 'http://localhost:8089';
 
 const EarlyWarningHttpClient = axios.create({
     baseURL: `${hostname}/api/earlywarning`,
