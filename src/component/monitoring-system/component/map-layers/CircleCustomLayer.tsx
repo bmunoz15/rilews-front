@@ -8,12 +8,13 @@ import getColorAndRadiusForStation from '../../utils/getColorAndRadiusForStation
 interface MarkerLocation {
     latLng: LatLngExpression;
     stationData: {
-        nombre: string;
-        latitud: string;
-        longitud: string;
-        elevacion: string;
+        name: string;
+        latitude: string;
+        longitude: string;
+        elevation: string;
     };
     code: string;
+    org: string;
     style: {
         color: string;
         radius: number;
@@ -27,7 +28,7 @@ const CircleCustomLayer: React.FC = () => {
     const [detailedStationData, setDetailedStationData] = useState<any | null>(null);
 
 
-    const getInitialStationData = async () => {
+    const getInitialStationDMCData = async () => {
         try {
             const response = await getStationData("dmc/precipitation/latest");
 
@@ -39,29 +40,62 @@ const CircleCustomLayer: React.FC = () => {
                     parseFloat(station.longitude)
                 ] as LatLngExpression,
                 stationData: {
-                    nombre: station.name,
-                    latitud: station.latitude,
-                    longitud: station.longitude,
-                    elevacion: station.elevation,
+                    name: station.name,
+                    latitude: station.latitude,
+                    longitude: station.longitude,
+                    elevation: station.elevation,
                 },
                 code: station.code,
+                org: "DMC",
                 style: getColorAndRadiusForStation(station.precipitation24),
             }));
-            setMarkerLocations(processedData);
+            setMarkerLocations(prevLocations => [...prevLocations, ...processedData]);
 
         } catch (error) {
-            console.error('Error al obtener los datos de la estación:', error);
+            console.error('Error al obtener los datos de la estación DMC:', error);
+        }
+    };
+
+    const getInitialStationIniaData = async () => {
+        try {
+            const response = await getStationData("inia/latest");
+
+            const stationsArray = Array.isArray(response) ? response : Object.values(response);
+
+            const processedData = stationsArray.map((station: any) => ({
+                latLng: [
+                    parseFloat(station.latitude),
+                    parseFloat(station.longitude)
+                ] as LatLngExpression,
+                stationData: {
+                    name: station.name,
+                    latitude: station.latitude,
+                    longitude: station.longitude,
+                    elevation: station.elevation,
+                },
+                code: station.code,
+                org: "INIA",
+                style: getColorAndRadiusForStation(station.precipitation24),
+            }));
+            setMarkerLocations(prevLocations => [...prevLocations, ...processedData]);
+
+        } catch (error) {
+            console.error('Error al obtener los datos de la estación INIA:', error);
         }
     };
 
 
-    const handleCircleClick = async (code: string) => {
+    const handleCircleClick = async (code: string, org: string) => {
         try {
-            const data = await getStationDataById("dmc/code", code);
-
-            setDetailedStationData({ ...data });
-
-            console.log('Estado detallado de la estación:', { ...data });
+            if (org === "DMC") {
+                const data = await getStationDataById("dmc/code", code);
+                setDetailedStationData({ ...data });
+                console.log('Estado detallado de la estación:', { ...data });
+            } else if(org === "INIA") {
+                const data = await getStationDataById("inia/code/latest", code);
+                setDetailedStationData({ ...data });
+                console.log('Estado detallado de la estación:', { ...data });
+            }
         } catch (error) {
             console.error('Error al obtener los datos de la estación:', error);
         }
@@ -69,7 +103,8 @@ const CircleCustomLayer: React.FC = () => {
 
 
     useEffect(() => {
-        getInitialStationData();
+        getInitialStationDMCData();
+        getInitialStationIniaData();
     }, [map]);
 
     return (
@@ -82,7 +117,7 @@ const CircleCustomLayer: React.FC = () => {
                     fillOpacity={0.6}
                     pathOptions={{ color: marker.style.color }}
                     eventHandlers={{
-                        click: () => handleCircleClick(marker.code),
+                        click: () => handleCircleClick(marker.code, marker.org),
                     }}
                 >
                     {detailedStationData && (
@@ -95,14 +130,14 @@ const CircleCustomLayer: React.FC = () => {
                         >
                             <VariablesTab
                                 header={{
-                                    name: detailedStationData.name,
-                                    code: detailedStationData.code,
-                                    org: "DMC"
+                                    name: marker.stationData.name,
+                                    code: marker.code,
+                                    org: marker.org,
                                 }}
                                 position={{
-                                    latitude: detailedStationData.latitude,
-                                    longitude: detailedStationData.longitude,
-                                    elevation: detailedStationData.elevation
+                                    latitude: marker.stationData.latitude,
+                                    longitude: marker.stationData.longitude,
+                                    elevation: marker.stationData.elevation
                                 }}
                                 variables={{
                                     precipitation: detailedStationData.precipitation,
