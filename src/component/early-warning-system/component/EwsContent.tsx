@@ -1,70 +1,31 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { getAlerts } from '../service/EarlyWarningService';
-import { Box, useMediaQuery } from '@mui/material';
-import SearchBar from '../../shared/search-bar/SearchBar';
-import Sidebar from './sidebar/SideBarInfo';
+import React from 'react';
+import { Box } from '@mui/material';
+import Forecast from './sidebar/Forecast';
+import AlertList from './sidebar/AlertList';
 import AlertIconLayer from './map-layers/AlertIconLayer';
 import PolygonLayer from './map-layers/PolygonLayer';
-import { useAlerts } from '../context/GeoJsonProvider';
-import { ForecastModel } from '../model/ForecastModel';
-import { useMapContext } from '../context/MapProvider';
+
 const EwsContent: React.FC = () => {
-    const { setAlerts } = useAlerts();
-    const { map } = useMapContext();  // Traer el contexto del mapa
-    const [selectedPeriod, setSelectedPeriod] = useState<ForecastModel>({
-        forecastDate: new Date().toISOString().split('T')[0].replace(/-/g, ''),
-        url: 'today',
-        period: '24h'
-    });
-    const isLargeScreen = useMediaQuery('(min-width:600px)');
-
-    const handlePeriodSelect = async (props: ForecastModel) => {
-        const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
-        const alertData = await getAlerts(today, props.url);
-        setAlerts(alertData);
-    };
-    const disableMapInteractions = useCallback(() => {
-        if (map) {
-            map.dragging.disable();
-            map.scrollWheelZoom.disable();
-        }
-    }, [map]);
-
-    const enableMapInteractions = useCallback(() => {
-        if (map) {
-            map.dragging.enable();
-            map.scrollWheelZoom.enable();
-        }
-    }, [map]);
-    useEffect(() => {
-        handlePeriodSelect(selectedPeriod);
-    }, [selectedPeriod]);
     return (
         <>
-
             <Box
                 display="flex"
                 flexDirection="column"
                 gap={2}
-                position="absolute"
-                right="1%"
-                top="10%"
-                onMouseEnter={disableMapInteractions} // Deshabilitar interacciones al entrar
-                onMouseLeave={enableMapInteractions}   // Habilitar interacciones al salir
+                right="5%"
+                top="5%"
                 sx={{
-                    alignItems: isLargeScreen ? 'flex' : 'flex-end',
+                    alignItems: 'center',
                     backgroundColor: 'transparent',
-                    zIndex: 9999,
+                    zIndex: 1400,
                 }}
             >
-                <SearchBar />
-                <Sidebar onPeriodSelect={setSelectedPeriod} />
+                <Forecast />
+                <AlertList />
             </Box>
 
-            <PolygonLayer />
             <AlertIconLayer />
-
-
+            <PolygonLayer />
         </>
     );
 };
