@@ -35,7 +35,7 @@ const User: React.FC = () => {
             position="absolute"
             top={5}
             right={5}
-            zIndex={1000}
+            zIndex={1500}
             display="flex"
             alignItems="center"
             justifyContent="center"

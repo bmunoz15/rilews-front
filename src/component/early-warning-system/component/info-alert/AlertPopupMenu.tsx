@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
-import { Box, Tab, Tabs, useMediaQuery, useTheme, Paper, styled } from '@mui/material';
+import { Box, Tab, Tabs, styled } from '@mui/material';
 import AlertTab from './AlertTab';
 import ValidationsTab from './ValidationTab';
 import { Popup } from 'react-leaflet';
 import PrecipitationsTab from './PrecipitationsTab';
 import { useAlerts } from '../../context/GeoJsonProvider';
 
+const StyledPop = styled(Popup)`
+  background-color: #f6f6f6;
+  border-radius: 8px;
 
-const StyledPopupPaper = styled(Paper)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    borderRadius: '12px',
-    padding: '16px',
-    boxShadow: theme.shadows[3],
-    backgroundColor: theme.palette.background.default,
-    width: '100%',
-    height: '100%',
-    overflow: 'hidden',
-}));
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    background-color: #f6f6f6;
+  }
+
+  .leaflet-popup-content {
+    width: 700px !important;
+    height: 600px !important;
+  }
+`;
 
 interface AlertPopupMenuProps {
     dmcStatus: string;
@@ -33,8 +33,6 @@ interface AlertPopupMenuProps {
 
 const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana, q3, pp, forecastDate, forecastTargetDate }) => {
     const [selectedTab, setSelectedTab] = useState<number>(0);
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const { getColorByStatus } = useAlerts();
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -42,40 +40,27 @@ const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana,
     };
 
     return (
-        <Popup>
-            <StyledPopupPaper
-                elevation={3}
-                sx={{
-                    width: isSmallScreen ? '300px' : '700px',
-                    height: isSmallScreen ? '400px' : '600px',
-                    margin: isSmallScreen ? '0 auto' : 'initial',
-                }}
+        <StyledPop>
+            <Tabs
+                value={selectedTab}
+                onChange={handleChange}
+                variant="fullWidth"
+                allowScrollButtonsMobile
             >
-                <Tabs
-                    value={selectedTab}
-                    onChange={handleChange}
-                    variant="fullWidth"
-                    allowScrollButtonsMobile
-                >
-                    <Tab label="Alerta" sx={{ color: 'primary.main', textTransform: 'none' }} />
-                    <Tab label="Precipitaciones" sx={{ color: 'primary.main', textTransform: 'none' }} />
-                    <Tab label="Validaciones" sx={{ color: 'primary.main', textTransform: 'none' }} />
-                </Tabs>
-                <Box
-                    mt={2}
-                    sx={{
-                        overflowY: 'auto',
-                        height: '100%',
-                        width: '100%',
-                        padding: '8px',
-                    }}
-                >
-                    {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} color={getColorByStatus(dmcStatus)} forecastTargetDate={forecastTargetDate} />}
-                    {selectedTab === 1 && <PrecipitationsTab pp={pp} dmcStatus={dmcStatus} />}
-                    {selectedTab === 2 && <ValidationsTab dmcStatus={dmcStatus} forecastDate={forecastDate} forecastTargetDate={forecastTargetDate} />}
-                </Box>
-            </StyledPopupPaper>
-        </Popup>
+                <Tab label="Alerta" sx={{ color: 'primary.main', textTransform: 'none' }} />
+                <Tab label="Precipitaciones" sx={{ color: 'primary.main', textTransform: 'none' }} />
+                <Tab label="Validaciones" sx={{ color: 'primary.main', textTransform: 'none' }} />
+            </Tabs>
+            <Box mt={2}
+                sx={{
+                    height: '500px',
+                    overflowY: 'auto',
+                }}>
+                {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} color={getColorByStatus(dmcStatus)} forecastTargetDate={forecastTargetDate} />}
+                {selectedTab === 1 && <PrecipitationsTab pp={pp} dmcStatus={dmcStatus} />}
+                {selectedTab === 2 && <ValidationsTab dmcStatus={dmcStatus} forecastDate={forecastDate} forecastTargetDate={forecastTargetDate} />}
+            </Box>
+        </StyledPop>
     );
 };
 

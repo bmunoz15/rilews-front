@@ -112,7 +112,7 @@ const RainChart: React.FC<RainChartProps> = ({ precipitation }) => {
     };
 
     return (
-        <Box sx={{ height: isLargeScreen ? '60vh' : '50vh', width: isSmallScreen ? '400px' : 'auto', overflow: 'auto' }}>
+        <Box sx={{ height: isLargeScreen ? '60vh' : '50vh', width: isSmallScreen ? '400px' : '800px', overflow: 'auto' }}>
             <Chart type='bar' data={data} options={options} />
         </Box>
     );

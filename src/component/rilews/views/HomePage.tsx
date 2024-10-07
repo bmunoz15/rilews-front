@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import CheckboxLayer from '../component/CheckboxLayer';
-import MapContainerComponent from '../component/MapContainer';
 import { LatLngExpression } from 'leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import SideBarInformation from '../component/SideBarInformation';
+import EwsContent from '../../early-warning-system/component/EwsContent';
+import { GeoJsonProvider } from '../../early-warning-system/context/GeoJsonProvider';
+import CircleCustomLayer from '../../monitoring-system/component/map-layers/CircleCustomLayer';
+import LegendContainer from '../component/LegendContainer';
+import { ALERT_LEGEND } from '../../early-warning-system/config/constant';
 
 const HomePage: React.FC = () => {
-    const [showEwsContent, setShowEwsContent] = useState(false);
-    const [showStationContent, setShowStationContent] = useState(false);
+    const [checkboxStates, setCheckboxStates] = useState<{ [key: string]: boolean }>({
+        showEwsContent: false,
+        showStationContent: false,
+    });
 
     const centerPosition: LatLngExpression = [-38.6679, -72.2610];
     const tileUrl =
@@ -13,29 +21,82 @@ const HomePage: React.FC = () => {
     const tileAttribution =
         '&copy; CNES, Distribution Airbus DS, © Airbus DS, © PlanetObserver (Contains Copernicus Data)';
 
+    const handleCheckboxChange = (key: string) => {
+        setCheckboxStates((prev) => ({ ...prev, [key]: !prev[key] }));
+    };
+
+    {/* Change this variables*/ }
+    const legendsToShow = [
+        {
+            show: checkboxStates.showEwsContent,
+            colors: ALERT_LEGEND.colors,
+            texts: ALERT_LEGEND.texts,
+            label: ALERT_LEGEND.label
+        },
+        {
+            show: checkboxStates.showStationContent,
+            colors: [
+                '#00FF00',
+                '#0000FF',
+                '#00fefe',
+                '#fefe00',
+                '#FF0000',
+                '#FFA500',
+                '#8A2BE2',
+            ],
+            texts: [
+                'Estado 1',
+                'Estado 2',
+                'Estado 3',
+                'Estado 4',
+                'Estado 5',
+                'Estado 6',
+                'Estado 7',
+            ],
+            label: 'Leyenda Estaciones Meteorológicas',
+        }
+    ];
+
+
+
     return (
         <>
             <CheckboxLayer
                 checkboxes={[
                     {
-                        checked: showEwsContent,
-                        label: 'Mostrar EwsContent',
-                        onChange: () => setShowEwsContent(!showEwsContent),
+                        checked: checkboxStates.showEwsContent,
+                        label: 'Alertas Tempranas',
+                        onChange: () => handleCheckboxChange('showEwsContent'),
                     },
                     {
-                        checked: showStationContent,
-                        label: 'Mostrar StationContent',
-                        onChange: () => setShowStationContent(!showStationContent),
+                        checked: checkboxStates.showStationContent,
+                        label: 'Estaciones Meterológicas',
+                        onChange: () => handleCheckboxChange('showStationContent'),
                     },
                 ]}
             />
-            <MapContainerComponent
-                centerPosition={centerPosition}
-                tileUrl={tileUrl}
-                tileAttribution={tileAttribution}
-                showEwsContent={showEwsContent}
-                showStationContent={showStationContent}
-            />
+
+            <MapContainer
+                center={centerPosition}
+                zoom={7}
+                style={{ height: '100vh', width: '100%' }}
+            >
+                <TileLayer url={tileUrl} attribution={tileAttribution} />
+
+                <SideBarInformation>
+                    {checkboxStates.showEwsContent && (
+                        <GeoJsonProvider>
+                            <EwsContent />
+                        </GeoJsonProvider>
+                    )}
+
+                    <LegendContainer
+                        legends={legendsToShow}
+                    />
+                </SideBarInformation>
+
+                {checkboxStates.showStationContent && <CircleCustomLayer />}
+            </MapContainer>
         </>
     );
 };

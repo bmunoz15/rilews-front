@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Box, Typography, Card, CardContent, useTheme, IconButton, useMediaQuery, Divider } from '@mui/material';
+import React, { useRef, useMemo, useCallback } from 'react';
+import { Box, Typography, Card, CardContent, useTheme, Divider } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { FixedSizeList as List } from 'react-window';
 import { useAlerts } from '../../context/GeoJsonProvider';
-import { useMapContext } from '../../context/MapProvider';
 import { LatLngBounds, LatLngTuple } from 'leaflet';
+import { useMap } from 'react-leaflet';
 
 interface AlertData {
     type: string;
@@ -18,13 +18,11 @@ interface AlertData {
 
 const AlertList: React.FC = () => {
     const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const [expanded, setExpanded] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<any>(null);
 
     const { alerts, getColorByStatus } = useAlerts();
-    const { map } = useMapContext();
+    const map = useMap();
     const alertData: AlertData[] = useMemo(
         () =>
             alerts
@@ -58,30 +56,6 @@ const AlertList: React.FC = () => {
         [map]
     );
 
-    const handleIconClick = useCallback(() => {
-        if (isSmallScreen) {
-            setExpanded((prev) => !prev);
-        }
-    }, [isSmallScreen]);
-
-    const handleClickOutside = useCallback(
-        (event: MouseEvent) => {
-            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-                setExpanded(false);
-            }
-        },
-        [containerRef]
-    );
-
-    useEffect(() => {
-        if (isSmallScreen) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [isSmallScreen, handleClickOutside]);
-
     const renderAlertItem = ({ index, style }: { index: number; style: React.CSSProperties }) => (
         <Card
             key={index}
@@ -105,65 +79,55 @@ const AlertList: React.FC = () => {
                 </Typography>
                 <Divider sx={{ backgroundColor: "#f8f8f8f8" }} />
             </CardContent>
-           
         </Card>
     );
 
     return (
         <Box ref={containerRef}>
-            {isSmallScreen && !expanded && (
-                <Box display="flex" justifyContent="center" bgcolor="white" borderRadius={1}>
-                    <IconButton aria-label="Toggle alert list" onClick={handleIconClick}>
-                        <WarningIcon style={{ fontSize: 24 }} />
-                    </IconButton>
+            <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                width={300}
+                height={390}
+                sx={{ backgroundColor: theme.palette.background.default }}
+                borderRadius="8px"
+                padding="16px"
+            >
+                <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent="center"
+                    flexGrow={0}
+                    gap="8px"
+                >
+                    <WarningIcon style={{ fontSize: 24, color: '#808080' }} />
+                    <Typography variant="subtitle1" color="textPrimary" sx={{ fontWeight: 'bold' }}>
+                        Alertas
+                    </Typography>
                 </Box>
-            )}
-            {(expanded || !isSmallScreen) && (
                 <Box
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
-                    justifyContent="center"
-                    width={300}
-                    height={400}
-                    sx={{ backgroundColor: theme.palette.background.default }}
-                    borderRadius="8px"
-                    padding="16px"
+                    justifyContent="flex-start"
+                    width="100%"
+                    flexGrow={1}
+                    overflow="auto"
                 >
-                    <Box
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        justifyContent="center"
-                        flexGrow={0}
-                        gap="8px"
-                    >
-                        <WarningIcon style={{ fontSize: 24, color: '#808080' }} />
-                        <Typography variant="subtitle1" color="textPrimary" sx={{ fontWeight: 'bold' }}>
-                            Alertas
-                        </Typography>
-                    </Box>
-                    <Box
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="flex-start"
+                    <List
+                        height={400}
+                        itemCount={alertData.length}
+                        itemSize={90}
                         width="100%"
-                        flexGrow={1}
-                        overflow="auto"
+                        ref={listRef}
                     >
-                        <List
-                            height={400}
-                            itemCount={alertData.length}
-                            itemSize={90}
-                            width="100%"
-                            ref={listRef}
-                        >
-                            {renderAlertItem}
-                        </List>
-                    </Box>
+                        {renderAlertItem}
+                    </List>
                 </Box>
-            )}
+            </Box>
         </Box>
     );
 };

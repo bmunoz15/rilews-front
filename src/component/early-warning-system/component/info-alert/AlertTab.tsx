@@ -13,26 +13,25 @@ interface AlertTabProps {
 
 const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3, color, forecastTargetDate }) => {
 
-
-
-    // Simulación de datos del suelo
     const soilData = [
         { name: 'Zona A', type: 'Arenoso', cohesion: 'Alta' },
+        { name: 'Zona B', type: 'Arcilloso', cohesion: 'Media' },
         { name: 'Zona B', type: 'Arcilloso', cohesion: 'Media' },
     ];
 
     return (
         <Box>
-            <Box display="flex" alignItems="center" justifyContent="center" gap={1} mb={2}>
-                <WarningIcon style={{ color, filter: 'drop-shadow(1px 1px 1px black)' }} />
+            <Box display="flex" alignItems="center" justifyContent="center" gap={2} mb={2}>
+                <WarningIcon style={{ color, filter: 'drop-shadow(1px 1px 1px black)', fontSize: 40 }} />
                 <Typography variant="h5" align="center">
-                    Predicción de alerta de remoción en masa - {forecastTargetDate}
+                    Predicción de alerta de remoción en masa <br />
+                    {forecastTargetDate}
                 </Typography>
             </Box>
             <Box textAlign="center" mb={2}>
                 <Box
                     height={300}
-                    bgcolor="background.paper"
+                    bgcolor="#f6f6f6"
                     p={2}
                     borderRadius="8px"
                     display="flex"
@@ -50,8 +49,8 @@ const AlertTab: React.FC<AlertTabProps> = ({ q1, median, q3, color, forecastTarg
                             <ListItemText
                                 primary={`Nombre de zona: ${zone.name}`}
                                 secondary={`Tipo de suelo: ${zone.type}, Cohesión: ${zone.cohesion}`}
-                                primaryTypographyProps={{ align: 'center' }}
-                                secondaryTypographyProps={{ align: 'center' }}
+                                primaryTypographyProps={{ align: 'center', style: { color: 'black' } }}
+                                secondaryTypographyProps={{ align: 'center', style: { color: 'black' } }}
                             />
                         </ListItem>
                     ))}
