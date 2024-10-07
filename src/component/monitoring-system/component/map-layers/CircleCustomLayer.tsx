@@ -8,10 +8,10 @@ import getColorAndRadiusForStation from '../../utils/getColorAndRadiusForStation
 interface MarkerLocation {
     latLng: LatLngExpression;
     stationData: {
-        nombre: string;
-        latitud: string;
-        longitud: string;
-        elevacion: string;
+        name: string;
+        latitude: string;
+        longitude: string;
+        elevation: string;
     };
     code: string;
     org: string;
@@ -40,10 +40,10 @@ const CircleCustomLayer: React.FC = () => {
                     parseFloat(station.longitude)
                 ] as LatLngExpression,
                 stationData: {
-                    nombre: station.name,
-                    latitud: station.latitude,
-                    longitud: station.longitude,
-                    elevacion: station.elevation,
+                    name: station.name,
+                    latitude: station.latitude,
+                    longitude: station.longitude,
+                    elevation: station.elevation,
                 },
                 code: station.code,
                 org: "DMC",
@@ -68,14 +68,14 @@ const CircleCustomLayer: React.FC = () => {
                     parseFloat(station.longitude)
                 ] as LatLngExpression,
                 stationData: {
-                    nombre: station.name,
-                    latitud: station.latitude,
-                    longitud: station.longitude,
-                    elevacion: station.elevation,
+                    name: station.name,
+                    latitude: station.latitude,
+                    longitude: station.longitude,
+                    elevation: station.elevation,
                 },
                 code: station.code,
                 org: "INIA",
-                style: getColorAndRadiusForStation(station.precipitation),
+                style: getColorAndRadiusForStation(station.precipitation24),
             }));
             setMarkerLocations(prevLocations => [...prevLocations, ...processedData]);
 
@@ -92,7 +92,7 @@ const CircleCustomLayer: React.FC = () => {
                 setDetailedStationData({ ...data });
                 console.log('Estado detallado de la estación:', { ...data });
             } else if(org === "INIA") {
-                const data = await getStationDataById("inia/code", code);
+                const data = await getStationDataById("inia/code/latest", code);
                 setDetailedStationData({ ...data });
                 console.log('Estado detallado de la estación:', { ...data });
             }
@@ -130,14 +130,14 @@ const CircleCustomLayer: React.FC = () => {
                         >
                             <VariablesTab
                                 header={{
-                                    name: detailedStationData.name,
-                                    code: detailedStationData.code,
-                                    org: detailedStationData.org,
+                                    name: marker.stationData.name,
+                                    code: marker.code,
+                                    org: marker.org,
                                 }}
                                 position={{
-                                    latitude: detailedStationData.latitude,
-                                    longitude: detailedStationData.longitude,
-                                    elevation: detailedStationData.elevation
+                                    latitude: marker.stationData.latitude,
+                                    longitude: marker.stationData.longitude,
+                                    elevation: marker.stationData.elevation
                                 }}
                                 variables={{
                                     precipitation: detailedStationData.precipitation,

@@ -18,7 +18,7 @@ export const getStationDataById = async (endpoint: string, param: string): Promi
         } as StationDmcData;
 
     } catch (error) {
-        console.error(`Error fetching data with station DMC ${param}:`, error);
+        console.error(`Error fetching data with station ${param}:`, error);
         throw error;
     }
 }
