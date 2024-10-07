@@ -8,6 +8,7 @@ import { GeoJsonProvider } from '../../early-warning-system/context/GeoJsonProvi
 import CircleCustomLayer from '../../monitoring-system/component/map-layers/CircleCustomLayer';
 import LegendContainer from '../component/LegendContainer';
 import { ALERT_LEGEND } from '../../early-warning-system/config/constant';
+import { MONITORING_LEGEND } from '../../monitoring-system/config/monitoringLegends'
 
 const HomePage: React.FC = () => {
     const [checkboxStates, setCheckboxStates] = useState<{ [key: string]: boolean }>({
@@ -35,25 +36,9 @@ const HomePage: React.FC = () => {
         },
         {
             show: checkboxStates.showStationContent,
-            colors: [
-                '#00FF00',
-                '#0000FF',
-                '#00fefe',
-                '#fefe00',
-                '#FF0000',
-                '#FFA500',
-                '#8A2BE2',
-            ],
-            texts: [
-                'Estado 1',
-                'Estado 2',
-                'Estado 3',
-                'Estado 4',
-                'Estado 5',
-                'Estado 6',
-                'Estado 7',
-            ],
-            label: 'Leyenda Estaciones Meteorológicas',
+            colors: MONITORING_LEGEND.colors,
+            texts: MONITORING_LEGEND.texts,
+            label: MONITORING_LEGEND.label
         }
     ];
 
