@@ -2,6 +2,7 @@ import React from 'react';
 import { GeoJSON, GeoJSONProps } from 'react-leaflet';
 import { useAlerts } from '../../context/GeoJsonProvider';
 import { FeaturesType } from '../../types/GeoJsonType';
+import AlertPopupMenu from '../info-alert/AlertPopupMenu'; // El popup que ya tienes
 import L from 'leaflet';
 
 const PolygonLayer: React.FC = () => {
@@ -18,13 +19,8 @@ const PolygonLayer: React.FC = () => {
     };
   };
 
-  const handleFeatureClick = (feature: FeaturesType) => {
-    alert(`Feature clicked: ${feature.properties.dmcStatus}`);
-  };
-
   const onEachFeature: GeoJSONProps['onEachFeature'] = (feature, layer) => {
     (layer as L.Path).setStyle(getStyle(feature as FeaturesType));
-    layer.on('click', () => handleFeatureClick(feature as FeaturesType));
   };
 
   return (
@@ -35,7 +31,17 @@ const PolygonLayer: React.FC = () => {
           data={feature}
           style={() => getStyle(feature)}
           onEachFeature={onEachFeature}
-        />
+        >
+          <AlertPopupMenu
+            q1={feature.properties.Q1}
+            mediana={feature.properties.Mediana}
+            q3={feature.properties.Q3}
+            pp={feature.properties.PP}
+            dmcStatus={feature.properties.dmcStatus}
+            forecastDate={feature.properties.forecastDate}
+            forecastTargetDate={feature.properties.forecastTargetDate}
+          />
+        </GeoJSON>
       ))}
     </>
   );
