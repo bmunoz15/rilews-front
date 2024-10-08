@@ -122,7 +122,7 @@ export default function MiniDrawer() {
     }, [drawerRef]);
 
     const menuItems = [
-        { text: 'Monitoreo de Alertas Tempranas', icon: <MonitorIcon />, path: '/', isSubmenu: false },
+        { text: 'Monitoreo Warnings Activos', icon: <MonitorIcon />, path: '/', isSubmenu: false },
         {
             text: 'Gestión de Usuarios', icon: <GroupIcon />, isSubmenu: true, subItems: [
                 { text: 'Crear Usuario', path: '/sign-up' },

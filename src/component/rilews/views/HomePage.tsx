@@ -50,7 +50,7 @@ const HomePage: React.FC = () => {
                 checkboxes={[
                     {
                         checked: checkboxStates.showEwsContent,
-                        label: 'Alertas Tempranas',
+                        label: 'Warnings Activos',
                         onChange: () => handleCheckboxChange('showEwsContent'),
                     },
                     {
