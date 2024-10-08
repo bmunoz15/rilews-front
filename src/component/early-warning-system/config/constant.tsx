@@ -1,12 +1,13 @@
 export const ALERT_COLORS: { [key: string]: string } = {
-    'Sin Alerta actual DMC': '#FFF203',
-    'alerta': '#FA963E',
+    'Sin Alerta actual DMC': '#413BFF',
+    'SI': '#fff203', // aviso
+    'Alerta':'#FA963E',
     'alarma': '#FC0505',
-    'default': '#413BFF'
+    'default': '#a7a7a7'
   };
 
   export const ALERT_LEGEND = {
-    colors: ['#FFF203', '#FA963E', '#FC0505', '#413BFF'],
-    texts: ['Predicción', 'Alerta', 'Alarma', 'Default'],
+    colors: ['#413BFF', '#fff203', '#FA963E', '#FC0505'],
+    texts: ['Predicción', 'Aviso', 'Alerta', 'Alarma'],
     label: 'Leyenda Alertas Tempranas'
   };
