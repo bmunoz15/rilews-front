@@ -83,17 +83,20 @@ const AlertList: React.FC = () => {
     );
 
     return (
-        <Box ref={containerRef}>
+        <Box ref={containerRef} sx={{ width: '100%' }}>
             <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                width={300}
-                height={390}
-                sx={{ backgroundColor: theme.palette.background.default }}
-                borderRadius="8px"
-                padding="16px"
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 'auto',
+                    minWidth: 300,
+                    height: 390,
+                    backgroundColor: theme.palette.background.default,
+                    borderRadius: '8px',
+                    padding: 1,
+                }}
             >
                 <Box
                     display="flex"
@@ -101,7 +104,7 @@ const AlertList: React.FC = () => {
                     alignItems="center"
                     justifyContent="center"
                     flexGrow={0}
-                    gap="8px"
+                    gap= {1}
                 >
                     <WarningIcon style={{ fontSize: 24, color: '#808080' }} />
                     <Typography variant="subtitle1" color="textPrimary" sx={{ fontWeight: 'bold' }}>

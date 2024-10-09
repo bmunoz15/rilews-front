@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Typography, Paper, Box, CircularProgress } from '@mui/material';
+import { Typography, Box, CircularProgress } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { getForecastDates, getAlerts } from '../../service/EarlyWarningService';
 import { ForecastModel } from '../../model/ForecastModel';
@@ -54,62 +54,64 @@ const Forecast: React.FC = () => {
     };
 
     return (
-        <Box ref={containerRef}>
-            <Paper
-                style={{
-                    padding: 8,
-                    textAlign: 'center',
-                    borderRadius: 8,
-                    transition: 'all 0.3s ease',
-                }}
+        <Box ref={containerRef} display="flex" alignItems="center" sx={{width:'100%'}}>
+            <Box
+            sx={{
+                padding: 1,
+                textAlign: 'center',
+                borderRadius: 2,
+                transition: 'all 0.3s ease',
+                width: '100%',
+                backgroundColor: '#f6f6f6',
+            }}
             >
-                {loading ? (
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                        <CircularProgress />
-                        <Typography variant="subtitle2" style={{ marginTop: 8 }}>
-                            Loading...
+            {loading ? (
+                <Box display="flex" flexDirection="column" alignItems="center">
+                <CircularProgress />
+                <Typography variant="subtitle2" style={{ marginTop: 8 }}>
+                    Loading...
+                </Typography>
+                </Box>
+            ) : error ? (
+                <Box display="flex" flexDirection="column" alignItems="center">
+                <ErrorOutlineIcon color="error" />
+                <Typography variant="subtitle2" style={{ marginTop: 8, color: 'red' }}>
+                    {error}
+                </Typography>
+                </Box>
+            ) : (
+                <>
+                <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
+                    Fecha Pronóstico
+                </Typography>
+                <Box display="flex" justifyContent="space-between" gap={0} >
+                    {forecastModel.map((forecast, index) => (
+                    <Box
+                        key={index}
+                        textAlign="center"
+                        flex={1}
+                        sx={{
+                        '&:hover': {
+                            backgroundColor: 'lightgray',
+                        },
+                        '&:active': { backgroundColor: 'gray' },
+                        borderRadius: 2,
+                        cursor: 'pointer',
+                        }}
+                        onClick={() => handlePeriodSelect(forecast)}
+                    >
+                        <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                        {forecast.period}
+                        </Typography>
+                        <Typography variant="body2">
+                        {formatForecastDate(forecast.forecastDate)}
                         </Typography>
                     </Box>
-                ) : error ? (
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                        <ErrorOutlineIcon color="error" />
-                        <Typography variant="subtitle2" style={{ marginTop: 8, color: 'red' }}>
-                            {error}
-                        </Typography>
-                    </Box>
-                ) : (
-                    <>
-                        <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
-                            Fecha Pronóstico
-                        </Typography>
-                        <Box display="flex" justifyContent="space-between" gap={1}>
-                            {forecastModel.map((forecast, index) => (
-                                <Box
-                                    key={index}
-                                    textAlign="center"
-                                    flex={1}
-                                    sx={{
-                                        '&:hover': {
-                                            backgroundColor: 'lightgray',
-                                        },
-                                        '&:active': { backgroundColor: 'gray' },
-                                        borderRadius: 2,
-                                        cursor: 'pointer',
-                                    }}
-                                    onClick={() => handlePeriodSelect(forecast)}
-                                >
-                                    <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
-                                        {forecast.period}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {formatForecastDate(forecast.forecastDate)}
-                                    </Typography>
-                                </Box>
-                            ))}
-                        </Box>
-                    </>
-                )}
-            </Paper>
+                    ))}
+                </Box>
+                </>
+            )}
+            </Box>
         </Box>
     );
 };
