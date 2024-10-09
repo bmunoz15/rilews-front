@@ -1,101 +1,123 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, useTheme, useMediaQuery, Snackbar, Alert } from '@mui/material';
-import * as Utils from '../Utils';
 
-const UserLogin: React.FC = () => {
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState(false);
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
+const UserLogin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
 
-    const handleLoginClick = () => {
-        if (!Utils.validateEmail(email)) {
-            setEmailError(true);
-            return;
-        }
-        setEmailError(false);
-        alert(`Correo: ${email}\nContraseña: ${password}`);
-    };
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Lógica de autenticación
+    console.log('Email:', email);
+    console.log('Password:', password);
+    console.log('Remember me:', rememberMe);
+  };
 
-    const handleForgotPasswordClick = () => {
-        alert('Redirigiendo a la página de recuperación de contraseña...');
-    };
+  return (
+    <div style={styles.container}>
+      <div style={styles.leftContainer}>
+      <Logo src="/src/assets/logos/ufro.png" alt="UFRO Logo" />
+        <h1 style={{ textAlign: 'center' }}>Rilews</h1>
+        <form onSubmit={handleLogin} style={styles.form}>
+          <label>Correo electrónico</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={styles.input}
+          />
+          <label>Contraseña</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={styles.input}
+          />
+          <div style={styles.rememberMe}>
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            <label>Recordarme</label>
+          </div>
+          <button type="submit" style={styles.button}>Ingresar</button>
+          <div style={styles.links}>
+            <a href="/">Olvidaste tu contraseña?</a>
+          </div>
+          <Logo src="/src/assets/logos/senapred.png" alt="SENAPRED Logo" />
+          <Logo src="/src/assets/logos/sernageomin.png" alt="SERNAGEOMIN Logo" />
+          <Logo src="/src/assets/logos/dmc.png" alt="DMC Logo" />
+        </form>
+      </div>
+      
 
-
-
-    const handleSnackbarClose = () => {
-        setSnackbarOpen(false);
-    };
-
-    return (
-        <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            minHeight="100vh"
-            bgcolor={theme.palette.background.default}
-            p={2}
-        >
-            <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                bgcolor="white"
-                borderRadius={2}
-                boxShadow={3}
-                p={4}
-                width={isSmallScreen ? '90%' : '400px'}
-                maxWidth="100%"
-                component="form"
-            >
-                <Typography variant="h4" gutterBottom>
-                    Iniciar sesión
-                </Typography>
-                <TextField
-                    label="Correo electrónico"
-                    fullWidth
-                    margin="normal"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    error={emailError}
-                    helperText={emailError ? 'Por favor, ingrese un correo electrónico válido.' : ''}
-                />
-                <TextField
-                    label="Contraseña"
-                    type="password"
-                    fullWidth
-                    margin="normal"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    sx={{ mt: 2 }}
-                    onClick={handleLoginClick}
-                >
-                    Iniciar sesión
-                </Button>
-                <Typography
-                    variant="body2"
-                    color="primary"
-                    sx={{ mt: 2, textAlign: 'center', cursor: 'pointer' }}
-                    onClick={handleForgotPasswordClick}
-                >
-                    ¿Has olvidado la contraseña?
-                </Typography>
-            </Box>
-            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-                <Alert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
-                    Por favor, ingrese un correo electrónico válido.
-                </Alert>
-            </Snackbar>
-        </Box>
-    );
+      <div style={styles.rightContainer}>
+        <img
+          src="src\rilews.png"
+          style={styles.image}
+        />
+      </div>
+    </div>
+  );
 };
+
+// Estilos en línea
+import { CSSProperties } from 'react';
+import Logo from '../../shared/logo/Logo';
+
+const styles: { [key: string]: CSSProperties } = {
+    container: {
+        display: 'flex',
+        height: '100vh',
+    },
+    leftContainer: {
+        flex: 0.3, // 40% of the page
+        padding: '4rem',
+        paddingRight: '6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundColor: '#f8f9fa',
+    },
+    form: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    input: {
+        padding: '0.5rem',
+        margin: '0.5rem 0',
+        fontSize: '1rem',
+    },
+    rememberMe: {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '1rem',
+    },
+    button: {
+        padding: '0.75rem',
+        backgroundColor: '#f96332',
+        color: '#fff',
+        border: 'none',
+        cursor: 'pointer',
+        marginTop: '1rem',
+    },
+    links: {
+        marginTop: '1rem',
+    },
+    rightContainer: {
+        flex: 0.7, // 60% of the page
+        backgroundColor: '#282c34',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+        width: '100%',
+        height: 'auto',
+    },
+};
+
+
 
 export default UserLogin;
