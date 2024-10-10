@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IconButton, Popover, List, ListItem, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useAuth } from '../../users/context/AuthenticationContext';
 
 const User: React.FC = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
+
+    const { logout } = useAuth(); // Usar el contexto de autenticación 
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -26,7 +29,8 @@ const User: React.FC = () => {
     };
 
     const handleLogoutClick = () => {
-        alert('clickeado');
+        logout();
+        navigate('/sign-in');
         handleClose();
     };
 

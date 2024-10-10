@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination, Box } from '@mui/material';
-
-//Datos simulados
-const usersData = [
-    { fullName: 'Alice Johnson', email: 'alice.johnson@example.com', organization: 'Org A', role: 'Admin' },
-    { fullName: 'Bob Smith', email: 'bob.smith@example.com', organization: 'Org B', role: 'User' },
-    { fullName: 'Charlie Brown', email: 'charlie.brown@example.com', organization: 'Org C', role: 'User' },
-    { fullName: 'David Williams', email: 'david.williams@example.com', organization: 'Org D', role: 'Admin' },
-    { fullName: 'Eva Green', email: 'eva.green@example.com', organization: 'Org E', role: 'User' },
-    { fullName: 'Frank White', email: 'frank.white@example.com', organization: 'Org F', role: 'Admin' },
-    { fullName: 'Grace Black', email: 'grace.black@example.com', organization: 'Org G', role: 'User' },
-    { fullName: 'Henry Adams', email: 'henry.adams@example.com', organization: 'Org H', role: 'Admin' },
-    { fullName: 'Isabella Clark', email: 'isabella.clark@example.com', organization: 'Org I', role: 'User' },
-    { fullName: 'Jack Davis', email: 'jack.davis@example.com', organization: 'Org J', role: 'Admin' },
-];
+import React, { useState, useEffect } from 'react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    TablePagination,
+    Box,
+    CircularProgress
+} from '@mui/material';
+import { getAllUsers, User } from '../../users/service/UserService';
 
 export default function UsersTable() {
+    const [usersData, setUsersData] = useState<User[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const users = await getAllUsers();
+                setUsersData(users);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
@@ -39,38 +54,43 @@ export default function UsersTable() {
             minHeight="100vh"
             paddingBottom="50px"
         >
-            <Paper style={{ width: '80%', maxWidth: '1200px' }}>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Full Name</TableCell>
-                                <TableCell>Email</TableCell>
-                                <TableCell>Organization</TableCell>
-                                <TableCell>Role</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {paginatedUsers.map((user, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{user.fullName}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.organization}</TableCell>
-                                    <TableCell>{user.role}</TableCell>
+            {loading ? (
+                <CircularProgress />
+            ) : (
+                <Paper style={{ width: '80%', maxWidth: '1200px' }}>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Id</TableCell>
+                                    <TableCell>Nombre</TableCell>
+                                    <TableCell>Correo Electrónico</TableCell>
+                                    <TableCell>Organización</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    component="div"
-                    count={usersData.length}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
+                            </TableHead>
+                            <TableBody>
+                                {paginatedUsers.map((user, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{user.user_id}</TableCell>
+                                        <TableCell>{user.nombre} {user.apellido}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
+                                        <TableCell>{user.organizacion}</TableCell>
+
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        component="div"
+                        count={usersData.length}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Paper>
+            )}
         </Box>
     );
 }
