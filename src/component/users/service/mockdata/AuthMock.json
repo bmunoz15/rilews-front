@@ -1,0 +1,22 @@
+[
+    {
+        "email": "ivo@ufrontera.cl",
+        "password": "ivo_password",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2b0B1ZnJvbnRlcmEuY2wiLCJyb2xlIjoiQURNSU4iLCJ1c2VyX2lkIjoxLCJpYXQiOjE3Mjg0OTg1ODIsImV4cCI6MTkyODY4NjU4Mn0.__-8C2E7gG9To8rP33MwqH16UCS_GIpy0W46vNTb6ziPgd6byBnVL9wFUomvRxrk17v96uGMyh1D8zFSF4YQgw"
+    },
+    {
+        "email": "eva@sernageomin.cl",
+        "password": "eva_password",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV2YUBzZXJuYWdlb21pbi5jbCIsInJvbGUiOiJTRVJOQUdFT01JTiIsInVzZXJfaWQiOjIsImlhdCI6MTcyODQ5ODU4MiwiZXhwIjoxOTI4Njg2NTgyfQ.lxXZpWKiZU-PLTNGhp87z904VFpLHwHSzeFnVDqjJYCZydEa765wby6ia6naaddGelQlS0WQ9IW7eYA-9F6pwA"
+    },
+    {
+        "email": "eva@senapred.cl",
+        "password": "eva_password",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV2YUBzZW5hcHJlZC5jbCIsInJvbGUiOiJTRU5BUFJFRCIsInVzZXJfaWQiOjMsImlhdCI6MTcyODQ5ODU4MiwiZXhwIjoxOTI4Njg2NTgyfQ.m-Zfl-pvlQ8E7yYxjuMS2VxSt5e3aa1JxfJZzDBfzyyH9sa-Bsk7CpI129zp-ahAKLN0i5VUGb9ojH3AMKjg9Q"
+    },
+    {
+        "email": "eva@dmc.cl",
+        "password": "eva_password",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV2YUBkbWMuY2wiLCJyb2xlIjoiRE1DIiwidXNlcl9pZCI6NCwiaWF0IjoxNzI4NDk4NTgyLCJleHAiOjE5Mjg2ODY1ODJ9.AwyP4dN8dZ1cAlEhS4yly-bd1BTg9pUYpiYgEz3ADbdiVddKhWB3oYZF65ZoHb7ZSV4M1uXvpwfYaTqGAJhhAQ"
+    }
+]
