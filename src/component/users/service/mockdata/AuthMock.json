@@ -5,18 +5,18 @@
         "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Iml2b0B1ZnJvbnRlcmEuY2wiLCJyb2xlIjoiQURNSU4iLCJ1c2VyX2lkIjoxLCJpYXQiOjE3Mjg0OTg1ODIsImV4cCI6MTkyODY4NjU4Mn0.__-8C2E7gG9To8rP33MwqH16UCS_GIpy0W46vNTb6ziPgd6byBnVL9wFUomvRxrk17v96uGMyh1D8zFSF4YQgw"
     },
     {
-        "email": "eva@sernageomin.cl",
-        "password": "eva_password",
-        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV2YUBzZXJuYWdlb21pbi5jbCIsInJvbGUiOiJTRVJOQUdFT01JTiIsInVzZXJfaWQiOjIsImlhdCI6MTcyODQ5ODU4MiwiZXhwIjoxOTI4Njg2NTgyfQ.lxXZpWKiZU-PLTNGhp87z904VFpLHwHSzeFnVDqjJYCZydEa765wby6ia6naaddGelQlS0WQ9IW7eYA-9F6pwA"
+        "email": "rilews@sernageomin.cl",
+        "password": "rilews",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJpbGV3c0BzZXJuYWdlb21pbi5jbCIsInJvbGUiOiJTRVJOQUdFT01JTiIsInVzZXJfaWQiOjIsImlhdCI6MTcyODQ5ODU4MiwiZXhwIjoxOTI4Njg2NTgyfQ.T0O7HLSxnyhevtPBNBV-9SE4_QfRTdq4W3VKybyiz9QNTal3ODY1fQIzRMOiPLKPqP1XLxD5AIXI4YXh4ua6Nw"
     },
     {
-        "email": "eva@senapred.cl",
-        "password": "eva_password",
-        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV2YUBzZW5hcHJlZC5jbCIsInJvbGUiOiJTRU5BUFJFRCIsInVzZXJfaWQiOjMsImlhdCI6MTcyODQ5ODU4MiwiZXhwIjoxOTI4Njg2NTgyfQ.m-Zfl-pvlQ8E7yYxjuMS2VxSt5e3aa1JxfJZzDBfzyyH9sa-Bsk7CpI129zp-ahAKLN0i5VUGb9ojH3AMKjg9Q"
+        "email": "rilews@senapred.gob.cl",
+        "password": "rilews",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJpbGV3c0BzZW5hcHJlZC5nb2IuY2wiLCJyb2xlIjoiU0VOQVBSRUQiLCJ1c2VyX2lkIjozLCJpYXQiOjE3Mjg0OTg1ODIsImV4cCI6MTkyODY4NjU4Mn0.zPD3H7XGIkzkF2MUb7NVyv7HHyrRbxuTFURiaIXiliZeO-DZ44O2XRwOn0QeeQhblg9ErdKy4PKwkIEo2CLUCg"
     },
     {
-        "email": "eva@dmc.cl",
-        "password": "eva_password",
-        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImV2YUBkbWMuY2wiLCJyb2xlIjoiRE1DIiwidXNlcl9pZCI6NCwiaWF0IjoxNzI4NDk4NTgyLCJleHAiOjE5Mjg2ODY1ODJ9.AwyP4dN8dZ1cAlEhS4yly-bd1BTg9pUYpiYgEz3ADbdiVddKhWB3oYZF65ZoHb7ZSV4M1uXvpwfYaTqGAJhhAQ"
+        "email": "rilews@meteochile.cl",
+        "password": "rilews",
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJpbGV3c0BtZXRlb2NoaWxlLmNsIiwicm9sZSI6IkRNQyIsInVzZXJfaWQiOjQsImlhdCI6MTcyODQ5ODU4MiwiZXhwIjoxOTI4Njg2NTgyfQ.uRaXwPbDzLKg4bCZCPkij5y5vnyyn7jnaNpYydiiw94vil0MjWPPEpyYPN9luXGHLEn0VHyPS-sarD8kWiaPmw"
     }
 ]

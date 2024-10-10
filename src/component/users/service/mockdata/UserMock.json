@@ -8,21 +8,21 @@
     },
     {
         "user_id": 2,
-        "email": "eva@sernageomin.cl",
+        "email": "rilews@sernageomin.cl",
         "organizacion": "SERNAGEOMIN",
         "nombre": "Eva",
         "apellido": "Green"
     },
     {
         "user_id": 3,
-        "email": "eva@senapred.cl",
+        "email": "rilews@senapred.gob.cl",
         "organizacion": "SENAPRED",
         "nombre": "Eva",
         "apellido": "Green"
     },
     {
         "user_id": 4,
-        "email": "eva@dmc.cl",
+        "email": "rilews@meteochile.cl",
         "organizacion": "DMC",
         "nombre": "Eva",
         "apellido": "Green"
