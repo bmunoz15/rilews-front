@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Drawer, Stack, IconButton, Grid2 } from '@mui/material';
 import { useMap } from 'react-leaflet';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import ZoomControl from './ZoomControl';
 
 interface SideBarInformationProps {
     children: React.ReactNode;
@@ -34,14 +35,13 @@ const SideBarInformation: React.FC<SideBarInformationProps> = ({ children }) => 
             <Grid2 container
                 sx={{
                     position: 'absolute',
-                    right: 0,
+                    right: 26,
                     top: 5,
                     zIndex: 1300,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-end',
-                    gap: 2,
-                    paddingRight: 3,
+                    gap: 4,
                     width: 'auto',
                     maxWidth: 550,
                 }}
@@ -66,6 +66,7 @@ const SideBarInformation: React.FC<SideBarInformationProps> = ({ children }) => 
                 >
                     <KeyboardDoubleArrowLeftIcon />
                 </IconButton>
+                <ZoomControl isOpen={isOpen} />
 
                 <Drawer
                     anchor="right"

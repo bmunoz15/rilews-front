@@ -10,7 +10,7 @@ const User: React.FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
 
-    const { logout } = useAuth(); // Usar el contexto de autenticación 
+    const { logout } = useAuth();
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
