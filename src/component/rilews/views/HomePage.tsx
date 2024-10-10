@@ -12,8 +12,8 @@ import { MONITORING_LEGEND } from '../../monitoring-system/config/monitoringLege
 
 const HomePage: React.FC = () => {
     const [checkboxStates, setCheckboxStates] = useState<{ [key: string]: boolean }>({
-        showEwsContent: false,
-        showStationContent: false,
+        showEwsContent: true,
+        showStationContent: true,
     });
 
     const centerPosition: LatLngExpression = [-38.6679, -72.2610];
@@ -43,7 +43,6 @@ const HomePage: React.FC = () => {
     ];
 
 
-
     return (
         <>
             <CheckboxLayer
@@ -67,6 +66,7 @@ const HomePage: React.FC = () => {
                 style={{ height: '100vh', width: '100%' }}
             >
                 <TileLayer url={tileUrl} attribution={tileAttribution} />
+
 
                 <SideBarInformation>
                     {checkboxStates.showEwsContent && (
