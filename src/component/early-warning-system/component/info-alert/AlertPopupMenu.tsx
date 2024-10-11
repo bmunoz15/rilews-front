@@ -39,9 +39,17 @@ const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ featureId, dmcStatus, q
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setSelectedTab(newValue);
     };
-
+    const handlePopupClose = (): void => {
+        const popupElement = document.querySelector('.leaflet-popup');
+        if (popupElement) {
+            popupElement.remove();
+        }
+    };
     return (
-        <StyledPop>
+        <StyledPop
+            eventHandlers={{
+                remove: handlePopupClose
+            }}>
             <Tabs
                 value={selectedTab}
                 onChange={handleChange}

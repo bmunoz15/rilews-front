@@ -41,9 +41,9 @@ const AlertIconLayer: React.FC = () => {
 
     return (
         <>
-            {alerts && alerts.features.map((feature, index) => (
+            {alerts && alerts.features.map((feature) => (
                 <Marker
-                    key={index}
+                    key={feature.properties.featureId}
                     position={[feature.properties.lat_centroide, feature.properties.lon_centroide]}
                     icon={createWarningIcon(getColorByStatus(feature.properties.dmcStatus))}
                 >
@@ -62,5 +62,4 @@ const AlertIconLayer: React.FC = () => {
         </>
     );
 };
-
 export default AlertIconLayer;
