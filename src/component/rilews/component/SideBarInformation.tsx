@@ -9,11 +9,12 @@ interface SideBarInformationProps {
 }
 
 const SideBarInformation: React.FC<SideBarInformationProps> = ({ children }) => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(localStorage.getItem('isDrawerOpen') ? JSON.parse(localStorage.getItem('isDrawerOpen')!) : true);
     const map = useMap();
 
     const toggleDrawer = () => {
         setIsOpen(!isOpen);
+        localStorage.setItem('isDrawerOpen', JSON.stringify(!isOpen));
     };
 
     const disableMapInteractions = useCallback(() => {
