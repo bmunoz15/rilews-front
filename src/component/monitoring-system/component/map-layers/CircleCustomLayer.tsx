@@ -91,7 +91,7 @@ const CircleCustomLayer: React.FC = () => {
                 const data = await getStationDataById("dmc/code", code);
                 setDetailedStationData({ ...data });
                 console.log('Estado detallado de la estación:', { ...data });
-            } else if(org === "INIA") {
+            } else if (org === "INIA") {
                 const data = await getStationDataById("inia/code/latest", code);
                 setDetailedStationData({ ...data });
                 console.log('Estado detallado de la estación:', { ...data });
@@ -114,7 +114,7 @@ const CircleCustomLayer: React.FC = () => {
                     key={index}
                     center={marker.latLng}
                     radius={marker.style.radius}
-                    fillOpacity={0.6}
+                    fillOpacity={0.4}
                     pathOptions={{ color: marker.style.color }}
                     eventHandlers={{
                         click: () => handleCircleClick(marker.code, marker.org),
