@@ -33,6 +33,7 @@ const PolygonLayer: React.FC = () => {
           onEachFeature={onEachFeature}
         >
           <AlertPopupMenu
+            featureId={feature.properties.featureId}
             q1={feature.properties.Q1}
             mediana={feature.properties.Mediana}
             q3={feature.properties.Q3}

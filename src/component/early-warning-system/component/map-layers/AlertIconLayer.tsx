@@ -48,6 +48,7 @@ const AlertIconLayer: React.FC = () => {
                     icon={createWarningIcon(getColorByStatus(feature.properties.dmcStatus))}
                 >
                     <AlertPopupMenu
+                        featureId={feature.properties.featureId}
                         q1={feature.properties.Q1}
                         mediana={feature.properties.Mediana}
                         q3={feature.properties.Q3}
