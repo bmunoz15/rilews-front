@@ -10,7 +10,7 @@ interface UserFormData {
     organization: string;
     role: string;
 }
-
+const organizaciones = ["SERNAGEOMIN", "SENAPRED", "DMC", "UFRO"];
 const UserRegister: React.FC = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -136,22 +136,11 @@ const UserRegister: React.FC = () => {
                         variant="outlined"
                         name="organization"
                     >
-                        <MenuItem value="SERNAGEOMIN">SERNAGEOMIN</MenuItem>
-                        <MenuItem value="SENAPRED">SENAPRED</MenuItem>
-                        <MenuItem value="DMC">DMC</MenuItem>
-                    </Select>
-                </FormControl>
-                <FormControl fullWidth margin="normal">
-                    <InputLabel id="role-label">Rol</InputLabel>
-                    <Select
-                        labelId="role-label"
-                        value={formData.role}
-                        onChange={handleRoleChange}
-                        variant="outlined"
-                        name="role"
-                    >
-                        <MenuItem value="ADMIN">ADMIN</MenuItem>
-                        <MenuItem value="VALIDADOR">VALIDADOR</MenuItem>
+                        {organizaciones.map((organization) => (
+                            <MenuItem key={organization} value={organization}>
+                                {organization}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
                 <Button

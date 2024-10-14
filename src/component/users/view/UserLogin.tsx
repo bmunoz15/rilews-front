@@ -45,9 +45,11 @@ const UserLogin = () => {
           <div style={styles.links}>
             <a href="/">Olvidaste tu contraseña?</a>
           </div>
+          <div >
           <Logo src="/src/assets/logos/senapred.png" alt="SENAPRED Logo" />
           <Logo src="/src/assets/logos/sernageomin.png" alt="SERNAGEOMIN Logo" />
           <Logo src="/src/assets/logos/dmc.png" alt="DMC Logo" />
+          </div>
         </form>
       </div>
       
