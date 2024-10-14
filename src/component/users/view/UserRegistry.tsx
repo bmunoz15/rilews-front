@@ -57,13 +57,18 @@ const UserRegister: React.FC = () => {
     };
 
     return (
+
         <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
             minHeight="100vh"
-            bgcolor="#f6f6f6"
             p={2}
+            sx={{
+                backgroundImage: 'url(/rilews.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+            }}
         >
             <Box
                 display="flex"
@@ -87,7 +92,7 @@ const UserRegister: React.FC = () => {
                     label="Nombre completo"
                     variant="outlined"
                     fullWidth
-                    margin="normal"
+                    margin="dense"
                     placeholder="Nombre completo"
                     name="fullName"
                     value={formData.fullName}
@@ -127,14 +132,13 @@ const UserRegister: React.FC = () => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                 />
-                <FormControl fullWidth margin="normal">
-                    <InputLabel id="organization-label">Organización</InputLabel>
+                <FormControl variant="outlined" fullWidth margin="dense">
+                    <InputLabel>Organización</InputLabel>
                     <Select
-                        labelId="organization-label"
+                        label="Organización"
+                        name="organization"
                         value={formData.organization}
                         onChange={handleOrganizationChange}
-                        variant="outlined"
-                        name="organization"
                     >
                         {organizaciones.map((organization) => (
                             <MenuItem key={organization} value={organization}>
@@ -155,6 +159,7 @@ const UserRegister: React.FC = () => {
 
             </Box>
         </Box>
+
     );
 };
 
