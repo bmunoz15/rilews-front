@@ -1,12 +1,13 @@
-import React from 'react';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface LogoProps {
     src: string;
     alt: string;
+    url?: string;
 }
-
-const Logo: React.FC<LogoProps> = ({ src, alt }) => {
+export default function Logo(props: LogoProps) {
+    const { src, alt, url } = props;
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -19,17 +20,17 @@ const Logo: React.FC<LogoProps> = ({ src, alt }) => {
                 p: 1,
             }}
         >
-            <img
-                src={src}
-                alt={alt}
-                style={{
-                    maxWidth: isSmallScreen ? '64px' : '128px',
-                    width: 'auto',
-                    height: 'auto',
-                }}
-            />
+            <Link to={url ? url : ''}>
+                <img
+                    src={src}
+                    alt={alt}
+                    style={{
+                        maxWidth: isSmallScreen ? '64px' : '128px',
+                        width: 'auto',
+                        height: 'auto',
+                    }}
+                />
+            </Link>
         </Box>
     );
-};
-
-export default Logo;
+}

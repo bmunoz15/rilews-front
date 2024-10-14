@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Card, CardContent, Avatar, Grid } from '@mui/material';
+import { getUserById, User } from '../service/UserService';
+import { useAuth } from '../context/AuthenticationContext';
 
 const UserProfile: React.FC = () => {
-    //Datos simulados
-    const userData = {
-        fullName: 'Eva Green',
-        email: 'eva.green@example.com',
-        organization: 'Org E',
-        role: 'User',
-    };
+    const { authData } = useAuth(); // Obtener el usuario del contexto
+    const [usersData, setUsersData] = useState<User>();
+    const [, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const userId = Number(authData?.user_id);
+                if (!isNaN(userId)) {
+                    const user = await getUserById(userId);
+                    setUsersData(user);
+                } else {
+                    console.error("Invalid user ID:", authData?.user_id);
+                }
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <Box
@@ -39,28 +57,23 @@ const UserProfile: React.FC = () => {
                                 fontSize: 40,
                             }}
                         >
-                            {userData.fullName.charAt(0)}
+                            {usersData?.nombre.charAt(0)}
                         </Avatar>
                     </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant="h6" align="center">
-                                {userData.fullName}
+                                {usersData?.nombre} {usersData?.apellido}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="body1" align="center">
-                                <strong>Email:</strong> {userData.email}
+                                <strong>Correo Electrónico:</strong> {usersData?.email}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="body1" align="center">
-                                <strong>Organization:</strong> {userData.organization}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="body1" align="center">
-                                <strong>Role:</strong> {userData.role}
+                                <strong>Organización:</strong> {usersData?.organizacion}
                             </Typography>
                         </Grid>
                     </Grid>

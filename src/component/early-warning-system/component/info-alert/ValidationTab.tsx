@@ -1,17 +1,43 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
-import theme from '../../../shared/theme/Theme'
+import { Box, Typography, Button, Grid } from '@mui/material';
+import theme from '../../../shared/theme/Theme';
+import { useAuth } from '../../../users/context/AuthenticationContext';
+import { useValidation } from '../../context/ValidationAlertProvider';
 interface ValidationsTabProps {
-
+    alertId: string;  // Agrega la propiedad alertId
     dmcStatus: string;
     forecastDate: string;
     forecastTargetDate: string;
-
 }
-const ValidationsTab: React.FC<ValidationsTabProps> = ({ dmcStatus, forecastDate, forecastTargetDate }) => {
 
-    const handleValidation = () => {
-        alert('Alerta validada exitosamente.');
+const ValidationsTab: React.FC<ValidationsTabProps> = ({ alertId, dmcStatus, forecastDate, forecastTargetDate }) => {
+    const { authData } = useAuth();
+    const { validationStatus, setValidationStatus } = useValidation();
+
+    // Obtiene el estado de validación de esta alerta
+    const alertValidation = validationStatus[alertId] || {
+        sernageominValidated: false,
+        sernageominValidationDate: null,
+        senapredValidated: false,
+        senapredValidationDate: null,
+    };
+
+    const handleValidationToggle = (service: string) => {
+        const now = new Date().toLocaleString();
+
+        if (service === 'Sernageomin') {
+            setValidationStatus(alertId, {
+                ...alertValidation,
+                sernageominValidated: !alertValidation.sernageominValidated,
+                sernageominValidationDate: now,
+            });
+        } else if (service === 'Senapred') {
+            setValidationStatus(alertId, {
+                ...alertValidation,
+                senapredValidated: !alertValidation.senapredValidated,
+                senapredValidationDate: now,
+            });
+        }
     };
 
     return (
@@ -29,57 +55,98 @@ const ValidationsTab: React.FC<ValidationsTabProps> = ({ dmcStatus, forecastDate
             </Typography>
             <Box
                 sx={{
-                    padding: '16px',
                     borderRadius: '8px',
                     maxWidth: '500px',
                     width: '100%',
                     textAlign: 'center',
                 }}
             >
-                <Box mb={2}>
-                    <Typography variant="body1">
-                        Estado DMC: <strong>{dmcStatus}</strong>
-                    </Typography>
-                </Box>
-
-                <Box mb={2}>
-                    <Typography variant="body1">
-                        Estado Sernageomin: <strong>SIN validar</strong>
-                    </Typography>
-                </Box>
-
-                <Box mb={2}>
+                <Grid container>
+                    <Grid item xs={7}>
+                        <Typography variant="body1" sx={{ textAlign: 'left' }}>
+                            Estado DMC: <strong>{dmcStatus}</strong>
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={5}></Grid>
+                    <Grid item xs={7} sx={{ textAlign: 'left' }}>
+                        <Typography variant="body1">
+                            Estado Sernageomin: <strong>{alertValidation.sernageominValidated ? 'Validado' : 'No validado'}</strong>
+                        </Typography>
+                        <Typography variant="body1">
+                            Fecha Validación: {alertValidation.sernageominValidationDate ?? 'N/A'}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {authData?.role === 'SERNAGEOMIN' || authData?.role === 'ADMIN' ? (
+                            <Button
+                                variant="outlined"
+                                onClick={() => handleValidationToggle('Sernageomin')}
+                                sx={{
+                                    textTransform: 'none',
+                                    padding: '8px 16px',
+                                    fontWeight: 'bold',
+                                    color: alertValidation.sernageominValidated ? 'error.main' : 'success.main',
+                                    borderColor: alertValidation.sernageominValidated ? 'error.light' : 'success.light',
+                                    '&:hover': {
+                                        borderColor: alertValidation.sernageominValidated ? 'error.dark' : 'success.dark',
+                                    },
+                                }}
+                            >
+                                {alertValidation.sernageominValidated ? 'Quitar Validación' : 'Validar'}
+                            </Button>
+                        ) : null}
+                    </Grid>
+                    <Grid item xs={7} sx={{ textAlign: 'left' }}>
+                        <Typography variant="body1">
+                            Estado Senapred: <strong>{alertValidation.senapredValidated ? 'Validado' : 'No validado'}</strong>
+                        </Typography>
+                        <Typography variant="body1">
+                            Fecha Validación: {alertValidation.senapredValidationDate ?? 'N/A'}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {authData?.role === 'SENAPRED' || authData?.role === 'ADMIN' ? (
+                            <Button
+                                variant="outlined"
+                                onClick={() => handleValidationToggle('Senapred')}
+                                sx={{
+                                    textTransform: 'none',
+                                    padding: '8px 16px',
+                                    fontWeight: 'bold',
+                                    color: alertValidation.senapredValidated ? 'error.main' : 'success.main',
+                                    borderColor: alertValidation.senapredValidated ? 'error.light' : 'success.light',
+                                    '&:hover': {
+                                        borderColor: alertValidation.senapredValidated ? 'error.dark' : 'success.dark',
+                                    },
+                                }}
+                            >
+                                {alertValidation.senapredValidated ? 'Quitar Validación' : 'Validar'}
+                            </Button>
+                        ) : null}
+                    </Grid>
+                </Grid>
+            </Box>
+            <Box
+                sx={{
+                    borderRadius: '8px',
+                    maxWidth: '500px',
+                    width: '100%',
+                    textAlign: 'center',
+                    backgroundColor: theme.palette.grey[100],
+                }}
+            >
+                <Grid item xs={6}>
                     <Typography variant="body1">
                         Fecha de creación: <strong>{forecastDate}</strong>
                     </Typography>
-                </Box>
-                <Box mb={2}>
+                </Grid>
+                <Grid item xs={6}>
                     <Typography variant="body1">
                         Fecha de pronóstico: <strong>{forecastTargetDate}</strong>
                     </Typography>
-                </Box>
-
-                <Box mb={2}>
-                    <Typography variant="body1">Fecha de validación: <strong>None</strong></Typography>
-
-                </Box>
-
-                <Box textAlign="center" mt={3}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleValidation}
-                        sx={{
-                            textTransform: 'none',
-                            padding: '8px 16px',
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        Validar Alerta
-                    </Button>
-                </Box>
+                </Grid>
             </Box>
-        </Box >
+        </Box>
     );
 };
 

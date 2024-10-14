@@ -15,6 +15,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import FolderIcon from '@mui/icons-material/Folder';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LogoContainer from './LogoContainer';
+import { useAuth } from '../../users/context/AuthenticationContext';
 
 const drawerWidth = 320;
 
@@ -62,6 +63,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function MiniDrawer() {
     const theme = useTheme();
+    const { authData } = useAuth();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [open, setOpen] = React.useState(false);
     const [subOpen, setSubOpen] = React.useState(false);
@@ -122,20 +124,22 @@ export default function MiniDrawer() {
     }, [drawerRef]);
 
     const menuItems = [
-        { text: 'Monitoreo Warnings Activos', icon: <MonitorIcon />, path: '/', isSubmenu: false },
+        { text: 'Monitoreo Warnings Activos', icon: <MonitorIcon />, path: '/home', isSubmenu: false },
         {
             text: 'Gestión de Usuarios', icon: <GroupIcon />, isSubmenu: true, subItems: [
                 { text: 'Crear Usuario', path: '/sign-up' },
                 { text: 'Usuarios', path: '/users' }
-            ]
+            ],
+            visibleTo: ['ADMIN'],
         },
         {
             text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true, subItems: [
-                { text: 'Generar Reporte', path: '/' },
-                { text: 'Ver Datos', path: '/' }
-            ]
+                { text: 'Generar Reporte', path: '/home' },
+                { text: 'Ver Datos', path: '/home' }
+            ],
+
         },
-        { text: 'Fluid', icon: <FolderIcon />, path: '/', isSubmenu: false },
+        { text: 'Fluid', icon: <FolderIcon />, path: '/home', isSubmenu: false },
     ];
 
     return (
@@ -170,35 +174,36 @@ export default function MiniDrawer() {
                 {!(isSmallScreen && !open) && (
                     <List>
                         {menuItems.map((item) => (
-                            <React.Fragment key={item.text}>
-                                <NavItem
-                                    open={open}
-                                    item={item}
-                                    handleNavigation={handleNavigation}
-                                    handleSubOpen={
-                                        item.text === 'Gestión de Usuarios'
-                                            ? handleUserSubOpen
-                                            : item.text === 'Administrar Datos'
-                                                ? handleDataAdminSubOpen
-                                                : handleSubOpen
-                                    }
-                                    subOpen={
-                                        item.text === 'Gestión de Usuarios'
-                                            ? userSubOpen
-                                            : item.text === 'Administrar Datos'
-                                                ? dataAdminSubOpen
-                                                : subOpen
-                                    }
-                                    isSmallScreen={isSmallScreen}
-                                />
-                                {item.text === 'Gestión de Usuarios' && userSubOpen && (
-                                    <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
-                                )}
-                                {item.text === 'Administrar Datos' && dataAdminSubOpen && (
-                                    <SubMenu subOpen={dataAdminSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
-                                )}
-                            </React.Fragment>
-                        ))}
+                            (authData && item.visibleTo?.includes(authData.role) || !item.visibleTo) && (
+                                <React.Fragment key={item.text}>
+                                    <NavItem
+                                        open={open}
+                                        item={item}
+                                        handleNavigation={handleNavigation}
+                                        handleSubOpen={
+                                            item.text === 'Gestión de Usuarios'
+                                                ? handleUserSubOpen
+                                                : item.text === 'Administrar Datos'
+                                                    ? handleDataAdminSubOpen
+                                                    : handleSubOpen
+                                        }
+                                        subOpen={
+                                            item.text === 'Gestión de Usuarios'
+                                                ? userSubOpen
+                                                : item.text === 'Administrar Datos'
+                                                    ? dataAdminSubOpen
+                                                    : subOpen
+                                        }
+                                        isSmallScreen={isSmallScreen}
+                                    />
+                                    {item.text === 'Gestión de Usuarios' && userSubOpen && (
+                                        <SubMenu subOpen={userSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
+                                    )}
+                                    {item.text === 'Administrar Datos' && dataAdminSubOpen && (
+                                        <SubMenu subOpen={dataAdminSubOpen} handleNavigation={handleNavigation} subItems={item.subItems} onChange={handleComponentClick} />
+                                    )}
+                                </React.Fragment>
+                            )))}
                     </List>
                 )}
                 <Box sx={{ flexGrow: 1 }} />
@@ -206,10 +211,6 @@ export default function MiniDrawer() {
                     <LogoContainer />
                 )}
             </Drawer>
-
-
-
-
         </Box>
 
     );

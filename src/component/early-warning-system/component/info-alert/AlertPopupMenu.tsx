@@ -22,6 +22,7 @@ const StyledPop = styled(Popup)`
 `;
 
 interface AlertPopupMenuProps {
+    featureId: string,
     dmcStatus: string;
     q1: number;
     mediana: number;
@@ -31,16 +32,24 @@ interface AlertPopupMenuProps {
     forecastTargetDate: string;
 }
 
-const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana, q3, pp, forecastDate, forecastTargetDate }) => {
+const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ featureId, dmcStatus, q1, mediana, q3, pp, forecastDate, forecastTargetDate }) => {
     const [selectedTab, setSelectedTab] = useState<number>(0);
     const { getColorByStatus } = useAlerts();
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setSelectedTab(newValue);
     };
-
+    const handlePopupClose = (): void => {
+        const popupElement = document.querySelector('.leaflet-popup');
+        if (popupElement) {
+            popupElement.remove();
+        }
+    };
     return (
-        <StyledPop>
+        <StyledPop
+            eventHandlers={{
+                remove: handlePopupClose
+            }}>
             <Tabs
                 value={selectedTab}
                 onChange={handleChange}
@@ -58,7 +67,7 @@ const AlertPopupMenu: React.FC<AlertPopupMenuProps> = ({ dmcStatus, q1, mediana,
                 }}>
                 {selectedTab === 0 && <AlertTab q1={q1} q3={q3} median={mediana} color={getColorByStatus(dmcStatus)} forecastTargetDate={forecastTargetDate} />}
                 {selectedTab === 1 && <PrecipitationsTab pp={pp} dmcStatus={dmcStatus} />}
-                {selectedTab === 2 && <ValidationsTab dmcStatus={dmcStatus} forecastDate={forecastDate} forecastTargetDate={forecastTargetDate} />}
+                {selectedTab === 2 && <ValidationsTab alertId={featureId} dmcStatus={dmcStatus} forecastDate={forecastDate} forecastTargetDate={forecastTargetDate} />}
             </Box>
         </StyledPop>
     );

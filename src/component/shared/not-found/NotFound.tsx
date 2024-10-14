@@ -25,7 +25,7 @@ const NotFound: React.FC = () => {
                     variant="contained"
                     color="primary"
                     component={Link}
-                    to="/"
+                    to="/sign-in"
                 >
                     Go to Home
                 </Button>

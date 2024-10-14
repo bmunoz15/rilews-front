@@ -54,63 +54,63 @@ const Forecast: React.FC = () => {
     };
 
     return (
-        <Box ref={containerRef} display="flex" alignItems="center" sx={{width:'100%'}}>
+        <Box ref={containerRef} display="flex" alignItems="center" sx={{ width: '100%' }}>
             <Box
-            sx={{
-                padding: 1,
-                textAlign: 'center',
-                borderRadius: 2,
-                transition: 'all 0.3s ease',
-                width: '100%',
-                backgroundColor: '#f6f6f6',
-            }}
+                sx={{
+                    padding: 1,
+                    textAlign: 'center',
+                    borderRadius: 2,
+                    transition: 'all 0.3s ease',
+                    width: '100%',
+                    backgroundColor: '#f6f6f6',
+                }}
             >
-            {loading ? (
-                <Box display="flex" flexDirection="column" alignItems="center">
-                <CircularProgress />
-                <Typography variant="subtitle2" style={{ marginTop: 8 }}>
-                    Loading...
-                </Typography>
-                </Box>
-            ) : error ? (
-                <Box display="flex" flexDirection="column" alignItems="center">
-                <ErrorOutlineIcon color="error" />
-                <Typography variant="subtitle2" style={{ marginTop: 8, color: 'red' }}>
-                    {error}
-                </Typography>
-                </Box>
-            ) : (
-                <>
-                <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
-                    Fecha Pronóstico
-                </Typography>
-                <Box display="flex" justifyContent="space-between" gap={0} >
-                    {forecastModel.map((forecast, index) => (
-                    <Box
-                        key={index}
-                        textAlign="center"
-                        flex={1}
-                        sx={{
-                        '&:hover': {
-                            backgroundColor: 'lightgray',
-                        },
-                        '&:active': { backgroundColor: 'gray' },
-                        borderRadius: 2,
-                        cursor: 'pointer',
-                        }}
-                        onClick={() => handlePeriodSelect(forecast)}
-                    >
-                        <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
-                        {forecast.period}
-                        </Typography>
-                        <Typography variant="body2">
-                        {formatForecastDate(forecast.forecastDate)}
+                {loading ? (
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                        <CircularProgress />
+                        <Typography variant="subtitle2" style={{ marginTop: 8 }}>
+                            Loading...
                         </Typography>
                     </Box>
-                    ))}
-                </Box>
-                </>
-            )}
+                ) : error ? (
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                        <ErrorOutlineIcon color="error" />
+                        <Typography variant="subtitle2" style={{ marginTop: 8, color: 'red' }}>
+                            {error}
+                        </Typography>
+                    </Box>
+                ) : (
+                    <>
+                        <Typography variant="subtitle2" gutterBottom style={{ fontWeight: 'bold' }}>
+                            Fecha Pronóstico
+                        </Typography>
+                        <Box display="flex" justifyContent="space-between" gap={0} >
+                            {forecastModel.map((forecast, index) => (
+                                <Box
+                                    key={index}
+                                    textAlign="center"
+                                    flex={1}
+                                    sx={{
+                                        '&:hover': {
+                                            backgroundColor: 'lightgray',
+                                        },
+                                        '&:active': { backgroundColor: 'gray' },
+                                        borderRadius: 2,
+                                        cursor: 'pointer',
+                                    }}
+                                    onClick={() => handlePeriodSelect(forecast)}
+                                >
+                                    <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
+                                        {forecast.period}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {formatForecastDate(forecast.forecastDate)}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                    </>
+                )}
             </Box>
         </Box>
     );

@@ -1,0 +1,30 @@
+[
+    {
+        "user_id": 1,
+        "email": "ivo@ufrontera.cl",
+        "organizacion": "UNIVERSIDAD DE LA FRONTERA",
+        "nombre": "Ivo",
+        "apellido": "Fustos"
+    },
+    {
+        "user_id": 2,
+        "email": "rilews@sernageomin.cl",
+        "organizacion": "SERNAGEOMIN",
+        "nombre": "Eva",
+        "apellido": "Green"
+    },
+    {
+        "user_id": 3,
+        "email": "rilews@senapred.gob.cl",
+        "organizacion": "SENAPRED",
+        "nombre": "Eva",
+        "apellido": "Green"
+    },
+    {
+        "user_id": 4,
+        "email": "rilews@meteochile.cl",
+        "organizacion": "DMC",
+        "nombre": "Eva",
+        "apellido": "Green"
+    }
+]

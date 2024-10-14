@@ -4,6 +4,7 @@ import Forecast from './sidebar/Forecast';
 import AlertList from './sidebar/AlertList';
 import AlertIconLayer from './map-layers/AlertIconLayer';
 import PolygonLayer from './map-layers/PolygonLayer';
+import { ValidationProvider } from '../context/ValidationAlertProvider';
 
 const EwsContent: React.FC = () => {
     return (
@@ -23,9 +24,11 @@ const EwsContent: React.FC = () => {
                 <Forecast />
                 <AlertList />
             </Box>
+            <ValidationProvider>
+                <AlertIconLayer />
+                <PolygonLayer />
+            </ValidationProvider>
 
-            <AlertIconLayer />
-            <PolygonLayer />
         </>
     );
 };

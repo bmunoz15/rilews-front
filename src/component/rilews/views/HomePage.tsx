@@ -12,8 +12,8 @@ import { MONITORING_LEGEND } from '../../monitoring-system/config/monitoringLege
 
 const HomePage: React.FC = () => {
     const [checkboxStates, setCheckboxStates] = useState<{ [key: string]: boolean }>({
-        showEwsContent: false,
-        showStationContent: false,
+        showEwsContent: localStorage.getItem('showEwsContent') ? JSON.parse(localStorage.getItem('showEwsContent')!) : true,
+        showStationContent: localStorage.getItem('showStationContent') ? JSON.parse(localStorage.getItem('showStationContent')!) : true,
     });
 
     const centerPosition: LatLngExpression = [-38.6679, -72.2610];
@@ -24,6 +24,7 @@ const HomePage: React.FC = () => {
 
     const handleCheckboxChange = (key: string) => {
         setCheckboxStates((prev) => ({ ...prev, [key]: !prev[key] }));
+        localStorage.setItem(key, JSON.stringify(!checkboxStates[key]));
     };
 
     {/* Change this variables*/ }
@@ -41,7 +42,6 @@ const HomePage: React.FC = () => {
             label: MONITORING_LEGEND.label
         }
     ];
-
 
 
     return (
@@ -67,6 +67,7 @@ const HomePage: React.FC = () => {
                 style={{ height: '100vh', width: '100%' }}
             >
                 <TileLayer url={tileUrl} attribution={tileAttribution} />
+
 
                 <SideBarInformation>
                     {checkboxStates.showEwsContent && (
