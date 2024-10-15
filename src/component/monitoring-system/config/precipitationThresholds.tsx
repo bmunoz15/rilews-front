@@ -1,5 +1,5 @@
 const THRESHOLDS = {
-    THRESHOLD_1: 1,
+    THRESHOLD_1: 2,
     THRESHOLD_2: 5,
     THRESHOLD_3: 10,
     THRESHOLD_4: 20,
