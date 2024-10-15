@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { IconButton, Popover, List, ListItem, ListItemText, Box, useMediaQuery, useTheme } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAuth } from '../../users/context/AuthenticationContext';
+import { logoutService } from '../../users/service/UserService';
 
 const User: React.FC = () => {
     const theme = useTheme();
+    const { authData } = useAuth();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
@@ -29,6 +31,7 @@ const User: React.FC = () => {
     };
 
     const handleLogoutClick = () => {
+        logoutService(authData?.access_token || '');
         logout();
         navigate('/sign-in');
         handleClose();

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import PermissionsConfig from '../../config/PermissionConfig';
 
 type AuthData = {
     access_token: string;
@@ -12,6 +13,7 @@ type AuthContextType = {
     saveAuth: (token: AuthData) => void;
     logout: () => void;
     isLoading: boolean;
+    hasPermission: (permissionCategory: keyof typeof PermissionsConfig) => boolean;
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -19,6 +21,7 @@ export const AuthContext = createContext<AuthContextType>({
     saveAuth: () => { },
     logout: () => { },
     isLoading: true,
+    hasPermission: () => false,
 });
 
 export const useAuth = () => {
@@ -51,6 +54,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.removeItem('auth');
     };
 
+    const hasPermission = (permissionCategory: keyof typeof PermissionsConfig): boolean => {
+        return authData ? PermissionsConfig[permissionCategory]?.includes(authData.role) : false;
+    };
+
     useEffect(() => {
         const savedAuth = localStorage.getItem('auth');
 
@@ -63,7 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ authData, saveAuth, logout, isLoading }}>
+        <AuthContext.Provider value={{ authData, saveAuth, logout, isLoading, hasPermission }}>
             {children}
         </AuthContext.Provider>
     );

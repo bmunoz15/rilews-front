@@ -20,6 +20,22 @@ export const authenticationService = async (email: string, password: string): Pr
     }
 }
 
+export const logoutService = async (access_token: string): Promise<string> => {
+    try {
+        const response = await AuthenticationHttpClient.post('/auth/logout', {
+            access_token
+        });
+        return response.data;
+    } catch (err) {
+        if (err instanceof Error) {
+            throw new Error(err.message);
+
+        } else {
+            throw new Error(String(err));
+        }
+    }
+}
+
 export interface User {
     user_id: number;
     email: string;
