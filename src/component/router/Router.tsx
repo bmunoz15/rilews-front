@@ -52,6 +52,7 @@ const AppRouter: React.FC = () => {
                 <>
                     <Route path="/sign-in" element={<UserLogin />} />
                     <Route path="/" element={<Navigate to="/sign-in" replace />} />
+                    <Route path="/home" element={<Navigate to="/sign-in" replace />} />
                 </>
             )}
             <Route path="/*" element={<NotFound />} />

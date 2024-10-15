@@ -4,17 +4,16 @@ import theme from '../../../shared/theme/Theme';
 import { useAuth } from '../../../users/context/AuthenticationContext';
 import { useValidation } from '../../context/ValidationAlertProvider';
 interface ValidationsTabProps {
-    alertId: string;  // Agrega la propiedad alertId
+    alertId: string; 
     dmcStatus: string;
     forecastDate: string;
     forecastTargetDate: string;
 }
 
 const ValidationsTab: React.FC<ValidationsTabProps> = ({ alertId, dmcStatus, forecastDate, forecastTargetDate }) => {
-    const { authData } = useAuth();
     const { validationStatus, setValidationStatus } = useValidation();
+    const { hasPermission } = useAuth();
 
-    // Obtiene el estado de validación de esta alerta
     const alertValidation = validationStatus[alertId] || {
         sernageominValidated: false,
         sernageominValidationDate: null,
@@ -77,7 +76,7 @@ const ValidationsTab: React.FC<ValidationsTabProps> = ({ alertId, dmcStatus, for
                         </Typography>
                     </Grid>
                     <Grid item xs={5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {authData?.role === 'SERNAGEOMIN' || authData?.role === 'ADMIN' ? (
+                        {hasPermission("sernageomin") || hasPermission("admin") ? (
                             <Button
                                 variant="outlined"
                                 onClick={() => handleValidationToggle('Sernageomin')}
@@ -105,7 +104,7 @@ const ValidationsTab: React.FC<ValidationsTabProps> = ({ alertId, dmcStatus, for
                         </Typography>
                     </Grid>
                     <Grid item xs={5} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        {authData?.role === 'SENAPRED' || authData?.role === 'ADMIN' ? (
+                        {hasPermission('senapred') || hasPermission("admin") ? (
                             <Button
                                 variant="outlined"
                                 onClick={() => handleValidationToggle('Senapred')}

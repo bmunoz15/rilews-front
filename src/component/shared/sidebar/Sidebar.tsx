@@ -16,6 +16,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LogoContainer from './LogoContainer';
 import { useAuth } from '../../users/context/AuthenticationContext';
+import PermissionsConfig from '../../config/PermissionConfig';
 
 const drawerWidth = 320;
 
@@ -130,7 +131,7 @@ export default function MiniDrawer() {
                 { text: 'Crear Usuario', path: '/sign-up' },
                 { text: 'Usuarios', path: '/users' }
             ],
-            visibleTo: ['ADMIN'],
+            visibleTo: [PermissionsConfig.admin],
         },
         {
             text: 'Administrar Datos', icon: <SettingsIcon />, isSubmenu: true, subItems: [
