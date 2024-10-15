@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Checkbox, FormControlLabel, Typography, Box, Link, Grid } from '@mui/material';
 import Logo from '../../shared/logo/Logo';
 import { useAuth } from '../context/AuthenticationContext';
-import { loginService } from '../service/UserService';
+import { authenticationService } from '../service/UserService';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
 import Loading from '../../shared/loading/Loading';
 
@@ -15,21 +15,19 @@ const UserLogin = () => {
   const { saveAuth, isLoading } = useAuth();
   const navigate = useNavigate();
 
-  // Muestra un indicador de carga mientras se realiza la autenticación
   if (isLoading) {
     return (
       <Loading />
     );
   }
 
-  // Manejo de la autenticación
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     try {
-      const response = await loginService(email, password);
-      const { token } = response;
+      const response = await authenticationService(email, password);
+      const token = response.access_token;
 
       if (token) {
         const decodedToken = jwtDecode<JwtPayload & { email: string; role: string; user_id: string }>(token);

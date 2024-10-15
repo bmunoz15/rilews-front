@@ -1,24 +1,24 @@
-import authusers from './mockdata/AuthMock.json';
 import users from './mockdata/UserMock.json';
+import AuthenticationHttpClient from '../http-client/AuthenticationHttpClient';
+import { Access_token } from '../types/Authentication';
 
-export const loginService = async (email: string, password: string) => {
-
+export const authenticationService = async (email: string, password: string): Promise<Access_token> => {
     try {
-        const user = authusers.find((user: any) => user.email === email && user.password === password);
-
-        if (!user) {
-            throw new Error('Credenciales incorrectas');
-        }
-
-        return { token: user.token };
+        const response = await AuthenticationHttpClient.post('/auth/login', {
+            email,
+            password,
+        });
+        const accessToken: Access_token = response.data;
+        console.log(accessToken)
+        return accessToken;
     } catch (err) {
         if (err instanceof Error) {
             throw new Error(err.message);
         } else {
             throw new Error(String(err));
         }
-    };
-};
+    }
+}
 
 export interface User {
     user_id: number;
