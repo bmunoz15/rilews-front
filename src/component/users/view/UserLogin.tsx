@@ -37,6 +37,7 @@ const UserLogin = () => {
           role: decodedToken.role,
           user_id: decodedToken.user_id,
         });
+        
         navigate('/home'); // Navega a la página principal después del login exitoso
       }
     } catch (err) {

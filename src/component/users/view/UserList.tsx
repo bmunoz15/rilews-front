@@ -71,10 +71,10 @@ export default function UsersTable() {
                             <TableBody>
                                 {paginatedUsers.map((user, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>{user.user_id}</TableCell>
-                                        <TableCell>{user.nombre} {user.apellido}</TableCell>
+                                        <TableCell>{user.id}</TableCell>
+                                        <TableCell>{user.fullname} {user.lastname}</TableCell>
                                         <TableCell>{user.email}</TableCell>
-                                        <TableCell>{user.organizacion}</TableCell>
+                                        <TableCell>{user.organization}</TableCell>
 
                                     </TableRow>
                                 ))}

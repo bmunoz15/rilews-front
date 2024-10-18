@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, useTheme, useMediaQuery, MenuItem, Select, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import * as Utils from '../Utils';
+import { createUser } from '../service/UserService';
 
 interface UserFormData {
     fullName: string;
@@ -11,6 +12,12 @@ interface UserFormData {
     role: string;
 }
 const organizaciones = ["SERNAGEOMIN", "SENAPRED", "DMC", "UFRO"];
+const organization: { [key: string]: string } = {
+    SERNAGEOMIN: "SERNAGEOMIN",
+    SENAPRED: "SENAPRED",
+    DMC: "DIRECCION_METEOROLOGICA_DE_CHILE",
+    UFRO: "UNIVERSIDAD_DE_LA_FRONTERA"
+};
 const UserRegister: React.FC = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -45,19 +52,31 @@ const UserRegister: React.FC = () => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const emailError = Utils.validateEmail(formData.email) ? '' : 'Correo electrónico no válido';
         if (emailError) {
             setErrors({ email: emailError });
         } else {
             setErrors({});
-            alert(JSON.stringify(formData, null, 2));
+            try {
+                const user = {
+                    organization: organization[formData.organization],
+                    fullname: formData.fullName.split(' ')[0],
+                    lastname: formData.fullName.split(' ').slice(1).join(' '),
+                    email: formData.email,
+                    password: formData.password
+                };
+                const response = await createUser(user);
+               // alert(`User created successfully: ${JSON.stringify(response, null, 2)}`);
+               console.log(response);
+            } catch (error) {
+                alert(`Error creating user: ${(error as Error).message}`);
+            }
         }
     };
 
     return (
-
         <Box
             display="flex"
             alignItems="center"
@@ -159,7 +178,6 @@ const UserRegister: React.FC = () => {
 
             </Box>
         </Box>
-
     );
 };
 

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import PermissionsConfig from '../../config/PermissionConfig';
 
-type AuthData = {
+export type AuthData = {
     access_token: string;
     email: string;
     role: string;

@@ -57,13 +57,13 @@ const UserProfile: React.FC = () => {
                                 fontSize: 40,
                             }}
                         >
-                            {usersData?.nombre.charAt(0)}
+                            {usersData?.fullname.charAt(0)}
                         </Avatar>
                     </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant="h6" align="center">
-                                {usersData?.nombre} {usersData?.apellido}
+                                {usersData?.fullname} {usersData?.lastname}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
@@ -73,7 +73,7 @@ const UserProfile: React.FC = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="body1" align="center">
-                                <strong>Organización:</strong> {usersData?.organizacion}
+                                <strong>Organización:</strong> {usersData?.organization}
                             </Typography>
                         </Grid>
                     </Grid>
