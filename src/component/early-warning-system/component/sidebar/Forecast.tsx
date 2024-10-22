@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Box, CircularProgress } from '@mui/material';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { getForecastDates, getAlerts } from '../../service/EarlyWarningService';
 import { ForecastModel } from '../../model/ForecastModel';
 import { useAlerts } from '../../context/GeoJsonProvider';
@@ -15,24 +14,31 @@ const Forecast: React.FC = () => {
     });
     const [forecastModel, setForecastModel] = useState<ForecastModel[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchForecastData = async () => {
+            const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
             try {
-                const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
                 const result = await getForecastDates(today);
                 setForecastModel(result);
-                setAlerts(await getAlerts(today, 'today'));
             } catch (err) {
-                setError('Failed to fetch forecast data');
+
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchData();
+        const fetchAlertsData = async () => {
+            const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
+            try {
+                setAlerts(await getAlerts(today, 'today'));
+            } catch (err) {
+            }
+        };
+
+        fetchForecastData();
+        fetchAlertsData();
     }, []);
     const handlePeriodSelect = async (props: ForecastModel) => {
         const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
@@ -70,13 +76,6 @@ const Forecast: React.FC = () => {
                         <CircularProgress />
                         <Typography variant="subtitle2" style={{ marginTop: 8 }}>
                             Loading...
-                        </Typography>
-                    </Box>
-                ) : error ? (
-                    <Box display="flex" flexDirection="column" alignItems="center">
-                        <ErrorOutlineIcon color="error" />
-                        <Typography variant="subtitle2" style={{ marginTop: 8, color: 'red' }}>
-                            {error}
                         </Typography>
                     </Box>
                 ) : (
